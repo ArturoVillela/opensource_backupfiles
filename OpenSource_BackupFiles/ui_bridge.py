@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QMainWindow
-from base2_ui import Ui_MainWindow
+from base3_ui import Ui_MainWindow
 
 from PySide6.QtWidgets import (
 QApplication,
@@ -19,7 +19,9 @@ class UiBridge(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.listPaths: list[str] = []
+        self.listPathsFiles: list[str] = []
+        self.listPathsDir: list[str] = []
+        self.finalPath: str = ""
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -38,21 +40,34 @@ class UiBridge(QMainWindow):
 
 
     def conectar_eventos(self):
-        self.ui.btnAddFilesToSave.clicked.connect(self.btnAddFolderClicked)
+        self.ui.btnAddFilesToSave.clicked.connect(self.btnAddFilesToBackupClicked)
+        self.ui.btnAddFolders.clicked.connect(self.btnAddFoldersToBackupClicked)
         self.ui.btnSelectToFolder.clicked.connect(self.btnSelectEndFolderClicked)
 
 
-    def btnAddFolderClicked(self):
+
+    def btnAddFilesToBackupClicked(self):
         ruta = self.seleccionar_ruta()
-        self.listPaths.append(ruta)
+        self.listPathsFiles.append(ruta)
+        ruta = Utils.formatear_ruta(ruta)
+        print("la ruta seleccionada es: "+ruta)
+        self.addPathIntoScrollPath(ruta)
+
+
+    def btnAddFoldersToBackupClicked(self):
+        ruta = self.seleccionarFolder()
+        print(ruta)
+        self.listPathsFiles.append(ruta)
         ruta = Utils.formatear_ruta(ruta)
         print("la ruta seleccionada es: "+ruta)
         self.addPathIntoScrollPath(ruta)
 
 
     def btnSelectEndFolderClicked(self):
-        print("hola mundo....")
         ruta = self.seleccionar_ruta()
+        self.finalPath = ruta
+        ruta = Utils.formatear_ruta(ruta)
+        self.ui.etToFolder.setText(ruta)
 
 
 
@@ -68,6 +83,23 @@ class UiBridge(QMainWindow):
             if rutas:
                 return rutas[0]
             return None
+
+
+    def seleccionarFolder(self):
+        opciones = QFileDialog.Option.DontUseNativeDialog
+        dialogo = QFileDialog(self)
+        dialogo.setOptions(opciones)
+
+        dialogo.setWindowTitle("Selecciona una carpeta")
+        dialogo.setFileMode(QFileDialog.FileMode.Directory)
+
+        if dialogo.exec():
+            rutas = dialogo.selectedFiles()
+
+            if rutas:
+                return rutas[0]
+
+        return None
 
 
     def addPathIntoScrollPath(self, path):

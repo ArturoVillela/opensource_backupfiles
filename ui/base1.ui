@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>1080</width>
-    <height>700</height>
+    <height>720</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>1080</width>
-    <height>700</height>
+    <height>720</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>1080</width>
-    <height>700</height>
+    <height>720</height>
    </size>
   </property>
   <property name="mouseTracking">
@@ -33,9 +33,9 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>90</y>
+      <y>110</y>
       <width>291</width>
-      <height>361</height>
+      <height>421</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -47,7 +47,7 @@
        <x>0</x>
        <y>0</y>
        <width>287</width>
-       <height>357</height>
+       <height>417</height>
       </rect>
      </property>
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -56,7 +56,7 @@
         <x>10</x>
         <y>10</y>
         <width>271</width>
-        <height>341</height>
+        <height>391</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="vl_AddFilesToPath"/>
@@ -67,39 +67,26 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>50</y>
+      <y>30</y>
       <width>291</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
-     <string>Add files &amp; folders to save</string>
+     <string>Add files to Save</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnSelectToFolder">
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>510</y>
+      <y>550</y>
       <width>291</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
      <string>Select To Folder</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="rdbtnSameStructure">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>480</y>
-      <width>161</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Same Structure</string>
     </property>
    </widget>
    <widget class="QFrame" name="frame">
@@ -109,9 +96,9 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>40</y>
+      <y>30</y>
       <width>661</width>
-      <height>581</height>
+      <height>591</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -213,7 +200,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>550</y>
+      <y>590</y>
       <width>291</width>
       <height>28</height>
      </rect>
@@ -232,8 +219,8 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>600</y>
-      <width>291</width>
+      <y>640</y>
+      <width>1011</width>
       <height>28</height>
      </rect>
     </property>
@@ -242,6 +229,19 @@
     </property>
     <property name="checkable">
      <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnAddFolders">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>70</y>
+      <width>291</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add Folders to Save</string>
     </property>
    </widget>
   </widget>
@@ -255,17 +255,26 @@
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
     <property name="title">
-     <string>About</string>
+     <string>Setting</string>
     </property>
    </widget>
    <widget class="QMenu" name="menuhelp">
     <property name="title">
-     <string>help</string>
+     <string>About</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Help</string>
     </property>
    </widget>
    <addaction name="menuAbout"/>
    <addaction name="menuhelp"/>
+   <addaction name="menuSettings"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

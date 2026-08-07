@@ -1,5 +1,8 @@
 # This Python file uses the following encoding: utf-8
-# comando para exportar el ui a python pyside6-uic base1.ui -o base1_ui.py
+# comando para exportar el ui a python pyside6-uic base1.ui -o base3_ui.py
+# Shift + Tab: mueve todo el bloque 4 espacios hacia la izquierda.
+# Tab: mueve todo el bloque 4 espacios hacia la derecha.
+
 import sys
 from PySide6.QtWidgets import (
     QApplication,
