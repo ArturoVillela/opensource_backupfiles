@@ -42,18 +42,6 @@ The project is being developed with Python and Qt. Its goal is to provide a clea
 
 This project is currently under development. The basic user interface and file/folder selection functionality are already implemented.
 
-## Screenshot setup
-
-Create the following folders in the project if they do not exist:
-
-```text
-docs/
-└── images/
-    └── app-ui.png
-```
-
-Then copy your screenshot to `docs/images/app-ui.png`. GitHub will display it automatically in this README.
-
 ## License
 
 License information will be added later.
