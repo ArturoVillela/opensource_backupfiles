@@ -19,7 +19,7 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
 from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QLineEdit,
     QMainWindow, QMenu, QMenuBar, QPushButton,
     QRadioButton, QScrollArea, QSizePolicy, QStatusBar,
-    QWidget)
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -38,6 +38,12 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
         self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 287, 357))
+        self.verticalLayoutWidget = QWidget(self.scrollAreaWidgetContents)
+        self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
+        self.verticalLayoutWidget.setGeometry(QRect(10, 10, 271, 341))
+        self.vl_AddFilesToPath = QVBoxLayout(self.verticalLayoutWidget)
+        self.vl_AddFilesToPath.setObjectName(u"vl_AddFilesToPath")
+        self.vl_AddFilesToPath.setContentsMargins(0, 0, 0, 0)
         self.scrollToSave.setWidget(self.scrollAreaWidgetContents)
         self.btnAddFilesToSave = QPushButton(self.centralwidget)
         self.btnAddFilesToSave.setObjectName(u"btnAddFilesToSave")
