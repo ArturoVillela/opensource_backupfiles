@@ -18,8 +18,8 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>1080</width>
-    <height>720</height>
+    <width>1999</width>
+    <height>1999</height>
    </size>
   </property>
   <property name="mouseTracking">
@@ -28,78 +28,26 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(231, 243, 255);</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QScrollArea" name="scrollToSave">
+   <widget class="QFrame" name="frame_2">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>110</y>
-      <width>291</width>
-      <height>421</height>
+      <x>10</x>
+      <y>10</y>
+      <width>1061</width>
+      <height>411</height>
      </rect>
     </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
-    </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>287</width>
-       <height>417</height>
-      </rect>
-     </property>
-     <widget class="QWidget" name="verticalLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>271</width>
-        <height>391</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="vl_AddFilesToPath"/>
-     </widget>
-    </widget>
-   </widget>
-   <widget class="QPushButton" name="btnAddFilesToSave">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>30</y>
-      <width>291</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Add files to Save</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnSelectToFolder">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>550</y>
-      <width>291</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Select To Folder</string>
-    </property>
-   </widget>
-   <widget class="QFrame" name="frame">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>30</y>
-      <width>661</width>
-      <height>591</height>
-     </rect>
+    <property name="styleSheet">
+     <string notr="true">QFrame {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #7f7e7d;
+}
+
+</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -107,141 +55,378 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>201</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Source Files &amp; Folders</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>181</width>
+       <width>21</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
-      <string>Progress and Conflics</string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../figma/ic_folder.png</pixmap>
      </property>
     </widget>
-    <widget class="QScrollArea" name="scrollAreaSaved">
+    <widget class="QPushButton" name="btnAddFilesToSave_2">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>90</y>
-       <width>281</width>
-       <height>451</height>
+       <x>790</x>
+       <y>10</y>
+       <width>121</width>
+       <height>28</height>
       </rect>
      </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
+     <property name="text">
+      <string>Add File</string>
      </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents_2">
+     <property name="icon">
+      <iconset>
+       <normaloff>../../figma/ic_add_file.png</normaloff>../../figma/ic_add_file.png</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnAddFolders">
+     <property name="geometry">
+      <rect>
+       <x>920</x>
+       <y>10</y>
+       <width>131</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Add Folder</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../../figma/ic_add_folder.png</normaloff>../../figma/ic_add_folder.png</iconset>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>401</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Select Files and Folders to back up</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="widget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>1041</width>
+       <height>321</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QWidget {
+	background-color: rgb(255, 255, 255);
+    border: 2px solid #E5E5E5;
+}</string>
+     </property>
+     <widget class="QLabel" name="label_4">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>277</width>
-        <height>447</height>
+        <width>1041</width>
+        <height>31</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(230, 239, 247);</string>
+      </property>
+      <property name="text">
+       <string>  Path                                                                                                                                                                                                                          size          action</string>
+      </property>
+     </widget>
+     <widget class="QScrollArea" name="scrollToSave_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>40</y>
+        <width>1011</width>
+        <height>271</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">    border: 0px solid gray; 
+</string>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_4">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>1011</width>
+         <height>271</height>
+        </rect>
+       </property>
+       <widget class="QWidget" name="verticalLayoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>10</y>
+          <width>1021</width>
+          <height>251</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="vl_AddFilesToPath_2"/>
+       </widget>
+      </widget>
      </widget>
     </widget>
-    <widget class="QLabel" name="label_2">
+    <widget class="QPushButton" name="pushButton">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>60</y>
-       <width>261</width>
+       <x>960</x>
+       <y>380</y>
+       <width>91</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background-color: rgb(255, 255, 255);
+    border: none;
+    color: red;
+}
+</string>
+     </property>
+     <property name="text">
+      <string> Clear All</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../../figma/ic_clear_all.png</normaloff>../../figma/ic_clear_all.png</iconset>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>440</y>
+      <width>1061</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #7f7e7d;
+}
+
+</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="label_16">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>201</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Backup Destination</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_17">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>21</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
-      <string>Saved files</string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>../../figma/ic_backup.png</pixmap>
      </property>
     </widget>
-    <widget class="QScrollArea" name="scrollAreaConflicts">
+    <widget class="QLabel" name="label_18">
      <property name="geometry">
       <rect>
-       <x>340</x>
-       <y>90</y>
-       <width>281</width>
-       <height>451</height>
+       <x>10</x>
+       <y>30</y>
+       <width>401</width>
+       <height>20</height>
       </rect>
      </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
+     <property name="text">
+      <string>Select target drive or folder</string>
      </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents_3">
+    </widget>
+    <widget class="QWidget" name="widget_4" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>1041</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QWidget {
+	background-color: rgb(255, 255, 255);
+    border: 2px solid #E5E5E5;
+}</string>
+     </property>
+     <widget class="QPushButton" name="btnSelectToFolder">
+      <property name="geometry">
+       <rect>
+        <x>870</x>
+        <y>20</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Browse Folder</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../figma/ic_add_folder.png</normaloff>../../figma/ic_add_folder.png</iconset>
+      </property>
+     </widget>
+     <widget class="QFrame" name="frame">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>277</width>
-        <height>447</height>
+        <width>851</width>
+        <height>61</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(230, 239, 247);</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QWidget" name="horizontalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>831</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap>../../figma/ic_save.png</pixmap>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="etToFolder">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>/Home/..</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
-    <widget class="QLabel" name="label_3">
-     <property name="geometry">
-      <rect>
-       <x>340</x>
-       <y>60</y>
-       <width>261</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Conflicts</string>
-     </property>
-    </widget>
    </widget>
-   <widget class="QLineEdit" name="etToFolder">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
+   <widget class="QPushButton" name="btn_start">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>590</y>
-      <width>291</width>
-      <height>28</height>
+      <x>7</x>
+      <y>597</y>
+      <width>1061</width>
+      <height>41</height>
      </rect>
     </property>
-    <property name="text">
-     <string>/Home/..</string>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnStartStop">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>640</y>
-      <width>1011</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Start</string>
-    </property>
-    <property name="checkable">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnAddFolders">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>70</y>
-      <width>291</width>
-      <height>28</height>
-     </rect>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: rgb(62, 68, 154);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 12px;
+}
+
+QPushButton:pressed {
+    background-color: rgb(42, 47, 115);
+}</string>
     </property>
     <property name="text">
-     <string>Add Folders to Save</string>
+     <string> Start</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../../figma/ic_btn_start.png</normaloff>../../figma/ic_btn_start.png</iconset>
     </property>
    </widget>
   </widget>
@@ -253,6 +438,9 @@
      <width>1080</width>
      <height>30</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(243, 243, 243);s</string>
    </property>
    <widget class="QMenu" name="menuAbout">
     <property name="layoutDirection">

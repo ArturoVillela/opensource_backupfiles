@@ -19,8 +19,8 @@ class UiBridge(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.listPathsFiles: list[str] = []
         self.listPathsDir: list[str] = []
+        self.listAllFilesToCopy: list[str] = []
         self.finalPath: str = ""
 
         self.ui = Ui_MainWindow()
@@ -45,10 +45,10 @@ class UiBridge(QMainWindow):
         self.ui.btnSelectToFolder.clicked.connect(self.btnSelectEndFolderClicked)
 
 
-
     def btnAddFilesToBackupClicked(self):
         ruta = self.seleccionar_ruta()
-        self.listPathsFiles.append(ruta)
+        self.listAllFilesToCopy.append(ruta)
+        self.ui.label.setText("Progress and Conflics: " + str(len(self.listAllFilesToCopy)))
         ruta = Utils.formatear_ruta(ruta)
         print("la ruta seleccionada es: "+ruta)
         self.addPathIntoScrollPath(ruta)
@@ -57,18 +57,19 @@ class UiBridge(QMainWindow):
     def btnAddFoldersToBackupClicked(self):
         ruta = self.seleccionarFolder()
         print(ruta)
-        self.listPathsFiles.append(ruta)
+        listTemp = Utils.get_all_files_in_folder(ruta)
+        self.listAllFilesToCopy.extend(listTemp)
+        self.ui.label.setText("Progress and Conflics: " + str(len(self.listAllFilesToCopy)))
         ruta = Utils.formatear_ruta(ruta)
         print("la ruta seleccionada es: "+ruta)
         self.addPathIntoScrollPath(ruta)
 
 
     def btnSelectEndFolderClicked(self):
-        ruta = self.seleccionar_ruta()
+        ruta = self.seleccionarFolder()
         self.finalPath = ruta
         ruta = Utils.formatear_ruta(ruta)
         self.ui.etToFolder.setText(ruta)
-
 
 
     def seleccionar_ruta(self):
