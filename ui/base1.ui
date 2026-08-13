@@ -70,6 +70,11 @@
        <bold>true</bold>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+    border: none;
+}</string>
+     </property>
      <property name="text">
       <string>Source Files &amp; Folders</string>
      </property>
@@ -83,6 +88,11 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+    border: none;
+}</string>
+     </property>
      <property name="text">
       <string/>
      </property>
@@ -90,7 +100,7 @@
       <pixmap>../../figma/ic_folder.png</pixmap>
      </property>
     </widget>
-    <widget class="QPushButton" name="btnAddFilesToSave_2">
+    <widget class="QPushButton" name="btnAddFilesToSave">
      <property name="geometry">
       <rect>
        <x>790</x>
@@ -133,6 +143,11 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+    border: none;
+}</string>
+     </property>
      <property name="text">
       <string>Select Files and Folders to back up</string>
      </property>
@@ -165,15 +180,15 @@
        <string notr="true">background-color: rgb(230, 239, 247);</string>
       </property>
       <property name="text">
-       <string>  Path                                                                                                                                                                                                                          size          action</string>
+       <string>  Path                                                                                                                                                                                                                                          size</string>
       </property>
      </widget>
      <widget class="QScrollArea" name="scrollToSave_2">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>40</x>
         <y>40</y>
-        <width>1011</width>
+        <width>981</width>
         <height>271</height>
        </rect>
       </property>
@@ -189,25 +204,25 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1011</width>
+         <width>981</width>
          <height>271</height>
         </rect>
        </property>
        <widget class="QWidget" name="verticalLayoutWidget_2">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>10</y>
-          <width>1021</width>
-          <height>251</height>
+          <x>-40</x>
+          <y>-10</y>
+          <width>1061</width>
+          <height>281</height>
          </rect>
         </property>
-        <layout class="QVBoxLayout" name="vl_AddFilesToPath_2"/>
+        <layout class="QVBoxLayout" name="vl_AddFilesToPath"/>
        </widget>
       </widget>
      </widget>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="btn_clear_all">
      <property name="geometry">
       <rect>
        <x>960</x>
@@ -230,6 +245,19 @@
      <property name="icon">
       <iconset>
        <normaloff>../../figma/ic_clear_all.png</normaloff>../../figma/ic_clear_all.png</iconset>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_all_files_to_copy">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>380</y>
+       <width>661</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>
@@ -271,6 +299,11 @@
        <bold>true</bold>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+    border: none;
+}</string>
+     </property>
      <property name="text">
       <string>Backup Destination</string>
      </property>
@@ -283,6 +316,11 @@
        <width>21</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+    border: none;
+}</string>
      </property>
      <property name="text">
       <string/>
@@ -300,6 +338,11 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+    border: none;
+}</string>
+     </property>
      <property name="text">
       <string>Select target drive or folder</string>
      </property>
@@ -308,9 +351,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>60</y>
+       <y>70</y>
        <width>1041</width>
-       <height>71</height>
+       <height>61</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -319,23 +362,6 @@
     border: 2px solid #E5E5E5;
 }</string>
      </property>
-     <widget class="QPushButton" name="btnSelectToFolder">
-      <property name="geometry">
-       <rect>
-        <x>870</x>
-        <y>20</y>
-        <width>151</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Browse Folder</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>../../figma/ic_add_folder.png</normaloff>../../figma/ic_add_folder.png</iconset>
-      </property>
-     </widget>
      <widget class="QFrame" name="frame">
       <property name="geometry">
        <rect>
@@ -365,7 +391,15 @@
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="label_img_disk">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel {
+    border: none;
+}</string>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -390,9 +424,29 @@
        </layout>
       </widget>
      </widget>
+     <widget class="QPushButton" name="btnSelectToFolder">
+      <property name="geometry">
+       <rect>
+        <x>880</x>
+        <y>20</y>
+        <width>131</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add Folder</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../figma/ic_add_folder.png</normaloff>../../figma/ic_add_folder.png</iconset>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QPushButton" name="btn_start">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>7</x>

@@ -22,6 +22,20 @@ class Utils:
         return archivos
 
 
+    @staticmethod
+    def format_size(bytes_archivo):
+        unidades = ["B", "KB", "MB", "GB", "TB"]
+        tamanio = float(bytes_archivo)
+
+        for unidad in unidades:
+            if tamanio < 1024:
+                return f"{tamanio:.2f} {unidad}"
+
+            tamanio /= 1024
+
+        return f"{tamanio:.2f} PB"
+
+
     def listar_archivos_recursivos(ruta):
         # rglob("*") devuelve todos los archivos y carpetas
         # is_file() filtra para incluir solo archivos

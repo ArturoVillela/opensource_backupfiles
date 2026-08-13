@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1080, 720)
+        MainWindow.resize(1200, 796)
         MainWindow.setMinimumSize(QSize(1080, 720))
         MainWindow.setMaximumSize(QSize(1999, 1999))
         MainWindow.setMouseTracking(True)
@@ -49,16 +49,22 @@ class Ui_MainWindow(object):
         font = QFont()
         font.setBold(True)
         self.label_7.setFont(font)
+        self.label_7.setStyleSheet(u"QLabel {\n"
+"    border: none;\n"
+"}")
         self.label_6 = QLabel(self.frame_2)
         self.label_6.setObjectName(u"label_6")
         self.label_6.setGeometry(QRect(10, 10, 21, 20))
+        self.label_6.setStyleSheet(u"QLabel {\n"
+"    border: none;\n"
+"}")
         self.label_6.setPixmap(QPixmap(u"../../figma/ic_folder.png"))
-        self.btnAddFilesToSave_2 = QPushButton(self.frame_2)
-        self.btnAddFilesToSave_2.setObjectName(u"btnAddFilesToSave_2")
-        self.btnAddFilesToSave_2.setGeometry(QRect(790, 10, 121, 28))
+        self.btnAddFilesToSave = QPushButton(self.frame_2)
+        self.btnAddFilesToSave.setObjectName(u"btnAddFilesToSave")
+        self.btnAddFilesToSave.setGeometry(QRect(790, 10, 121, 28))
         icon = QIcon()
         icon.addFile(u"../../figma/ic_add_file.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnAddFilesToSave_2.setIcon(icon)
+        self.btnAddFilesToSave.setIcon(icon)
         self.btnAddFolders = QPushButton(self.frame_2)
         self.btnAddFolders.setObjectName(u"btnAddFolders")
         self.btnAddFolders.setGeometry(QRect(920, 10, 131, 28))
@@ -68,6 +74,9 @@ class Ui_MainWindow(object):
         self.label_5 = QLabel(self.frame_2)
         self.label_5.setObjectName(u"label_5")
         self.label_5.setGeometry(QRect(10, 30, 401, 20))
+        self.label_5.setStyleSheet(u"QLabel {\n"
+"    border: none;\n"
+"}")
         self.widget = QWidget(self.frame_2)
         self.widget.setObjectName(u"widget")
         self.widget.setGeometry(QRect(10, 60, 1041, 321))
@@ -91,9 +100,9 @@ class Ui_MainWindow(object):
         self.verticalLayoutWidget_2 = QWidget(self.scrollAreaWidgetContents_4)
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
         self.verticalLayoutWidget_2.setGeometry(QRect(0, 10, 1021, 251))
-        self.vl_AddFilesToPath_2 = QVBoxLayout(self.verticalLayoutWidget_2)
-        self.vl_AddFilesToPath_2.setObjectName(u"vl_AddFilesToPath_2")
-        self.vl_AddFilesToPath_2.setContentsMargins(0, 0, 0, 0)
+        self.vl_AddFilesToPath = QVBoxLayout(self.verticalLayoutWidget_2)
+        self.vl_AddFilesToPath.setObjectName(u"vl_AddFilesToPath")
+        self.vl_AddFilesToPath.setContentsMargins(0, 0, 0, 0)
         self.scrollToSave_2.setWidget(self.scrollAreaWidgetContents_4)
         self.pushButton = QPushButton(self.frame_2)
         self.pushButton.setObjectName(u"pushButton")
@@ -122,13 +131,22 @@ class Ui_MainWindow(object):
         self.label_16.setObjectName(u"label_16")
         self.label_16.setGeometry(QRect(40, 10, 201, 20))
         self.label_16.setFont(font)
+        self.label_16.setStyleSheet(u"QLabel {\n"
+"    border: none;\n"
+"}")
         self.label_17 = QLabel(self.frame_3)
         self.label_17.setObjectName(u"label_17")
         self.label_17.setGeometry(QRect(10, 10, 21, 20))
+        self.label_17.setStyleSheet(u"QLabel {\n"
+"    border: none;\n"
+"}")
         self.label_17.setPixmap(QPixmap(u"../../figma/ic_backup.png"))
         self.label_18 = QLabel(self.frame_3)
         self.label_18.setObjectName(u"label_18")
         self.label_18.setGeometry(QRect(10, 30, 401, 20))
+        self.label_18.setStyleSheet(u"QLabel {\n"
+"    border: none;\n"
+"}")
         self.widget_4 = QWidget(self.frame_3)
         self.widget_4.setObjectName(u"widget_4")
         self.widget_4.setGeometry(QRect(10, 60, 1041, 71))
@@ -154,6 +172,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.label = QLabel(self.horizontalLayoutWidget)
         self.label.setObjectName(u"label")
+        self.label.setStyleSheet(u"QLabel {\n"
+"    border: none;\n"
+"}")
         self.label.setPixmap(QPixmap(u"../../figma/ic_save.png"))
 
         self.horizontalLayout.addWidget(self.label)
@@ -189,7 +210,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1080, 30))
+        self.menubar.setGeometry(QRect(0, 0, 1200, 30))
         self.menubar.setStyleSheet(u"background-color: rgb(243, 243, 243);s")
         self.menuAbout = QMenu(self.menubar)
         self.menuAbout.setObjectName(u"menuAbout")
@@ -216,7 +237,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Source Files & Folders", None))
         self.label_6.setText("")
-        self.btnAddFilesToSave_2.setText(QCoreApplication.translate("MainWindow", u"Add File", None))
+        self.btnAddFilesToSave.setText(QCoreApplication.translate("MainWindow", u"Add File", None))
         self.btnAddFolders.setText(QCoreApplication.translate("MainWindow", u"Add Folder", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Select Files and Folders to back up", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"  Path                                                                                                                                                                                                                          size          action", None))
