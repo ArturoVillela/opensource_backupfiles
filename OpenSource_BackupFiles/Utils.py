@@ -8,32 +8,52 @@ class Utils:
 
     @staticmethod
     def formatear_ruta(ruta):
-        longitud = 33
+        lonj = 100
+        mid = 43
+        longitud = lonj
         if len (ruta)<= longitud:
             return ruta
+        return ruta[:mid] + " .... " + ruta[-mid:]
 
-        return ruta[:15] + " ... " + ruta[-15:]
+
+    @staticmethod
+    def formatStringWithSize(ruta, size):
+        return ruta.ljust(140) + size
 
 
     @staticmethod
     def get_all_files_in_folder(ruta):
-        archivos = Utils.listar_archivos_recursivos(str(ruta))
-        print("cant de archivos : "+str(len(archivos)))
-        return archivos
+        files = Utils.listar_archivos_recursivos(str(ruta))
+        fullSize = Utils.getFullSizeOfList(files)
+        print("cant de archivos : "+str(len(files))+ ",  full size files :" + str(fullSize))
+        return files, fullSize
 
 
     @staticmethod
     def format_size(bytes_archivo):
         unidades = ["B", "KB", "MB", "GB", "TB"]
-        tamanio = float(bytes_archivo)
+        size = float(bytes_archivo)
 
         for unidad in unidades:
-            if tamanio < 1024:
-                return f"{tamanio:.2f} {unidad}"
+            if size < 1024:
+                return f"{size:.2f} {unidad}"
 
-            tamanio /= 1024
+            size /= 1024
 
-        return f"{tamanio:.2f} PB"
+        return f"{size:.2f} PB"
+
+
+    @staticmethod
+    def getFullSizeOfList (listPaths: list[str]) -> float:
+        full_size:float = 0
+
+        for ruta in listPaths:
+            archivo = Path(ruta)
+
+            if archivo.is_file():
+                full_size += archivo.stat().st_size
+
+        return full_size
 
 
     def listar_archivos_recursivos(ruta):

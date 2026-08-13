@@ -1,3 +1,3 @@
 {
-    "files": ["Utils.py","widget.py","row_container_ui3.py","ui_bridge.py","FileRow.py","base6_ui.py"]
+    "files": ["Utils.py","widget.py","ui_bridge.py"]
 }

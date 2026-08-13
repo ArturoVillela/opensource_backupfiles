@@ -104,10 +104,10 @@ class Ui_MainWindow(object):
         self.vl_AddFilesToPath.setObjectName(u"vl_AddFilesToPath")
         self.vl_AddFilesToPath.setContentsMargins(0, 0, 0, 0)
         self.scrollToSave_2.setWidget(self.scrollAreaWidgetContents_4)
-        self.pushButton = QPushButton(self.frame_2)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(960, 380, 91, 28))
-        self.pushButton.setStyleSheet(u"QPushButton {\n"
+        self.btn_clear_all = QPushButton(self.frame_2)
+        self.btn_clear_all.setObjectName(u"btn_clear_all")
+        self.btn_clear_all.setGeometry(QRect(960, 380, 91, 28))
+        self.btn_clear_all.setStyleSheet(u"QPushButton {\n"
 "	background-color: rgb(255, 255, 255);\n"
 "    border: none;\n"
 "    color: red;\n"
@@ -115,7 +115,7 @@ class Ui_MainWindow(object):
 "")
         icon2 = QIcon()
         icon2.addFile(u"../../figma/ic_clear_all.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.pushButton.setIcon(icon2)
+        self.btn_clear_all.setIcon(icon2)
         self.label_all_files_to_copy = QLabel(self.frame_2)
         self.label_all_files_to_copy.setObjectName(u"label_all_files_to_copy")
         self.label_all_files_to_copy.setGeometry(QRect(20, 380, 661, 20))
@@ -246,7 +246,7 @@ class Ui_MainWindow(object):
         self.btnAddFolders.setText(QCoreApplication.translate("MainWindow", u"Add Folder", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Select Files and Folders to back up", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"  Path                                                                                                                                                                                                                                          size", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u" Clear All", None))
+        self.btn_clear_all.setText(QCoreApplication.translate("MainWindow", u" Clear All", None))
         self.label_all_files_to_copy.setText("")
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Backup Destination", None))
         self.label_17.setText("")
