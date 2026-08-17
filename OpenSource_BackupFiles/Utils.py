@@ -1,5 +1,8 @@
 # This Python file uses the following encoding: utf-8
 from pathlib import Path
+from PySide6.QtWidgets import QVBoxLayout
+from PySide6.QtWidgets import QMessageBox
+#from PyQt5.QtWidgets import QMessageBox
 
 class Utils:
     def __init__(self):
@@ -30,6 +33,25 @@ class Utils:
 
 
     @staticmethod
+    def getTuplaListFromPathList(pathList):
+        listTupla : list[tuple[str, float]] = []
+        for path in pathList:
+            size = Path(path).stat().st_size
+            listTupla.append((path, size))
+        return listTupla
+
+
+    @staticmethod
+    def getFinalListSize(files: list[tuple[str, float]]) -> float:
+        return sum(size for path, size in files)
+
+
+    @staticmethod
+    def getFileNameByFullPathName(full_path:str):
+        return str("/"+ str(Path(full_path).name))
+
+
+    @staticmethod
     def format_size(bytes_archivo):
         unidades = ["B", "KB", "MB", "GB", "TB"]
         size = float(bytes_archivo)
@@ -56,7 +78,36 @@ class Utils:
         return full_size
 
 
+    @staticmethod
+    def getSigleFileSize (path: str) -> float:
+        full_size:float = 0
+        archivo = Path(path)
+        if archivo.is_file():
+            size = archivo.stat().st_size
+        return size
+
+
+    @staticmethod
+    def getDialogIconByTitle(cad:str):
+        if cad == "Error":
+            return QMessageBox.Icon.Warning
+        return QMessageBox.Icon.Information
+#    QMessageBox.Icon.Information
+#    QMessageBox.Icon.Warning
+#    QMessageBox.Icon.Critical
+#    QMessageBox.Icon.Question
+#    QMessageBox.Icon.NoIcon
+
+
     def listar_archivos_recursivos(ruta):
-        # rglob("*") devuelve todos los archivos y carpetas
-        # is_file() filtra para incluir solo archivos
         return [str(p) for p in Path(ruta).rglob("*") if p.is_file()]
+
+
+
+    def clearQBoxLayout(layout: QVBoxLayout) -> None:
+        while layout.count() > 0:
+            item = layout.takeAt(0)
+
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 6.0.2, 2026-08-12T22:48:02. -->
+<!-- Written by QtCreator 6.0.2, 2026-08-16T19:42:13. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -170,10 +170,11 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/FileRow.py</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/FileRow.py</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/FileRow.py</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/FileRow.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/base8_ui.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/base8_ui.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/base8_ui.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{8d9c7575-a231-4a2f-baba-8a37d53092dd}</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/base8_ui.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
@@ -187,10 +188,11 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/row_container_ui3.py</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/row_container_ui3.py</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/row_container_ui3.py</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/row_container_ui3.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/Resources.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/Resources.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/Resources.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{8d9c7575-a231-4a2f-baba-8a37d53092dd}</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/Resources.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
@@ -204,10 +206,11 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/base6_ui.py</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/base6_ui.py</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/base6_ui.py</value>
-    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/base6_ui.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/CopyFiles.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/CopyFiles.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/CopyFiles.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{8d9c7575-a231-4a2f-baba-8a37d53092dd}</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/CopyFiles.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
