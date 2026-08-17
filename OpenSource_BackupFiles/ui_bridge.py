@@ -30,7 +30,12 @@ class UiBridge(QMainWindow):
         self.listPathsDir: list[str] = []
         self.listAllFilesToCopy: list[tuple[str, float]] = []
         self.finalPath: str = ""
+
         self.copyFiles = CopyFiles()
+        self.progress_dialog = None
+
+        self.copyFiles.backupCompleted.connect(self.onBackupCompleted) #listeners reactive programming for script
+        self.copyFiles.backupFailed.connect(self.onBackupFailed)
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -118,26 +123,19 @@ class UiBridge(QMainWindow):
 
     def seleccionarFolder(self):
         opciones = QFileDialog.Option.DontUseNativeDialog
-        dialogo = QFileDialog(self)
-        dialogo.setOptions(opciones)
+        dialog = QFileDialog(self)
+        dialog.setOptions(opciones)
 
-        dialogo.setWindowTitle("Selecciona una carpeta")
-        dialogo.setFileMode(QFileDialog.FileMode.Directory)
+        dialog.setWindowTitle("Selecciona una carpeta")
+        dialog.setFileMode(QFileDialog.FileMode.Directory)
 
-        if dialogo.exec():
-            rutas = dialogo.selectedFiles()
+        if dialog.exec():
+            rutas = dialog.selectedFiles()
 
             if rutas:
                 return rutas[0]
 
         return None
-
-
-#    def addPathIntoScrollPath(self, path, size):
-#        labelRuta = QLabel(Utils.formatStringWithSize(path, size))
-#        labelRuta.setWordWrap(True)
-#        self.ui.vl_AddFilesToPath.addWidget(labelRuta)
-        #vl_AddFilesToPath
 
 
     def addPathIntoScrollPath(self, path, size):
@@ -215,6 +213,30 @@ class UiBridge(QMainWindow):
         # Aquí debes detener tu proceso en segundo plano
         print("Respaldo cancelado")
 
+
+
+    def onBackupCompleted(self):
+        print("backup completed.. and got the result on ui bridge")
+        if self.progress_dialog:
+            self.progress_dialog.close()
+
+        QMessageBox.information(
+            self,
+            "Respaldo",
+            "El archivo se copió correctamente."
+        )
+
+
+    def onBackupFailed(self, error_message):
+        print("backup completed w/error.. and got the result on ui bridge")
+        if self.progress_dialog:
+            self.progress_dialog.close()
+
+        QMessageBox.critical(
+            self,
+            "Error",
+            error_message
+        )
 
  #    def btn_addFilesAndFolders(self):
 

@@ -1,9 +1,14 @@
 # This Python file uses the following encoding: utf-8
 
-from PySide6.QtCore import QProcess, QObject
+from PySide6.QtCore import QProcess, QObject, Signal
 
 
 class CopyFiles(QObject):
+
+    backupCompleted = Signal()   #emit es programacion reactiva
+    backupFailed = Signal(str)
+
+
     def __init__(self, parent = None):
         super().__init__(parent)
         self.backup_process = None
@@ -23,9 +28,18 @@ class CopyFiles(QObject):
 
     def backupFinished(self, exit_code, exit_status):
         print("Proceso terminado:", exit_code)
+        if exit_code == 0:
+            self.backupCompleted.emit()
+        else:
+            error = self.backup_process.readAllStandardError().data().decode()
+            self.backupFailed.emit(error or f"El script terminó con código {exit_code}")
+
 
     def backupError(self, error):
         print("Error ejecutando el respaldo:", error)
+        self.backupFailed.emit(
+            f"No se pudo ejecutar el respaldo: {error}"
+        )
 
     def cancelBackup(self):
         if self.backup_process.state() != QProcess.NotRunning:
