@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QMainWindow
-from base8_ui import Ui_MainWindow
+from base13_ui import Ui_MainWindow
 from pathlib import Path
 from PySide6 import QtCore
 from Resources import Resources
@@ -19,6 +19,7 @@ from PySide6.QtCore import Qt
 from Utils import Utils
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout
 from CopyFiles import CopyFiles
+import os
 
 #btnSelectToFolder
 
@@ -29,6 +30,8 @@ class UiBridge(QMainWindow):
 
         self.listPathsDir: list[str] = []
         self.listAllFilesToCopy: list[tuple[str, float]] = []
+        self.listAllNamesOfFilesToCopy: list[str]
+        self.listAllFilesInEndDirectory : list[tuple[str, path]]
         self.finalPath: str = ""
 
         self.copyFiles = CopyFiles()
@@ -40,13 +43,17 @@ class UiBridge(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.ui.vl_AddFilesToPath.setAlignment(
-            Qt.AlignmentFlag.AlignTop
-        )
+#        self.ui.stackedWidget.setCurrentIndex(0)  #con este se cambia entre las 2 pantallas estilo fragments..
 
-        self.ui.vl_AddFilesToPath.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
-        self.ui.vl_AddFilesToPath.setSpacing(4)
-        self.ui.vl_AddFilesToPath.setContentsMargins(5, 5, 5, 5)
+        self.containerLayout = self.ui.scrollAreaWidgetContents.layout()
+
+#        self.ui.vl_AddFilesToPath.setAlignment(   #hace referencia al layout eliminado...
+#            Qt.AlignmentFlag.AlignTop
+#        )
+
+#        self.ui.vl_AddFilesToPath.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
+#        self.ui.vl_AddFilesToPath.setSpacing(4)
+#        self.ui.vl_AddFilesToPath.setContentsMargins(5, 5, 5, 5)
 
         self.conectar_eventos()
 
@@ -60,23 +67,24 @@ class UiBridge(QMainWindow):
 
 
     def btnStartClicked(self):
-#        if not self.listAllFilesToCopy:
-#            title,subtitle = Resources().getDialogInfoByCode(2)
-#            self.showAlert(title,subtitle)
-#            return
-#        if not self.finalPath:
-#            title,subtitle = Resources().getDialogInfoByCode(1)
-#            self.showAlert(title,subtitle)
-#            return
+        if not self.listAllFilesToCopy:
+            self.showAlertByDialogCode(2)
+            return
+        if not self.finalPath:
+            self.showAlertByDialogCode(1)
+            return
+        if not Utils.isDirectoryNotEmpty(self.finalPath):
+            self.showAlertByDialogCode(3)
+            return
+        print("btn start clicked!! y paso validaciones...")
         self.startingBuckup()
-        print("btn start clicked!! a validar...")
 
 
     def btnClearAllClicked(self):
         self.listAllFilesToCopy.clear()
         self.updateLabelInfo()
         self.ui.label_all_files_to_copy.setText (" ")
-        Utils.clearQBoxLayout(self.ui.vl_AddFilesToPath)
+#        Utils.clearQBoxLayout(self.ui.vl_AddFilesToPath) TODO.. hace referencia al layout eliminado
         print("aki limpiamos el layout de archivos, nuevo size : " +str(len(self.listAllFilesToCopy)))
 
 
@@ -102,9 +110,13 @@ class UiBridge(QMainWindow):
 
     def btnSelectEndFolderClicked(self):
         ruta = self.seleccionarFolder()
-        self.finalPath = ruta
-        ruta = Utils.formatear_ruta(ruta)
-        self.ui.etToFolder.setText(ruta)
+        if not Utils.isDirectoryNotEmpty(ruta):
+            self.showAlertByDialogCode(3)
+        else:
+            print("el directorio esta vacio.. se procede...")
+            self.finalPath = ruta
+            rutaFormatted = Utils.formatear_ruta(ruta)
+            self.ui.etToFolder.setText(rutaFormatted)
 
 
     def seleccionar_ruta(self):
@@ -161,8 +173,12 @@ class UiBridge(QMainWindow):
 
         row_layout.addWidget(label_ruta)
         row_layout.addWidget(label_size)
+#        self.ui.containerLayout.addWidget(row_layout)
+#        layout = self.ui.scrollArea.layout()
+        print("encontro el layout...")
+        self.containerLayout.addWidget(label_ruta)
 
-        self.ui.vl_AddFilesToPath.addWidget(row)
+#        self.ui.vl_AddFilesToPath.addWidget(row)  //hace referencia al layout eliminado
 
 
     def updateLabelInfo(self):
@@ -172,8 +188,9 @@ class UiBridge(QMainWindow):
         self.ui.label_all_files_to_copy.setText ("All files to copy Size : " + str(formatedSize))
 
 
-    def showAlert(self, title, subtitle):
+    def showAlertByDialogCode(self, code:int):
         dialogo = QMessageBox(self)
+        title, subtitle = Resources().getDialogInfoByCode(code)
         dialogo.setWindowTitle(title)
         dialogo.setText(subtitle)
         dialogo.setIcon(Utils.getDialogIconByTitle(title))
@@ -227,7 +244,7 @@ class UiBridge(QMainWindow):
         )
 
 
-    def onBackupFailed(self, error_message):
+    def onBackupFailed(self, error_message):     #TODO utilizar el sistema de dialogos predefinido en lugar de un critical
         print("backup completed w/error.. and got the result on ui bridge")
         if self.progress_dialog:
             self.progress_dialog.close()
@@ -238,13 +255,3 @@ class UiBridge(QMainWindow):
             error_message
         )
 
- #    def btn_addFilesAndFolders(self):
-
-#        self.showAlert("Botón presionado")
-
-#        def showAlert(self, cad):
-#            QMessageBox.information(
-#            self,
-#            "My first alert mf",
-#            cad
-#            )

@@ -5,7 +5,8 @@ class Resources:
     def __init__(self):
         self.listTripletaDialog: list[tuple[int, str, str]] = [
             (1,"Error", "Destination Folder not defined!"),
-            (2,"Error", "Files and folders to backup not seletec!"),
+            (2,"Error", "No Files to backup selected"),
+            (3,"Error", "Destination Folder is not empty !!"),
             (10,"Alert", "Copy in progress....")
         ]
 

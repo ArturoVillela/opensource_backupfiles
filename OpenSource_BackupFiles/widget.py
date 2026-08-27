@@ -11,6 +11,8 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QVBoxLayout
 )
+# from ui_bridge2 import UiBridge2    este es para ejecutar la segunda pantalla al inicio
+# vl_AddFilesToPath es el layout donde ponemos los labels
 from ui_bridge import UiBridge
 
 
@@ -40,6 +42,7 @@ class Widget(QWidget):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
+#    window = UiBridge2()    #esta se usa para inicializar la segunda pantalla...
     window = UiBridge()
     window.show()
 

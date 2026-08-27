@@ -3,6 +3,7 @@ from pathlib import Path
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QMessageBox
 #from PyQt5.QtWidgets import QMessageBox
+import os
 
 class Utils:
     def __init__(self):
@@ -22,6 +23,12 @@ class Utils:
     @staticmethod
     def formatStringWithSize(ruta, size):
         return ruta.ljust(140) + size
+
+
+    @staticmethod
+    def isDirectoryNotEmpty(path: str)-> bool:
+        print("directory : "+path)
+        return os.path.isdir(path) and len(os.listdir(path)) == 0
 
 
     @staticmethod
@@ -111,3 +118,23 @@ class Utils:
             widget = item.widget()
             if widget is not None:
                 widget.deleteLater()
+
+
+#                pasos a seguir para tener un scroll en un widget...
+#                # 1. Crear el widget contenedor y el layout vertical
+#                container_widget = QWidget()
+#                v_layout = QVBoxLayout(container_widget)
+
+#                # 2. Agregar los elementos al layout
+#                v_layout.addWidget(widget_1)
+#                v_layout.addWidget(widget_2)
+#                # ... agregar más widgets
+
+#                # 3. Configurar el QScrollArea
+#                scroll_area = QScrollArea()
+#                scroll_area.setWidgetResizable(True)  # Importante para el auto-scroll
+#                scroll_area.setWidget(container_widget)
+
+#                # 4. Establecer el scroll area como widget central o añadirlo a otro layout
+#                central_widget = QWidget()
+#                setCentralWidget(scroll_area)

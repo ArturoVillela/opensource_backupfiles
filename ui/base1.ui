@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1080</width>
-    <height>720</height>
+    <width>1085</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>1080</width>
-    <height>720</height>
+    <height>700</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>1999</width>
-    <height>1999</height>
+    <height>700</height>
    </size>
   </property>
   <property name="mouseTracking">
@@ -29,328 +29,41 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(231, 243, 255);</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QFrame" name="frame_2">
+   <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>1061</width>
-      <height>411</height>
+      <x>0</x>
+      <y>0</y>
+      <width>1111</width>
+      <height>671</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QFrame {
-    background-color: rgb(255, 255, 255);
-    border: 1px solid #7f7e7d;
-}
-
-</string>
+     <string notr="true">background-color: rgb(231, 243, 255);</string>
     </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
+    <property name="currentIndex">
+     <number>0</number>
     </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="label_7">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>10</y>
-       <width>201</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-    border: none;
-}</string>
-     </property>
-     <property name="text">
-      <string>Source Files &amp; Folders</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_6">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>21</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-    border: none;
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap>../../figma/ic_folder.png</pixmap>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btnAddFilesToSave">
-     <property name="geometry">
-      <rect>
-       <x>790</x>
-       <y>10</y>
-       <width>121</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Add File</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>../../figma/ic_add_file.png</normaloff>../../figma/ic_add_file.png</iconset>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btnAddFolders">
-     <property name="geometry">
-      <rect>
-       <x>920</x>
-       <y>10</y>
-       <width>131</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Add Folder</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>../../figma/ic_add_folder.png</normaloff>../../figma/ic_add_folder.png</iconset>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_5">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>401</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-    border: none;
-}</string>
-     </property>
-     <property name="text">
-      <string>Select Files and Folders to back up</string>
-     </property>
-    </widget>
-    <widget class="QWidget" name="widget" native="true">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>60</y>
-       <width>1041</width>
-       <height>321</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QWidget {
-	background-color: rgb(255, 255, 255);
-    border: 2px solid #E5E5E5;
-}</string>
-     </property>
-     <widget class="QLabel" name="label_4">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>1041</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(230, 239, 247);</string>
-      </property>
-      <property name="text">
-       <string>  Path                                                                                                                                                                                                                                                     size</string>
-      </property>
-     </widget>
-     <widget class="QWidget" name="verticalLayoutWidget_2">
+    <widget class="QWidget" name="page_1">
+     <widget class="QFrame" name="frame_2">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>40</y>
-        <width>1021</width>
-        <height>271</height>
+        <y>10</y>
+        <width>1061</width>
+        <height>411</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="vl_AddFilesToPath"/>
-     </widget>
-    </widget>
-    <widget class="QPushButton" name="btn_clear_all">
-     <property name="geometry">
-      <rect>
-       <x>960</x>
-       <y>380</y>
-       <width>91</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
-	background-color: rgb(255, 255, 255);
-    border: none;
-    color: red;
-}
-</string>
-     </property>
-     <property name="text">
-      <string> Clear All</string>
-     </property>
-     <property name="icon">
-      <iconset>
-       <normaloff>../../figma/ic_clear_all.png</normaloff>../../figma/ic_clear_all.png</iconset>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_all_files_to_copy">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>380</y>
-       <width>411</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-    border: none;
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QFrame" name="frame_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>440</y>
-      <width>1061</width>
-      <height>141</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QFrame {
+      <property name="styleSheet">
+       <string notr="true">QFrame {
     background-color: rgb(255, 255, 255);
     border: 1px solid #7f7e7d;
 }
 
 </string>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="label_16">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>10</y>
-       <width>201</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-    border: none;
-}</string>
-     </property>
-     <property name="text">
-      <string>Backup Destination</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_17">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>21</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-    border: none;
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap>../../figma/ic_backup.png</pixmap>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_18">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>401</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-    border: none;
-}</string>
-     </property>
-     <property name="text">
-      <string>Select target drive or folder</string>
-     </property>
-    </widget>
-    <widget class="QWidget" name="widget_4" native="true">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>70</y>
-       <width>1041</width>
-       <height>61</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QWidget {
-	background-color: rgb(255, 255, 255);
-    border: 2px solid #E5E5E5;
-}</string>
-     </property>
-     <widget class="QFrame" name="frame">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>851</width>
-        <height>61</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(230, 239, 247);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -358,90 +71,426 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QWidget" name="horizontalLayoutWidget">
+      <widget class="QLabel" name="label_7">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>10</y>
+         <width>201</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+    border: none;
+}</string>
+       </property>
+       <property name="text">
+        <string>Source Files &amp; Folders</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_6">
        <property name="geometry">
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>831</width>
-         <height>41</height>
+         <width>21</width>
+         <height>20</height>
         </rect>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QLabel" name="label_img_disk">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QLabel {
+       <property name="styleSheet">
+        <string notr="true">QLabel {
     border: none;
 }</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap>../../figma/ic_save.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="etToFolder">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>/Home/..</string>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>../../figma/ic_folder.png</pixmap>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnAddFilesToSave">
+       <property name="geometry">
+        <rect>
+         <x>780</x>
+         <y>17</y>
+         <width>131</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string> Add File</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../figma/ic_add_file.png</normaloff>../../figma/ic_add_file.png</iconset>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnAddFolders">
+       <property name="geometry">
+        <rect>
+         <x>920</x>
+         <y>17</y>
+         <width>131</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string> Add Folder</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../figma/ic_add_folder.png</normaloff>../../figma/ic_add_folder.png</iconset>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>401</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+    border: none;
+}</string>
+       </property>
+       <property name="text">
+        <string>Select Files and Folders to back up</string>
+       </property>
+      </widget>
+      <widget class="QWidget" name="widget" native="true">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>1041</width>
+         <height>321</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QWidget {
+	background-color: rgb(255, 255, 255);
+    border: 2px solid #E5E5E5;
+}</string>
+       </property>
+       <widget class="QLabel" name="label_4">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>1041</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(230, 239, 247);</string>
+        </property>
+        <property name="text">
+         <string>  Path                                                                                                                                                                                                                                                     size</string>
+        </property>
+       </widget>
+       <widget class="QScrollArea" name="scrollArea">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>28</y>
+          <width>1021</width>
+          <height>281</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QWidget {
+	background-color: rgb(255, 255, 255);
+    border: none;
+}</string>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>1021</width>
+           <height>281</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2"/>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QPushButton" name="btn_clear_all">
+       <property name="geometry">
+        <rect>
+         <x>960</x>
+         <y>380</y>
+         <width>91</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	background-color: rgb(255, 255, 255);
+    border: none;
+    color: red;
+}
+</string>
+       </property>
+       <property name="text">
+        <string> Clear All</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../figma/ic_clear_all.png</normaloff>../../figma/ic_clear_all.png</iconset>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_all_files_to_copy">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>380</y>
+         <width>411</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+    border: none;
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
       </widget>
      </widget>
-     <widget class="QPushButton" name="btnSelectToFolder">
+     <widget class="QFrame" name="frame_3">
       <property name="geometry">
        <rect>
-        <x>880</x>
-        <y>20</y>
-        <width>131</width>
-        <height>28</height>
+        <x>10</x>
+        <y>430</y>
+        <width>1061</width>
+        <height>141</height>
        </rect>
       </property>
-      <property name="text">
-       <string>Add Folder</string>
+      <property name="styleSheet">
+       <string notr="true">QFrame {
+    background-color: rgb(255, 255, 255);
+    border: 2px solid #7f7e7d;
+}
+
+</string>
       </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>../../figma/ic_add_folder.png</normaloff>../../figma/ic_add_folder.png</iconset>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
       </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QLabel" name="label_16">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>10</y>
+         <width>201</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+    border: none;
+}</string>
+       </property>
+       <property name="text">
+        <string>Backup Destination</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_17">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>21</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+    border: none;
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>../../figma/ic_backup.png</pixmap>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_18">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>401</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+    border: none;
+}</string>
+       </property>
+       <property name="text">
+        <string>Select target drive or folder</string>
+       </property>
+      </widget>
+      <widget class="QWidget" name="widget_4" native="true">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>1041</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QWidget {
+	background-color: rgb(255, 255, 255);
+    border: 2px solid #ececec;
+}
+</string>
+       </property>
+       <widget class="QFrame" name="frame">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>851</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(230, 239, 247);</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QWidget" name="horizontalLayoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>831</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="label_img_disk">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel {
+    border: none;
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="pixmap">
+             <pixmap>../../figma/ic_save.png</pixmap>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="etToFolder">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLineEdit {
+    border: none;
+}</string>
+            </property>
+            <property name="text">
+             <string>/Home/..</string>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QPushButton" name="btnSelectToFolder">
+        <property name="geometry">
+         <rect>
+          <x>870</x>
+          <y>17</y>
+          <width>151</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #000000;
+}
+
+</string>
+        </property>
+        <property name="text">
+         <string> Add Folder</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../../figma/ic_add_folder.png</normaloff>../../figma/ic_add_folder.png</iconset>
+        </property>
+       </widget>
+      </widget>
      </widget>
-    </widget>
-   </widget>
-   <widget class="QPushButton" name="btn_start">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>7</x>
-      <y>597</y>
-      <width>1061</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
+     <widget class="QPushButton" name="btn_start">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>590</y>
+        <width>1061</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
     background-color: rgb(62, 68, 154);
     color: white;
     border: none;
@@ -452,14 +501,266 @@
 QPushButton:pressed {
     background-color: rgb(42, 47, 115);
 }</string>
-    </property>
-    <property name="text">
-     <string> Start</string>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>../../figma/ic_btn_start.png</normaloff>../../figma/ic_btn_start.png</iconset>
-    </property>
+      </property>
+      <property name="text">
+       <string> Start</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../figma/ic_btn_start.png</normaloff>../../figma/ic_btn_start.png</iconset>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_2">
+     <widget class="QWidget" name="containerLwidget_s2" native="true">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>1061</width>
+        <height>561</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QWidget {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #7f7e7d;
+}
+</string>
+      </property>
+      <widget class="QLabel" name="label_8">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>41</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+    border: none;
+}
+</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>../../figma/ic_alert.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_conflic_2">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>20</y>
+         <width>341</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+color: rgb(220, 3, 6);
+    border: none;
+}
+</string>
+       </property>
+       <property name="text">
+        <string>Conflicts Detected</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelXConflics">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>60</y>
+         <width>591</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+    border: none;
+}
+</string>
+       </property>
+       <property name="text">
+        <string>XX files conflicts detected, click file for details.</string>
+       </property>
+      </widget>
+      <widget class="QScrollArea" name="scrollArea_2">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>100</y>
+         <width>1021</width>
+         <height>391</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QFrame {
+    background-color: rgb(235, 255, 253);
+    border: 1px solid #e6e6e6;
+}rgb(230, 230, 230)
+</string>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="scrollAreaWidgetContents_2">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>1019</width>
+          <height>389</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout"/>
+       </widget>
+      </widget>
+      <widget class="QPushButton" name="btnCancelBackup">
+       <property name="geometry">
+        <rect>
+         <x>870</x>
+         <y>500</y>
+         <width>171</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #8a0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 12px;
+}
+</string>
+       </property>
+       <property name="text">
+        <string> Cancel Backup</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../figma/ic_cancel.png</normaloff>../../figma/ic_cancel.png</iconset>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnSkipAll">
+       <property name="geometry">
+        <rect>
+         <x>740</x>
+         <y>50</y>
+         <width>121</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #FFFFFF;
+    color: black;
+    border-radius: 5px;
+    padding: 6px 12px;
+}
+</string>
+       </property>
+       <property name="text">
+        <string>Skip All</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../figma/ic_cancel.png</normaloff>../../figma/ic_cancel.png</iconset>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btnOverwritteAll">
+       <property name="geometry">
+        <rect>
+         <x>870</x>
+         <y>50</y>
+         <width>171</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #FFFFFF;
+    color: black;
+    border-radius: 5px;
+    padding: 6px 12px;
+}
+</string>
+       </property>
+       <property name="text">
+        <string> Overwritte All</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../figma/ic_ok2.png</normaloff>../../figma/ic_ok2.png</iconset>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="btnStartBackup2">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>590</y>
+        <width>1061</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    background-color: rgb(62, 68, 154);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 12px;
+}
+
+QPushButton:pressed {
+    background-color: rgb(42, 47, 115);
+}</string>
+      </property>
+      <property name="text">
+       <string> Start Backup</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../../figma/ic_btn_start.png</normaloff>../../figma/ic_btn_start.png</iconset>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -467,7 +768,7 @@ QPushButton:pressed {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1080</width>
+     <width>1085</width>
      <height>30</height>
     </rect>
    </property>
