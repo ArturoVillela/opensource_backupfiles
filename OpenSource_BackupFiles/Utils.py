@@ -27,16 +27,17 @@ class Utils:
 
     @staticmethod
     def isDirectoryNotEmpty(path: str)-> bool:
-        print("directory : "+path)
+        """ return es directorio && tiene 0 archivos """
         return os.path.isdir(path) and len(os.listdir(path)) == 0
 
 
     @staticmethod
-    def get_all_files_in_folder(ruta):
-        files = Utils.listar_archivos_recursivos(str(ruta))
-        fullSize = Utils.getFullSizeOfList(files)
-        print("cant de archivos : "+str(len(files))+ ",  full size files :" + str(fullSize))
-        return files, fullSize
+    def get_all_files_in_folder(ruta)-> tuple[list[str], int] :
+        """ todos los archivos con full path y el size de todos. """
+        listAllFiles = Utils.listar_archivos_recursivos(str(ruta))
+        fullSize = Utils.getFullSizeOfList(listAllFiles)
+        print("cant de archivos : "+str(len(listAllFiles))+ ",  full size files :" + str(fullSize))
+        return listAllFiles, fullSize
 
 
     @staticmethod
@@ -55,7 +56,7 @@ class Utils:
 
     @staticmethod
     def getFileNameByFullPathName(full_path:str):
-        return str("/"+ str(Path(full_path).name))
+        return str(str(Path(full_path).name))
 
 
     @staticmethod
@@ -70,6 +71,61 @@ class Utils:
             size /= 1024
 
         return f"{size:.2f} PB"
+
+
+    @staticmethod
+    def findConflictsInBackup(listAllNamesOfFilesToCopy, finalPath) -> tuple[bool, list[int] | None]:
+        """ funcion principal..listallnames contiene path y regresa indices de conflictos por nombre """
+        print("....................................starting findConflicst method..")
+        listPathsInEndFolder = Utils.listar_archivos_recursivos(finalPath)
+        listNamesInEndFolder = []
+        listNamesInListToCopy = []
+        for fullPath in listPathsInEndFolder:
+            listNamesInEndFolder.append(Utils.getFileNameByFullPathName(fullPath))
+
+        for fullPath, _ in listAllNamesOfFilesToCopy:
+            listNamesInListToCopy.append(Utils.getFileNameByFullPathName(fullPath))
+
+        #print("list only names of files in backup folder:")
+        #Utils.printList(listNamesInListToCopy)
+        print("....................................  hasta aki todo bien..")
+        listConflicts = Utils.indices_en_comun(listNamesInListToCopy, listNamesInEndFolder)
+        if not listConflicts:
+            print("lista vacia , no encontro conflicst")
+            return False, None
+        else:
+            print("lista no vacia.. si encontro conflics")
+            for index in listConflicts:
+                print(" confliected file :",listNamesInListToCopy[index])
+        return True, listConflicts
+
+
+    @staticmethod
+    def indices_en_comun(listAllNamesOfFilesToCopy,listNamesInEndFolder) -> list[int] | None:
+        def normalize(name: str) -> str:
+            return name.replace(" ", "").lower()
+        end_set = {
+            normalize(name)
+            for name in listNamesInEndFolder
+        }
+        indices = []
+        for i, fullPath in enumerate(listAllNamesOfFilesToCopy):
+            fileName = Utils.getFileNameByFullPathName(fullPath)
+
+            if normalize(fileName) in end_set:
+                indices.append(i)
+
+        return indices if indices else None
+
+
+    @staticmethod
+    def indices_en_comun(listAllNamesOfFilesToCopy, listNamesInEndFolder) -> list[int]:
+        listOnlyNamesInBackupList = []
+        for fullPath in listAllNamesOfFilesToCopy:
+            listOnlyNamesInBackupList.append(Utils.getFileNameByFullPathName(fullPath))
+
+        end_set = set(listNamesInEndFolder)
+        return [i for i, name in enumerate(listOnlyNamesInBackupList) if name in end_set]
 
 
     @staticmethod
@@ -98,6 +154,8 @@ class Utils:
     def getDialogIconByTitle(cad:str):
         if cad == "Error":
             return QMessageBox.Icon.Warning
+        elif cad == "Question":
+            return QMessageBox.Icon.Question
         return QMessageBox.Icon.Information
 #    QMessageBox.Icon.Information
 #    QMessageBox.Icon.Warning
@@ -106,9 +164,17 @@ class Utils:
 #    QMessageBox.Icon.NoIcon
 
 
+    @staticmethod
     def listar_archivos_recursivos(ruta):
         return [str(p) for p in Path(ruta).rglob("*") if p.is_file()]
 
+
+    def clearLayoutOfQScrollArea(layout:QVBoxLayout):
+        while layout.count():
+            item = layout.takeAt(0)
+            if item.widget():
+                item.widget().deleteLater()
+            del item
 
 
     def clearQBoxLayout(layout: QVBoxLayout) -> None:
@@ -119,6 +185,10 @@ class Utils:
             if widget is not None:
                 widget.deleteLater()
 
+
+    def printList(lista:list[str]) -> None:
+        for word in lista:
+            print(" -- ",word)
 
 #                pasos a seguir para tener un scroll en un widget...
 #                # 1. Crear el widget contenedor y el layout vertical

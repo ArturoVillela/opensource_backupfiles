@@ -7,6 +7,10 @@ class Resources:
             (1,"Error", "Destination Folder not defined!"),
             (2,"Error", "No Files to backup selected"),
             (3,"Error", "Destination Folder is not empty !!"),
+            (4,"Alert", "Back files Canceled by user "),
+            (5,"Alert", "File Backup Completed  :) "),
+            (6,"Alert", "Backup Completed Sucessfully :) "),
+            (7,"Error", "Folder to backup does not contain any files!"),
             (10,"Alert", "Copy in progress....")
         ]
 

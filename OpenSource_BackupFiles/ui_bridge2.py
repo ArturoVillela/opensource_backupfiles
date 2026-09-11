@@ -30,11 +30,4 @@ class UiBridge2(QMainWindow):
         self.ui = Ui_Form()
         self.ui.setupUi(self)
 
-#        self.ui.vl_AddFilesToPath.setAlignment(
-#            Qt.AlignmentFlag.AlignTop
-#        )
-
-#        self.ui.vl_AddFilesToPath.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
-#        self.ui.vl_AddFilesToPath.setSpacing(4)
-#        self.ui.vl_AddFilesToPath.setContentsMargins(5, 5, 5, 5)
 
