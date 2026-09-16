@@ -32,6 +32,7 @@ class UiBridge(QMainWindow):
         self.listAllNamesOfFilesToCopy: list[str]
         self.listAllFilesInEndDirectory : list[tuple[str, str]]
         self.finalPath: str = ""
+        self.currentScreenSelected = 1
 
         self.copyFiles = CopyFiles()
         self.progress_dialog = None
@@ -201,29 +202,22 @@ class UiBridge(QMainWindow):
         dialogo.exec()
 
 
-    def cancelBackup(self):
-        print("................ Respaldo cancelado")
-        self.progress_dialog.close()
-        self.copyFiles.cancelBackup()
-        self.isBackupStarted = False
-        self.showAlertByDialogCode(4)
-
 #        self.listAllFilesToCopy: list[tuple[str, float]] = []
 #        self.listAllNamesOfFilesToCopy: list[str]
 #        self.listAllFilesInEndDirectory : list[tuple[str, str]]
 
     def startingBackup2(self):
         total = len(self.listAllFilesToCopy)
-        print("\n" * 60)  # empuja el contenido anterior fuera de la pantalla    # limpia la pantalla visible
+        #print("\n" * 60)  # empuja el contenido anterior fuera de la pantalla    # limpia la pantalla visible
         print("starting backup files main function......cant files: ",total)
         if not Utils.isDirectoryNotEmpty(self.finalPath):
             """ no esta vacio el end directory... """
             # Utils.printList(self.listAllFilesToCopy)   listAllFilesToCopy
-
             conflictsFound, listIndexWithConflicts = Utils.findConflictsInBackup(self.listAllFilesToCopy, self.finalPath)
             if conflictsFound:
                 print(f"encontramos {len(listIndexWithConflicts)} conflictos")
                 print("lo que sigue es lanzar la otra screen....")
+                self.cambiarPantalla(2)
                 return
             else:
                 print("no encontro conflictos...")
@@ -295,3 +289,12 @@ class UiBridge(QMainWindow):
         print("backup error... on bridge class")
         if self.progress_dialog:
             self.progress_dialog.hide()
+
+
+    def cambiarPantalla(self, index:int) ->None:
+        if index == 1:
+            self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
+            currentScreenSelected = 1
+        else:
+            self.ui.stackedWidget.setCurrentWidget(self.ui.page_2)
+            currentScreenSelected = 2
