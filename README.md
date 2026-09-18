@@ -58,18 +58,6 @@ The project is being developed with Python and Qt. Its goal is to provide a clea
 | Conflict table UI (overwrite / skip) | 🔧 In progress |
 | Conflict resolution logic | 🔧 In progress |
 
-## Screenshot setup
-
-Create the following folders in the project if they do not exist:
-
-```text
-docs/
-└── images/
-    └── app-ui.png
-```
-
-Then copy your screenshot to `docs/images/app-ui.png`. GitHub will display it automatically in this README.
-
 ## License
 
 License information will be added later.
