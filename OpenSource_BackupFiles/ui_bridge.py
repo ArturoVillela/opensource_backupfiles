@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QMainWindow
-from base13_ui import Ui_MainWindow
+from base15_ui import Ui_MainWindow
 from pathlib import Path
 from PySide6 import QtCore
 from Resources import Resources
@@ -16,7 +16,8 @@ QVBoxLayout,
 QLabel
 )
 from PySide6.QtCore import Qt
-from Utils import Utils
+from utils.Utils import Utils
+from utils.UtilsDates import UtilsDates
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout
 from CopyFiles import CopyFiles
 #import os
@@ -49,6 +50,10 @@ class UiBridge(QMainWindow):
         print(type(self.containerLayout))
         self.conectar_eventos()
 
+        self.webView = self.ui.widgetWebView
+        self.htmlPage = ""
+        self.initWebView()
+
 
     def conectar_eventos(self):
         self.ui.btnAddFilesToSave.clicked.connect(self.btnAddFilesToBackupClicked)
@@ -58,6 +63,13 @@ class UiBridge(QMainWindow):
         self.ui.btn_start.clicked.connect(self.btnStartClicked)
 
 
+    def initWebView(self):
+        htmlPath = Path("html/nocheckbox.html")
+        with open(htmlPath, "r", encoding="utf-8") as file:
+            htmlPage = file.read()
+        self.webView.setHtml(htmlPage)
+
+
     def btnStartClicked(self):
         if not self.listAllFilesToCopy:
             self.showAlertByDialogCode(2)
@@ -65,7 +77,7 @@ class UiBridge(QMainWindow):
         if not self.finalPath:
             self.showAlertByDialogCode(1)
             return
-        if not Utils.isDirectoryNotEmpty(self.finalPath):
+        if not UtilsDates.isDirectoryNotEmpty(self.finalPath):
             # self.showAlertByDialogCode(3)
             reply = QMessageBox.question(
                     self,
@@ -83,7 +95,7 @@ class UiBridge(QMainWindow):
         self.listAllFilesToCopy.clear()
         self.updateLabelInfo()
         self.ui.label_all_files_to_copy.setText (" ")
-        Utils.clearLayoutOfQScrollArea(self.containerLayout)
+        self.initWebView()
         print("aki limpiamos el layout de archivos, nuevo size : " +str(len(self.listAllFilesToCopy)))
 
 
@@ -92,7 +104,8 @@ class UiBridge(QMainWindow):
         self.listAllFilesToCopy.append((ruta, size))
         ruta2 = Utils.formatear_ruta(ruta)
         formated_size = Utils.format_size(size)
-        self.addPathIntoScrollPath(ruta2, formated_size)
+        self.addRowToTable(ruta2,formated_size)
+        #self.addPathIntoScrollPath(ruta2, formated_size)
         self.updateLabelInfo()
 
     def btnAddFoldersToBackupClicked(self):
@@ -100,7 +113,7 @@ class UiBridge(QMainWindow):
         print ("ruta = ",ruta)
         if ruta is None:
             return
-        listTemp, fullSize = Utils.get_all_files_in_folder(ruta)   #returns a list of all files
+        listTemp, fullSize = UtilsDates.get_all_files_in_folder(ruta)   #returns a list of all files
         if not fullSize:
             self.showAlertByDialogCode(7)
             return
@@ -109,7 +122,8 @@ class UiBridge(QMainWindow):
         sizeFormated = Utils.format_size(fullSize)
         ruta2 = Utils.formatear_ruta(ruta)
         print("la ruta seleccionada es: "+ruta)
-        self.addPathIntoScrollPath(ruta2, sizeFormated)
+        self.addRowToTable(ruta2,sizeFormated)
+        #self.addPathIntoScrollPath(ruta2, sizeFormated)
         self.updateLabelInfo()
 
 
@@ -118,7 +132,7 @@ class UiBridge(QMainWindow):
         self.isBackupFolderEmpty = True
         if ruta is None:
             return
-        if not Utils.isDirectoryNotEmpty(ruta):
+        if not UtilsDates.isDirectoryNotEmpty(ruta):
             reply = QMessageBox.question(
                     self,
                     "Confirm",
@@ -198,7 +212,7 @@ class UiBridge(QMainWindow):
         dialogo.setWindowTitle(title)
         dialogo.setText(subtitle)
         dialogo.setIcon(Utils.getDialogIconByTitle(title))
-        dialogo.setStandardButtons(QMessageBox.StandardButton.Ok)
+        #dialogo.setStandardButtons(QMessageBox.StandardButton.Ok)
         dialogo.exec()
 
 
@@ -210,24 +224,23 @@ class UiBridge(QMainWindow):
         total = len(self.listAllFilesToCopy)
         #print("\n" * 60)  # empuja el contenido anterior fuera de la pantalla    # limpia la pantalla visible
         print("starting backup files main function......cant files: ",total)
-        if not Utils.isDirectoryNotEmpty(self.finalPath):
+        if not UtilsDates.isDirectoryNotEmpty(self.finalPath):
             """ no esta vacio el end directory... """
             # Utils.printList(self.listAllFilesToCopy)   listAllFilesToCopy
-            conflictsFound, listIndexWithConflicts = Utils.findConflictsInBackup(self.listAllFilesToCopy, self.finalPath)
+            conflictsFound, listIndexWithConflicts = UtilsDates.findConflictsInBackup(self.listAllFilesToCopy, self.finalPath)
             if conflictsFound:
                 print(f"encontramos {len(listIndexWithConflicts)} conflictos")
                 print("lo que sigue es lanzar la otra screen....")
-                self.cambiarPantalla(2)
+                self.requestConfirmationForConflicsts()
                 return
-            else:
-                print("no encontro conflictos...")
-            return
-        else:
-            print("por el momento solo checaremos cuando el end folder tiene files.. ending program")
-            return
+#            else:
+#                print("no encontro conflictos...")
+#            return
+#        else:   # este else evita termina el copiado antes de copiar archivos, usado para no copiar por error.
+#            print("por el momento solo checaremos cuando el end folder tiene files.. ending program")
+#            return
         #por el momento no se llega a las lineas siguientes...
-        if not self.isBackupStarted:
-            return #solo por mientras.. mientras pruebo otras madres...
+        if not self.isBackupStarted:  # solo inicializa el progress dialog
             print("entra al check for self.isBackupStarted")
             self.progress_dialog = QProgressDialog(
                 "Please wait:",
@@ -243,22 +256,30 @@ class UiBridge(QMainWindow):
             self.progress_dialog.show()
             self.isBackupStarted = True
 
+
         if self.listAllFilesToCopy:
-            return #solo por mientras.. mientras pruebo otras madres..
-            print("entra al check for self.listAllFilesToCopy")
+            #return #solo por mientras.. mientras pruebo otras madres..
+            print("entra al check for self.listAllFilesToCopy, aki devemos chekar por conflictos..")
             self.progress_dialog.show()
             duplaPathSize = self.listAllFilesToCopy.pop(0)
             if self.progress_dialog.wasCanceled():
                 return
             fileToCopy = duplaPathSize[0]
-            fileNameToCopy = Utils.getFileNameByFullPathName(str(fileToCopy))
-            newFile = str(self.finalPath) + str(fileNameToCopy)
+            fileNameToCopy = UtilsDates.getFileNameByFullPathName(str(fileToCopy))
+            croppedFileName = Utils.formatear_ruta(fileNameToCopy)
+            newFile = str(self.finalPath) +"/"+ str(fileNameToCopy)
             filesLeftToCopy = len(self.listAllFilesToCopy)
             self.progress_dialog.setLabelText(
-                f"Please wait: copying {fileNameToCopy}\nFiles left to copy: {filesLeftToCopy}"
+                f"Please wait: copying {croppedFileName}\nFiles left to copy: {filesLeftToCopy}"
             )
             print(f"archivo : {fileToCopy}, y file2 : {newFile}")
             self.copyFiles.startBackup(fileToCopy, newFile)
+
+
+    def cancelBackup(self):
+        self.progress_dialog.hide()
+        self.copyFiles.cancelBackup()
+        self.showAlertByDialogCode(4)
 
 
     def onBackupCompleted(self):
@@ -298,3 +319,23 @@ class UiBridge(QMainWindow):
         else:
             self.ui.stackedWidget.setCurrentWidget(self.ui.page_2)
             currentScreenSelected = 2
+
+
+    def addRowToTable(self, str1, str2):
+        script = f"addRowToTable('{str1}', '{str2}')"
+        self.webView.page().runJavaScript(script)
+
+
+    def requestConfirmationForConflicsts(self):
+        dialogo = QMessageBox(self)
+        title, subtitle = Resources().getDialogInfoByCode(8)
+        dialogo.setWindowTitle(title)
+        dialogo.setText(subtitle)
+        dialogo.addButton("Cancel", QMessageBox.RejectRole)
+        btn_ok = dialogo.addButton("Continue", QMessageBox.YesRole)
+
+        dialogo.setDefaultButton(btn_ok)
+        dialogo.exec()
+        if dialogo.clickedButton() == btn_ok:
+            self.cambiarPantalla(2)
+            print("clicked btn ok")

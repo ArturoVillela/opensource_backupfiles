@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'base1.ui'
+## Form generated from reading UI file 'baseui_whtml.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.11.1
 ##
@@ -16,6 +16,7 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
+from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QLineEdit, QMainWindow, QMenu, QMenuBar,
     QPushButton, QScrollArea, QSizePolicy, QStackedWidget,
@@ -25,7 +26,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1085, 700)
+        MainWindow.resize(1088, 700)
         MainWindow.setMinimumSize(QSize(1080, 700))
         MainWindow.setMaximumSize(QSize(1999, 700))
         MainWindow.setMouseTracking(True)
@@ -64,18 +65,18 @@ class Ui_MainWindow(object):
         self.label_6.setStyleSheet(u"QLabel {\n"
 "    border: none;\n"
 "}")
-        self.label_6.setPixmap(QPixmap(u"../../figma/ic_folder.png"))
+        self.label_6.setPixmap(QPixmap(u"../figma/ic_folder.png"))
         self.btnAddFilesToSave = QPushButton(self.frame_2)
         self.btnAddFilesToSave.setObjectName(u"btnAddFilesToSave")
         self.btnAddFilesToSave.setGeometry(QRect(780, 17, 131, 31))
         icon = QIcon()
-        icon.addFile(u"../../figma/ic_add_file.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u"../figma/ic_add_file.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnAddFilesToSave.setIcon(icon)
         self.btnAddFolders = QPushButton(self.frame_2)
         self.btnAddFolders.setObjectName(u"btnAddFolders")
         self.btnAddFolders.setGeometry(QRect(920, 17, 131, 31))
         icon1 = QIcon()
-        icon1.addFile(u"../../figma/ic_add_folder.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u"../figma/ic_add_folder.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnAddFolders.setIcon(icon1)
         self.label_5 = QLabel(self.frame_2)
         self.label_5.setObjectName(u"label_5")
@@ -83,31 +84,6 @@ class Ui_MainWindow(object):
         self.label_5.setStyleSheet(u"QLabel {\n"
 "    border: none;\n"
 "}")
-        self.widget = QWidget(self.frame_2)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(10, 60, 1041, 321))
-        self.widget.setStyleSheet(u"QWidget {\n"
-"	background-color: rgb(255, 255, 255);\n"
-"    border: 2px solid #E5E5E5;\n"
-"}")
-        self.label_4 = QLabel(self.widget)
-        self.label_4.setObjectName(u"label_4")
-        self.label_4.setGeometry(QRect(0, 0, 1041, 31))
-        self.label_4.setStyleSheet(u"background-color: rgb(230, 239, 247);")
-        self.scrollArea = QScrollArea(self.widget)
-        self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setGeometry(QRect(9, 28, 1021, 281))
-        self.scrollArea.setStyleSheet(u"QWidget {\n"
-"	background-color: rgb(255, 255, 255);\n"
-"    border: none;\n"
-"}")
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1021, 281))
-        self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.btn_clear_all = QPushButton(self.frame_2)
         self.btn_clear_all.setObjectName(u"btn_clear_all")
         self.btn_clear_all.setGeometry(QRect(960, 380, 91, 28))
@@ -118,7 +94,7 @@ class Ui_MainWindow(object):
 "}\n"
 "")
         icon2 = QIcon()
-        icon2.addFile(u"../../figma/ic_clear_all.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(u"../figma/ic_clear_all.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btn_clear_all.setIcon(icon2)
         self.label_all_files_to_copy = QLabel(self.frame_2)
         self.label_all_files_to_copy.setObjectName(u"label_all_files_to_copy")
@@ -126,6 +102,25 @@ class Ui_MainWindow(object):
         self.label_all_files_to_copy.setStyleSheet(u"QLabel {\n"
 "    border: none;\n"
 "}")
+        self.scrollArea = QScrollArea(self.frame_2)
+        self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setGeometry(QRect(10, 60, 1041, 311))
+        self.scrollArea.setStyleSheet(u"QWidget {\n"
+"	background-color: rgb(255, 255, 255);\n"
+"    border: none;\n"
+"}")
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1041, 311))
+        self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.widgetWebView = QWebEngineView(self.scrollAreaWidgetContents)
+        self.widgetWebView.setObjectName(u"widgetWebView")
+
+        self.verticalLayout_2.addWidget(self.widgetWebView)
+
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.frame_3 = QFrame(self.page_1)
         self.frame_3.setObjectName(u"frame_3")
         self.frame_3.setGeometry(QRect(10, 430, 1061, 141))
@@ -150,7 +145,7 @@ class Ui_MainWindow(object):
         self.label_17.setStyleSheet(u"QLabel {\n"
 "    border: none;\n"
 "}")
-        self.label_17.setPixmap(QPixmap(u"../../figma/ic_backup.png"))
+        self.label_17.setPixmap(QPixmap(u"../figma/ic_backup.png"))
         self.label_18 = QLabel(self.frame_3)
         self.label_18.setObjectName(u"label_18")
         self.label_18.setGeometry(QRect(10, 30, 401, 20))
@@ -183,7 +178,7 @@ class Ui_MainWindow(object):
         self.label_img_disk.setStyleSheet(u"QLabel {\n"
 "    border: none;\n"
 "}")
-        self.label_img_disk.setPixmap(QPixmap(u"../../figma/ic_save.png"))
+        self.label_img_disk.setPixmap(QPixmap(u"../figma/ic_save.png"))
 
         self.horizontalLayout.addWidget(self.label_img_disk)
 
@@ -227,7 +222,7 @@ class Ui_MainWindow(object):
 "    background-color: rgb(42, 47, 115);\n"
 "}")
         icon3 = QIcon()
-        icon3.addFile(u"../../figma/ic_btn_start.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon3.addFile(u"../figma/ic_btn_start.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btn_start.setIcon(icon3)
         self.stackedWidget.addWidget(self.page_1)
         self.page_2 = QWidget()
@@ -247,7 +242,7 @@ class Ui_MainWindow(object):
 "    border: none;\n"
 "}\n"
 "")
-        self.label_8.setPixmap(QPixmap(u"../../figma/ic_alert.png"))
+        self.label_8.setPixmap(QPixmap(u"../figma/ic_alert.png"))
         self.label_8.setScaledContents(True)
         self.label_conflic_2 = QLabel(self.containerLwidget_s2)
         self.label_conflic_2.setObjectName(u"label_conflic_2")
@@ -285,6 +280,11 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1019, 389))
         self.verticalLayout = QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout.setObjectName(u"verticalLayout")
+        self.widgetWebView2 = QWebEngineView(self.scrollAreaWidgetContents_2)
+        self.widgetWebView2.setObjectName(u"widgetWebView2")
+
+        self.verticalLayout.addWidget(self.widgetWebView2)
+
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
         self.btnCancelBackup = QPushButton(self.containerLwidget_s2)
         self.btnCancelBackup.setObjectName(u"btnCancelBackup")
@@ -298,7 +298,7 @@ class Ui_MainWindow(object):
 "}\n"
 "")
         icon4 = QIcon()
-        icon4.addFile(u"../../figma/ic_cancel.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon4.addFile(u"../figma/ic_cancel.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnCancelBackup.setIcon(icon4)
         self.btnSkipAll = QPushButton(self.containerLwidget_s2)
         self.btnSkipAll.setObjectName(u"btnSkipAll")
@@ -325,7 +325,7 @@ class Ui_MainWindow(object):
 "}\n"
 "")
         icon5 = QIcon()
-        icon5.addFile(u"../../figma/ic_ok2.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon5.addFile(u"../figma/ic_ok2.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnOverwritteAll.setIcon(icon5)
         self.btnStartBackup2 = QPushButton(self.page_2)
         self.btnStartBackup2.setObjectName(u"btnStartBackup2")
@@ -348,7 +348,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1085, 30))
+        self.menubar.setGeometry(QRect(0, 0, 1088, 30))
         self.menubar.setStyleSheet(u"background-color: rgb(243, 243, 243);s")
         self.menuAbout = QMenu(self.menubar)
         self.menuAbout.setObjectName(u"menuAbout")
@@ -381,7 +381,6 @@ class Ui_MainWindow(object):
         self.btnAddFilesToSave.setText(QCoreApplication.translate("MainWindow", u" Add File", None))
         self.btnAddFolders.setText(QCoreApplication.translate("MainWindow", u" Add Folder", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Select Files and Folders to back up", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"  Path                                                                                                                                                                                                                                                     size", None))
         self.btn_clear_all.setText(QCoreApplication.translate("MainWindow", u" Clear All", None))
         self.label_all_files_to_copy.setText("")
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Backup Destination", None))

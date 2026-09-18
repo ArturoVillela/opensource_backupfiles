@@ -16,7 +16,8 @@ class CopyFiles(QObject):
 
     def startBackup(self, origen, destino):
         print("starting backup in CopyFiles class for file :",origen)
-        return #por mientras no kiero problemas..
+        print (f" origen-> {origen}, destino-> {destino}")
+        #return #por mientras no kiero problemas.......
         self.backup_process = QProcess(self)
 
         self.backup_process.finished.connect(self.backupFinished)

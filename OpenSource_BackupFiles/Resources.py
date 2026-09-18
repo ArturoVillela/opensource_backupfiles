@@ -11,6 +11,7 @@ class Resources:
             (5,"Alert", "File Backup Completed  :) "),
             (6,"Alert", "Backup Completed Sucessfully :) "),
             (7,"Error", "Folder to backup does not contain any files!"),
+            (8," Conflicts Found !!", "Click Continue to review the detected conflicts."),
             (10,"Alert", "Copy in progress....")
         ]
 

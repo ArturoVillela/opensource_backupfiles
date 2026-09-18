@@ -1,3 +1,3 @@
 {
-    "files": ["Utils.py","CopyFiles.py","base13_ui.py","ui_bridge2.py","ui_bridge.py","Resources.py","widget.py","screen2_ui2.py","models.qmodel"]
+    "files": ["widget.py","Resources.py","CopyFiles.py","base13_ui.py","ui_bridge2.py","models.qmodel","html/nocheckbox.html","ui_bridge.py","screen2_ui2.py","html/checkbox.html","utils/UtilsDates.py","utils/Utils.py"]
 }
