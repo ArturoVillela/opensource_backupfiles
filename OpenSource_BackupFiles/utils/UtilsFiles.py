@@ -3,11 +3,49 @@ from pathlib import Path
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QMessageBox
 #from PyQt5.QtWidgets import QMessageBox
+from data.BackUpFile import BackUpFile
+from datetime import datetime
 import os
 
-class UtilsDates:
+class UtilsFiles:
     def __init__(self):
         pass
+
+
+    @staticmethod
+    def getBackUpFileFromPath(path: str, folder:str | None = None) -> BackUpFile:
+        file_path = Path(path)
+        file_info = file_path.stat()
+
+        source_file_size = file_info.st_size
+        source_file_name = file_path.name
+        source_file_pathWithName = str(file_path)
+        source_file_pathWithoutName = str(file_path.parent)
+        source_last_date_modified = datetime.fromtimestamp(
+            file_info.st_mtime
+        )
+
+        return BackUpFile(
+            source_file_name=source_file_name,
+            source_file_pathWithName=source_file_pathWithName,
+            source_file_pathWithoutName=source_file_pathWithoutName,
+            source_file_size=source_file_size,
+            source_last_date_modified=source_last_date_modified,
+            root_folder=folder
+        )
+
+
+    @staticmethod
+    def checkForConflicts(listAllFilesToBackUp: list[BackUpFile], backupFile: BackUpFile)->str|None: #regresa el path con duplicado
+        if not listAllFilesToBackUp:  #no se necesita.. pero me vale.. aki va.
+            return None
+        backupFileName = backupFile.source_file_name.lower().strip()
+        for file in listAllFilesToBackUp:
+            name= file.source_file_name.lower().strip()
+            if name == backupFileName:
+                return file.source_file_pathWithName
+        return None
+
 
 
     @staticmethod
@@ -19,8 +57,8 @@ class UtilsDates:
     @staticmethod
     def get_all_files_in_folder(ruta)-> tuple[list[str], int] :
         """ todos los archivos con full path y el size de todos. """
-        listAllFiles = UtilsDates.listar_archivos_recursivos(str(ruta))
-        fullSize = UtilsDates.getFullSizeOfList(listAllFiles)
+        listAllFiles = UtilsFiles.listar_archivos_recursivos(str(ruta))
+        fullSize = UtilsFiles.getFullSizeOfList(listAllFiles)
         print("cant de archivos : "+str(len(listAllFiles))+ ",  full size files :" + str(fullSize))
         return listAllFiles, fullSize
 
@@ -62,19 +100,19 @@ class UtilsDates:
     def findConflictsInBackup(listAllNamesOfFilesToCopy, finalPath) -> tuple[bool, list[int] | None]:
         """ funcion principal..listallnames contiene path y regresa indices de conflictos por nombre """
         print("....................................starting findConflicst method..")
-        listPathsInEndFolder = UtilsDates.listar_archivos_recursivos(finalPath)
+        listPathsInEndFolder = UtilsFiles.listar_archivos_recursivos(finalPath)
         listNamesInEndFolder = []
         listNamesInListToCopy = []
         for fullPath in listPathsInEndFolder:
-            listNamesInEndFolder.append(UtilsDates.getFileNameByFullPathName(fullPath))
+            listNamesInEndFolder.append(UtilsFiles.getFileNameByFullPathName(fullPath))
 
         for fullPath, _ in listAllNamesOfFilesToCopy:
-            listNamesInListToCopy.append(UtilsDates.getFileNameByFullPathName(fullPath))
+            listNamesInListToCopy.append(UtilsFiles.getFileNameByFullPathName(fullPath))
 
         #print("list only names of files in backup folder:")
         #Utils.printList(listNamesInListToCopy)
         print("....................................  hasta aki todo bien..")
-        listConflicts = UtilsDates.indices_en_comun(listNamesInListToCopy, listNamesInEndFolder)
+        listConflicts = UtilsFiles.indices_en_comun(listNamesInListToCopy, listNamesInEndFolder)
         if not listConflicts:
             print("lista vacia , no encontro conflicst")
             return False, None
@@ -95,7 +133,7 @@ class UtilsDates:
         }
         indices = []
         for i, fullPath in enumerate(listAllNamesOfFilesToCopy):
-            fileName = UtilsDates.getFileNameByFullPathName(fullPath)
+            fileName = UtilsFiles.getFileNameByFullPathName(fullPath)
 
             if normalize(fileName) in end_set:
                 indices.append(i)
@@ -107,7 +145,7 @@ class UtilsDates:
     def indices_en_comun(listAllNamesOfFilesToCopy, listNamesInEndFolder) -> list[int]:
         listOnlyNamesInBackupList = []
         for fullPath in listAllNamesOfFilesToCopy:
-            listOnlyNamesInBackupList.append(UtilsDates.getFileNameByFullPathName(fullPath))
+            listOnlyNamesInBackupList.append(UtilsFiles.getFileNameByFullPathName(fullPath))
         end_set = set(listNamesInEndFolder)
         return [i for i, name in enumerate(listOnlyNamesInBackupList) if name in end_set]
 

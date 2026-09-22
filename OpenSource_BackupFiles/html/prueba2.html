@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabla con selector de acción</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #f5f7fb;
+      color: #172033;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border: 1px solid #dfe4ec;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(20, 30, 50, 0.08);
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid #e7ebf1;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #edf1f7;
+      color: #3b465a;
+      font-size: 13px;
+    }
+
+    td { font-size: 14px; }
+    tbody tr:last-child td { border-bottom: 0; }
+    .file-name { font-weight: 700; }
+    .file-info { color: #657086; white-space: nowrap; }
+
+    select {
+      min-width: 160px;
+      padding: 9px 34px 9px 11px;
+      border: 1px solid #cbd3df;
+      border-radius: 7px;
+      background: #ffffff;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    select.overwrite {
+      border-color: #ef4444;
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    select.skip {
+      border-color: #94a3b8;
+      background: #f8fafc;
+      color: #475569;
+    }
+
+    select.keep-both {
+      border-color: #22c55e;
+      background: #f0fdf4;
+      color: #15803d;
+    }
+  </style>
+</head>
+<body>
+  <table>
+    <thead>
+      <tr>
+        <th>Archivo</th>
+        <th>Archivo existente</th>
+        <th>Archivo del respaldo</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="file-name">foto.jpg</td>
+        <td class="file-info">2 MB · 15 sep</td>
+        <td class="file-info">3 MB · 20 sep</td>
+        <td>
+          <select aria-label="Acción para foto.jpg" onchange="updateColor(this)">
+            <option value="overwrite">Sobrescribir</option>
+            <option value="skip">Omitir</option>
+            <option value="keep-both">Conservar ambos</option>
+          </select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    function updateColor(selector) {
+      selector.className = selector.value;
+    }
+
+    document.querySelectorAll('select').forEach(updateColor);
+  </script>
+</body>
+</html>

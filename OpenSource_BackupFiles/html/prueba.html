@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conflictos de archivos</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #f5f7fb;
+      color: #172033;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #ffffff;
+      border: 1px solid #dfe4ec;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(20, 30, 50, 0.08);
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid #e7ebf1;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #edf1f7;
+      color: #3b465a;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    td { font-size: 14px; }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:hover { background: #f9fbfe; }
+
+    .file-name { font-weight: 700; }
+    .file-info { color: #657086; white-space: nowrap; }
+    .actions { display: flex; gap: 8px; white-space: nowrap; }
+
+    button {
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .replace {
+      border: 1px solid #2563eb;
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .replace:hover { background: #1d4ed8; }
+
+    .ignore {
+      border: 1px solid #cbd3df;
+      background: #ffffff;
+      color: #475569;
+    }
+
+    .ignore:hover { background: #eef2f7; }
+  </style>
+</head>
+<body>
+  <table>
+    <thead>
+      <tr>
+        <th>Archivo</th>
+        <th>Archivo existente</th>
+        <th>Archivo del respaldo</th>
+        <th>Sobreescribir</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="file-name">foto.jpg</td>
+        <td class="file-info">2 MB · 15 sep</td>
+        <td class="file-info">3 MB · 20 sep</td>
+        <td>
+          <div class="actions">
+            <button class="replace" type="button">Reemplazar</button>
+            <button class="ignore" type="button">Ignorar</button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="file-name">documento.pdf</td>
+        <td class="file-info">840 KB · 10 sep</td>
+        <td class="file-info">1.1 MB · 21 sep</td>
+        <td>
+          <div class="actions">
+            <div class="toggleContainer">
+                <input type="checkbox" id="switch" class="toggle">
+                <label for="switch" class="switch"></label>
+             </div> 
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

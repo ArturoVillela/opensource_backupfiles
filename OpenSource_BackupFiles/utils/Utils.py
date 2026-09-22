@@ -2,6 +2,7 @@
 from pathlib import Path
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QMessageBox
+from data.BackUpFile import BackUpFile
 #from PyQt5.QtWidgets import QMessageBox
 import os
 
@@ -35,8 +36,8 @@ class Utils:
 
 
     @staticmethod
-    def getFinalListSize(files: list[tuple[str, float]]) -> float:
-        return sum(size for path, size in files)
+    def getFinalListSize(files: list[BackUpFile]) -> int:
+        return sum(f.source_file_size for f in files)
 
 
     @staticmethod
