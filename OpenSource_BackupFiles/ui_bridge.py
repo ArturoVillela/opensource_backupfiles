@@ -21,6 +21,7 @@ from utils.UtilsFiles import UtilsFiles
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout
 from CopyFiles import CopyFiles
 from data.BackUpFile import BackUpFile
+from utils.FilesErrors import FilesErrors
 #import os
 
 
@@ -131,20 +132,35 @@ class UiBridge(QMainWindow):
 
     def btnAddFoldersToBackupClicked(self):
         ruta = self.seleccionarFolder()
-        print ("ruta = ",ruta)
+        print (f"ruta = {ruta}")
         if ruta is None:
             return
-        listTemp, fullSize = UtilsFiles.get_all_files_in_folder(ruta)   #returns a list of all files
-        if not fullSize:
-            self.showAlertByDialogCode(7)
+        listFullPathFilesToAddFromFolder = UtilsFiles.getAllFilePathsFromFolder(ruta, self.listAllFilesToBackUp)
+
+        if isinstance(listFullPathFilesToAddFromFolder, FilesErrors):
+            self.showAlertByDialogCode(11)
             return
-        listTupla = Utils.getTuplaListFromPathList(listTemp)
-        self.listAllFilesToCopy.extend(listTupla)                   #error debe agrega la lista de tuplas
-        sizeFormated = Utils.format_size(fullSize)
+
+        if not listFullPathFilesToAddFromFolder:
+            self.showAlertByDialogCode(7)
+            print("folder seleccionado esta vacio")
+            return
+
+        print("las pruebas llegan hasta aki.. a probar esta madre...")
+        #lo que sigue es crear la lista de objetos
+        #usar UtilsFiles.getBackUpFileFromPath(ruta)
+        #self.listAllFilesToBackUp: list[BackUpFile] = []
+        folderSize : float = 0
+        for path in listFullPathFilesToAddFromFolder:
+            backUpObject = UtilsFiles.getBackUpFileFromPath(path, ruta)
+            self.listAllFilesToBackUp.append(backUpObject)
+            folderSize += backUpObject.source_file_size
+
+        #sigue sacar el full size of list of objects
+        sizeFormated = Utils.format_size(folderSize)
         ruta2 = Utils.formatear_ruta(ruta)
-        print("la ruta seleccionada es: "+ruta)
-        self.addRowToTable(ruta2,sizeFormated)
-        #self.addPathIntoScrollPath(ruta2, sizeFormated)
+        print(f"El folder seleccionada es: {ruta2}, \nSe muestra:{ruta}")
+        self.addRowToTable(ruta2, sizeFormated)
         self.updateLabelInfo()
 
 

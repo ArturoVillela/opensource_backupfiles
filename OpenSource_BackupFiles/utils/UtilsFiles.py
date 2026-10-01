@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QMessageBox
 #from PyQt5.QtWidgets import QMessageBox
 from data.BackUpFile import BackUpFile
 from datetime import datetime
+from utils.FilesErrors import FilesErrors
 import os
 
 class UtilsFiles:
@@ -47,6 +48,22 @@ class UtilsFiles:
         return None
 
 
+    @staticmethod
+    def findConflict(listFullPathFilesToAdd: list[str], listAllFilesToBackUp: list[BackUpFile]) -> str | None:
+
+        existingNames = {
+            backupFile.source_file_name.lower().strip()
+            for backupFile in listAllFilesToBackUp
+        }
+
+        for path in listFullPathFilesToAdd:
+            name = Utils.getNameFromPath(path).lower().strip()
+
+            if name in existingNames:
+                return path
+        return None
+
+
 
     @staticmethod
     def isDirectoryNotEmpty(path: str)-> bool:
@@ -55,12 +72,27 @@ class UtilsFiles:
 
 
     @staticmethod
-    def get_all_files_in_folder(ruta)-> tuple[list[str], int] :
+    def getAllFilePathsFromFolder(ruta, mainList:list[BackUpFile])-> list[str] | FilesErrors: # lista o errores
         """ todos los archivos con full path y el size de todos. """
         listAllFiles = UtilsFiles.listar_archivos_recursivos(str(ruta))
-        fullSize = UtilsFiles.getFullSizeOfList(listAllFiles)
-        print("cant de archivos : "+str(len(listAllFiles))+ ",  full size files :" + str(fullSize))
-        return listAllFiles, fullSize
+        if not listAllFiles:
+            print("folder vacio")
+            return FilesErrors.EMPTY_FOLDER
+
+        setFileNames = set()
+        for full_path in listAllFiles:
+            name = Path(full_path).name
+            print(f"name found : {name}")
+
+            if name in setFileNames:
+                return FilesErrors.DUPLICATE_FILE_FOUND
+            setFileNames.add(name)
+
+        for backUpFile in mainList:
+            if backUpFile.source_file_name in setFileNames:
+                return FilesErrors.DUPLICATE_FILE_FOUND
+
+        return listAllFiles
 
 
     @staticmethod
@@ -70,11 +102,6 @@ class UtilsFiles:
             size = Path(path).stat().st_size
             listTupla.append((path, size))
         return listTupla
-
-
-    @staticmethod
-    def getFinalListSize(files: list[tuple[str, float]]) -> float:
-        return sum(size for path, size in files)
 
 
     @staticmethod
@@ -162,7 +189,6 @@ class UtilsFiles:
 
     @staticmethod
     def getSigleFileSize (path: str) -> float:
-        full_size:float = 0
         archivo = Path(path)
         if archivo.is_file():
             size = archivo.stat().st_size
@@ -170,7 +196,7 @@ class UtilsFiles:
 
 
     @staticmethod
-    def listar_archivos_recursivos(ruta):
+    def listar_archivos_recursivos(ruta)->list[str]:
         return [str(p) for p in Path(ruta).rglob("*") if p.is_file()]
 
 

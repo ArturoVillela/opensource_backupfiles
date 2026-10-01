@@ -27,7 +27,7 @@ class Utils:
 
 
     @staticmethod
-    def getTuplaListFromPathList(pathList):
+    def getTuplaListFromPathList(pathList)->list[tuple[str, float]]:
         listTupla : list[tuple[str, float]] = []
         for path in pathList:
             size = Path(path).stat().st_size

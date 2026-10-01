@@ -4,16 +4,17 @@
 class Resources:
     def __init__(self):
         self.listTripletaDialog: list[tuple[int, str, str]] = [
-            (1,"Error", "Destination Folder not defined!"),
-            (2,"Error", "No Files to backup selected"),
-            (3,"Error", "Destination Folder is not empty !!"),
-            (4,"Alert", "Back files Canceled by user "),
-            (5,"Alert", "File Backup Completed  :) "),
-            (6,"Alert", "Backup Completed Sucessfully :) "),
-            (7,"Error", "Folder to backup does not contain any files!"),
-            (8," Conflicts Found !!", "Click Continue to review the detected conflicts."),
-            (9,"Error", "File Already exist to backup"),
-            (10,"Alert", "Copy in progress....")
+            (1, "Error", "Destination Folder not defined!"),
+            (2, "Error", "No Files to backup selected"),
+            (3, "Error", "Destination Folder is not empty !!"),
+            (4, "Alert", "Back files Canceled by user "),
+            (5, "Alert", "File Backup Completed  :) "),
+            (6, "Alert", "Backup Completed Sucessfully :) "),
+            (7, "Error", "Folder to backup does not contain any files!"),
+            (8, " Conflicts Found !!", "Click Continue to review the detected conflicts."),
+            (9, "Error", "File Already exist to backup"),
+            (10, "Alert", "Copy in progress...."),
+            (11, "Error", "Folder contains duplicity of files.\nRemove or rename duplicates before continuing")
         ]
 
 
