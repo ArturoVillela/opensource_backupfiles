@@ -15,6 +15,7 @@ class Resources:
             (9, "Error", "File Already exist to backup"),
             (10, "Alert", "Copy in progress...."),
             (11, "Error", "Folder contains duplicity of files.\nRemove or rename duplicates before continuing")
+            (12, "Error", "Unexpected Error on bash script.\nOs unable to copy"),
         ]
 
 

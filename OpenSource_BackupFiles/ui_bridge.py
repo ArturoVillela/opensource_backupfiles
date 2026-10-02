@@ -33,10 +33,9 @@ class UiBridge(QMainWindow):
         self.listPathsDir: list[str] = []
         self.listAllFilesToCopy: list[tuple[str, float]] = []
         self.listAllNamesOfFilesToCopy: list[str]
-        self.listAllFilesToBackUp: list[BackUpFile] = []
+        self.listAllFilesToBackUp: list[BackUpFile] = []    #esta es la lista de archivos a copiar
 
 
-        self.listAllFilesInEndDirectory: list[tuple[str, str]]
         self.listIndexsWithConflicts: list[int] = []
         self.finalPath: str = ""
         self.currentScreenSelected = 1
@@ -85,7 +84,7 @@ class UiBridge(QMainWindow):
 
 
     def btnStartClicked(self):
-        if not self.listAllFilesToCopy:
+        if not self.listAllFilesToBackUp:
             self.showAlertByDialogCode(2)
             return
         if not self.finalPath:
@@ -106,7 +105,7 @@ class UiBridge(QMainWindow):
 
 
     def btnClearAllClicked(self):
-        self.listAllFilesToCopy.clear()
+        self.listAllFilesToBackUp.clear()
         self.updateLabelInfo()
         self.ui.label_all_files_to_copy.setText (" ")
         self.initWebView()
@@ -260,7 +259,7 @@ class UiBridge(QMainWindow):
 #        self.listAllFilesInEndDirectory : list[tuple[str, str]]
 
     def startingBackup2(self):
-        total = len(self.listAllFilesToCopy)
+        total = len(self.listAllFilesToBackUp)
         #print("\n" * 60)  # empuja el contenido anterior fuera de la pantalla    # limpia la pantalla visible
         print("starting backup files main function......cant files: ",total)
         if not UtilsFiles.isDirectoryNotEmpty(self.finalPath):
@@ -293,27 +292,30 @@ class UiBridge(QMainWindow):
             self.progress_dialog.setAutoClose(True)
             self.progress_dialog.setAutoReset(False)
             self.progress_dialog.canceled.connect(self.cancelBackup)
-            self.progress_dialog.show()
+#            self.progress_dialog.show()
             self.isBackupStarted = True
 
-
-        if self.listAllFilesToCopy:
-            #return #solo por mientras.. mientras pruebo otras madres..
-            print("entra al check for self.listAllFilesToCopy, aki devemos chekar por conflictos..")
+        if self.listAllFilesToBackUp:
+            print("entra al check for self.listAllFilesToBackUp, aki devemos chekar por conflictos..")
             self.progress_dialog.show()
-            duplaPathSize = self.listAllFilesToCopy.pop(0)
+#            duplaPathSize = self.listAllFilesToCopy.pop(0)
+            objToCopy = self.listAllFilesToBackUp.pop(0)
             if self.progress_dialog.wasCanceled():
                 return
-            fileToCopy = duplaPathSize[0]
-            fileNameToCopy = UtilsFiles.getFileNameByFullPathName(str(fileToCopy))
+
+            fileNameToCopy = objToCopy.source_file_pathWithName
             croppedFileName = Utils.formatear_ruta(fileNameToCopy)
-            newFile = str(self.finalPath) +"/"+ str(fileNameToCopy)
+            newFile = str(self.finalPath) +"/"+ str(objToCopy.source_file_name)
             filesLeftToCopy = len(self.listAllFilesToCopy)
             self.progress_dialog.setLabelText(
                 f"Please wait: copying {croppedFileName}\nFiles left to copy: {filesLeftToCopy}"
             )
-            print(f"archivo : {fileToCopy}, y file2 : {newFile}")
-            self.copyFiles.startBackup(fileToCopy, newFile)
+            print(f"archivo : {fileNameToCopy}, y file2 : {newFile}")
+            self.copyFiles.startBackup(fileNameToCopy, newFile)
+        else:
+            self.progress_dialog.close()
+            self.isBackupStarted = False
+            self.showAlertByDialogCode(2)
 
 
     def cancelBackup(self):
@@ -324,9 +326,9 @@ class UiBridge(QMainWindow):
 
     def onBackupCompleted(self):
         print("......backup completed of a single file.. and got the result on ui_bridge")
-        cantFilesLeft = len(self.listAllFilesToCopy)
+        cantFilesLeft = len(self.listAllFilesToBackUp)
         print("cant de archivos a copiar: "+str(cantFilesLeft))
-        if self.listAllFilesToCopy:
+        if self.listAllFilesToBackUp:
             self.progress_dialog.hide()
             self.startingBackup2()
         else:
@@ -344,12 +346,15 @@ class UiBridge(QMainWindow):
             "Error",
             error_message
         )
+        self.btnClearAllClicked()
 
 
     def onBackupError(self, error_msg):
         print("backup error... on bridge class")
+        self.btnClearAllClicked()
         if self.progress_dialog:
             self.progress_dialog.hide()
+        self.showAlertByDialogCode(12)
 
 
     def cambiarPantalla(self, index:int) ->None:
