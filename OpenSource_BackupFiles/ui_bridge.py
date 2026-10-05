@@ -90,18 +90,24 @@ class UiBridge(QMainWindow):
         if not self.finalPath:
             self.showAlertByDialogCode(1)
             return
-        if not UtilsFiles.isDirectoryNotEmpty(self.finalPath):
-            # self.showAlertByDialogCode(3)
-            reply = QMessageBox.question(
-                    self,
-                    "Confirm",
-                    "Folder Selected is not empyt, proceed? ",
-                    QMessageBox.Ok | QMessageBox.Cancel,
-                    QMessageBox.Cancel  # botón por defecto (focus)
-                )
-            if reply != QMessageBox.Ok:
-                return
-        self.startingBackup2()
+#        if not UtilsFiles.isDirectoryNotEmpty(self.finalPath):
+#            # self.showAlertByDialogCode(3)
+#            reply = QMessageBox.question(
+#                    self,
+#                    "Confirm",
+#                    "Folder Selected is not empyt, proceed? ",
+#                    QMessageBox.Ok | QMessageBox.Cancel,
+#                    QMessageBox.Cancel  # botón por defecto (focus)
+#                )
+#            if reply != QMessageBox.Ok:
+#                return
+        conflictsFound = UtilsFiles.findConflictsInFinalPath(self.finalPath, self.listAllFilesToBackUp)
+        print("encontramos conflictos : ",conflictsFound)
+        if conflictsFound:
+            self.cambiarPantalla(2)
+            return
+        return  #ignoremos el proceso de backup for now...
+        #self.startingBackup2()
 
 
     def btnClearAllClicked(self):
@@ -118,12 +124,13 @@ class UiBridge(QMainWindow):
             backupFile = UtilsFiles.getBackUpFileFromPath(ruta)
             pathFileConflicted = UtilsFiles.checkForConflicts(self.listAllFilesToBackUp, backupFile)
             print("pathFileConflicte : ",pathFileConflicted)
-        if pathFileConflicted:  # si no es None, tiene la ruta del error
-            cad = str(f"File already selected to backup\n<<{backupFile.source_file_name}>>\n Unable to add the file")
-            self.showAlertByDialogCode(9,cad)
-            return
+            if pathFileConflicted is not None:  # si no es None, tiene la ruta del error
+                cad = str(f"File already selected to backup\n<<{backupFile.source_file_name}>>\n Unable to add the file")
+                self.showAlertByDialogCode(9,cad)
+                return
+            else:
+                print("no conflicts found")
         self.listAllFilesToBackUp.append(backupFile)
-
         ruta2 = Utils.formatear_ruta(backupFile.source_file_pathWithName)
         formated_size = Utils.format_size(backupFile.source_file_size)
         self.addRowToTable(ruta2,formated_size)
@@ -134,11 +141,16 @@ class UiBridge(QMainWindow):
         print (f"ruta = {ruta}")
         if ruta is None:
             return
-        listFullPathFilesToAddFromFolder = UtilsFiles.getAllFilePathsFromFolder(ruta, self.listAllFilesToBackUp)
 
-        if isinstance(listFullPathFilesToAddFromFolder, FilesErrors):
-            self.showAlertByDialogCode(11)
+        #def getAllFilePathsFromFolder(ruta, mainList:list[BackUpFile])-> list[str] | [FilesErrors,str]: # lista o errores
+        result = UtilsFiles.getAllFilePathsFromFolder(ruta, self.listAllFilesToBackUp)
+        if isinstance(result, tuple):
+            print(f"encontro el error....")
+            fileError, fileName = result
+            print(f"encontro el error con el archivo : {fileName} ")
+            self.showAlertByDialogCode(11,f"Can't add folder!\nIt contains a file already detected for backup\n<<{fileName}>>")
             return
+        listFullPathFilesToAddFromFolder = result
 
         if not listFullPathFilesToAddFromFolder:
             self.showAlertByDialogCode(7)

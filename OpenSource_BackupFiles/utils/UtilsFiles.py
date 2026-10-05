@@ -49,20 +49,16 @@ class UtilsFiles:
 
 
     @staticmethod
-    def findConflict(listFullPathFilesToAdd: list[str], listAllFilesToBackUp: list[BackUpFile]) -> str | None:
-
-        existingNames = {
-            backupFile.source_file_name.lower().strip()
-            for backupFile in listAllFilesToBackUp
-        }
-
-        for path in listFullPathFilesToAdd:
-            name = Utils.getNameFromPath(path).lower().strip()
-
-            if name in existingNames:
-                return path
-        return None
-
+    def findConflictsInFinalPath(finalPath:str, listAllFilesToBackUp:list[BackUpFile])->bool:
+        listFilesInPathFolder = UtilsFiles.listar_archivos_recursivos(finalPath)
+        fileNamesInFinalPath: set[str] = set()
+        for path in listFilesInPathFolder:
+                fileName = UtilsFiles.getFileNameByFullPathName(path)
+                fileNamesInFinalPath.add(fileName)
+        for backupObjFile in listAllFilesToBackUp:
+            if backupObjFile.source_file_name in fileNamesInFinalPath:
+                return True
+        return False
 
 
     @staticmethod
@@ -72,7 +68,7 @@ class UtilsFiles:
 
 
     @staticmethod
-    def getAllFilePathsFromFolder(ruta, mainList:list[BackUpFile])-> list[str] | FilesErrors: # lista o errores
+    def getAllFilePathsFromFolder(ruta, mainList:list[BackUpFile])-> list[str] | tuple[FilesErrors, str]: # lista o errores
         """ todos los archivos con full path y el size de todos. """
         listAllFiles = UtilsFiles.listar_archivos_recursivos(str(ruta))
         if not listAllFiles:
@@ -85,12 +81,14 @@ class UtilsFiles:
             print(f"name found : {name}")
 
             if name in setFileNames:
-                return FilesErrors.DUPLICATE_FILE_FOUND
+                print("found duplicate in same folder")
+                return FilesErrors.DUPLICATE_IN_SAME_FOLDER, name
             setFileNames.add(name)
 
         for backUpFile in mainList:
             if backUpFile.source_file_name in setFileNames:
-                return FilesErrors.DUPLICATE_FILE_FOUND
+                print("found duplicate from folder with file already added to back up")
+                return FilesErrors.DUPLICATE_FILE_FOUND, backUpFile.source_file_name
 
         return listAllFiles
 
