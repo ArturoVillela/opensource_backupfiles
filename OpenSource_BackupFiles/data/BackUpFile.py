@@ -12,7 +12,7 @@ class BackUpFile:
     source_file_size: int
     source_last_date_modified: datetime
     root_folder: str | None
-
+    conflicted: bool = False
 
 
 

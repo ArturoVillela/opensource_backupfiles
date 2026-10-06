@@ -1,3 +1,3 @@
 {
-    "files": ["utils/Utils.py","BUFile.py","Resources.py","utils/UtilsDates.py","utils/UtilsFiles.py","models.qmodel","ui_bridge.py","html/nocheckbox.html","html/selector.html","ui_bridge2.py","CopyFiles.py","data/BackedFile.py","data/BackUpFile.py","base13_ui.py","widget.py","screen2_ui2.py","utils/FilesErrors.py"]
+    "files": ["Resources.py","html/nocheckbox.html","html/selector.html","models.qmodel","utils/UtilsFiles.py","ui_bridge2.py","widget.py","BUFile.py","utils/UtilsDates.py","utils/Utils.py","ui_bridge.py","data/BackUpFile.py","data/BackedConflictedFile.py","screen2_ui2.py","base13_ui.py","utils/FilesErrors.py","CopyFiles.py"]
 }

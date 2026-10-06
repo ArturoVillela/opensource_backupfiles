@@ -106,7 +106,7 @@
      
     </style>
     <script>
-	function addRowToTable(str1, str2) {
+	function addRowToTable(str1, str2, str3, conflicted) {
 	  const tbody = document.querySelector('#charlitosTable tbody');
 	  const fila = document.createElement('tr');
 	  fila.innerHTML = `<td>${str1}</td><td>${str2}</td>`;
@@ -137,6 +137,18 @@
         </thead>
         <tbody>
         <tr>
+            <td class="file-name">foto.jpg</td>
+            <td class="file-info">2 MB · 15 sep</td>
+            <td class="file-info">3 MB · 20 sep</td>
+        <td>
+          <select aria-label="Acción para foto.jpg" onchange="updateColor(this)">
+            <option value="overwrite">Overwritte </option>
+            <option value="skip">Ignore </option>
+            <option value="keep-both">Keep Both </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
             <td class="file-name">foto.jpg</td>
             <td class="file-info">2 MB · 15 sep</td>
             <td class="file-info">3 MB · 20 sep</td>

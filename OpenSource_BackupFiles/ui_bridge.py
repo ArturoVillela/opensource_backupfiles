@@ -34,7 +34,7 @@ class UiBridge(QMainWindow):
         self.listAllFilesToCopy: list[tuple[str, float]] = []
         self.listAllNamesOfFilesToCopy: list[str]
         self.listAllFilesToBackUp: list[BackUpFile] = []    #esta es la lista de archivos a copiar
-
+        self.listConflicted:list[BackedConflictedFile]
 
         self.listIndexsWithConflicts: list[int] = []
         self.finalPath: str = ""
@@ -69,6 +69,16 @@ class UiBridge(QMainWindow):
         self.ui.btn_start.clicked.connect(self.btnStartClicked)
 
 
+    def initSecondScreen(self):
+        cantConflicts = len(self.listConflicted)
+        self.cambiarPantalla(2)
+        self.updateLabelConflicts(cantConflicts)
+
+
+    def updateLabelConflicts(self, cantConflicts:int): #labelXConflics
+        self.ui.labelXConflics.setText(f"{cantConflicts} files founded with conflicts")
+
+
     def initWebView(self):
         htmlPath = Path("html/nocheckbox.html")
         with open(htmlPath, "r", encoding="utf-8") as file:
@@ -101,21 +111,24 @@ class UiBridge(QMainWindow):
 #                )
 #            if reply != QMessageBox.Ok:
 #                return
-        conflictsFound = UtilsFiles.findConflictsInFinalPath(self.finalPath, self.listAllFilesToBackUp)
-        print("encontramos conflictos : ",conflictsFound)
-        if conflictsFound:
-            self.cambiarPantalla(2)
+        self.listConflicted = UtilsFiles.findConflictsInFinalPath(self.finalPath, self.listAllFilesToBackUp)
+        print("encontramos conflictos : ")
+        if self.listConflicted:
+            self.initSecondScreen()
             return
         return  #ignoremos el proceso de backup for now...
         #self.startingBackup2()
 
 
-    def btnClearAllClicked(self):
-        self.listAllFilesToBackUp.clear()
-        self.updateLabelInfo()
-        self.ui.label_all_files_to_copy.setText (" ")
-        self.initWebView()
-        print("aki limpiamos el layout de archivos, nuevo size : " +str(len(self.listAllFilesToCopy)))
+    def btnClearAllClicked(self): #por el momento lo usamos para cambiar pantalla solamente
+        self.cambiarPantalla(2)
+        self.initWebView2()
+
+#        self.listAllFilesToBackUp.clear()
+#        self.updateLabelInfo()
+#        self.ui.label_all_files_to_copy.setText (" ")
+#        self.initWebView()
+#        print("aki limpiamos el layout de archivos, nuevo size : " +str(len(self.listAllFilesToCopy)))
 
 
     def btnAddFilesToBackupClicked(self):

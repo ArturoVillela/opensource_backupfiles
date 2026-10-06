@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QMessageBox
 #from PyQt5.QtWidgets import QMessageBox
 from data.BackUpFile import BackUpFile
+from data.BackedConflictedFile import BackedConflictedFile
 from datetime import datetime
 from utils.FilesErrors import FilesErrors
 import os
@@ -37,6 +38,26 @@ class UtilsFiles:
 
 
     @staticmethod
+    def getBackedConflictedFileFromPath(path: str) -> BackedConflictedFile:
+        file_path = Path(path)
+        file_info = file_path.stat()
+
+        source_file_size = file_info.st_size
+        source_file_name = file_path.name
+        source_file_pathWithName = str(file_path)
+        source_last_date_modified = datetime.fromtimestamp(
+            file_info.st_mtime
+        )
+
+        return BackedConflictedFile(
+            source_file_name=source_file_name,
+            source_file_pathWithName=source_file_pathWithName,
+            source_file_size=source_file_size,
+            source_last_date_modified=source_last_date_modified,
+        )
+
+
+    @staticmethod
     def checkForConflicts(listAllFilesToBackUp: list[BackUpFile], backupFile: BackUpFile)->str|None: #regresa el path con duplicado
         if not listAllFilesToBackUp:  #no se necesita.. pero me vale.. aki va.
             return None
@@ -49,16 +70,26 @@ class UtilsFiles:
 
 
     @staticmethod
-    def findConflictsInFinalPath(finalPath:str, listAllFilesToBackUp:list[BackUpFile])->bool:
+    def findConflictsInFinalPath(finalPath: str, listAllFilesToBackUp: list[BackUpFile]) -> list[BackedConflictedFile]:
+
         listFilesInPathFolder = UtilsFiles.listar_archivos_recursivos(finalPath)
-        fileNamesInFinalPath: set[str] = set()
+
+        namesToBackUp: set[str] = set()
+        for backupFile in listAllFilesToBackUp:
+            namesToBackUp.add(backupFile.source_file_name)
+
+        listConflicted: list[BackedConflictedFile] = []
+
         for path in listFilesInPathFolder:
-                fileName = UtilsFiles.getFileNameByFullPathName(path)
-                fileNamesInFinalPath.add(fileName)
-        for backupObjFile in listAllFilesToBackUp:
-            if backupObjFile.source_file_name in fileNamesInFinalPath:
-                return True
-        return False
+            fileName = UtilsFiles.getFileNameByFullPathName(path)
+
+            if fileName in namesToBackUp:
+                listConflicted.append(
+                    UtilsFiles.getBackedConflictedFileFromPath(path)
+                )
+
+        return listConflicted
+
 
 
     @staticmethod
@@ -186,6 +217,7 @@ class UtilsFiles:
 
 
     @staticmethod
+
     def getSigleFileSize (path: str) -> float:
         archivo = Path(path)
         if archivo.is_file():
@@ -214,7 +246,9 @@ class UtilsFiles:
             if widget is not None:
                 widget.deleteLater()
 
-#                pasos a seguir para tener un scroll en un widget...
+
+
+                #                pasos a seguir para tener un scroll en un widget...
 #                # 1. Crear el widget contenedor y el layout vertical
 #                container_widget = QWidget()
 #                v_layout = QVBoxLayout(container_widget)
