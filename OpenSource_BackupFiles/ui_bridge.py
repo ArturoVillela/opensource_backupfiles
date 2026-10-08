@@ -76,7 +76,7 @@ class UiBridge(QMainWindow):
         self.updateLabelConflicts(cantConflicts)
 
 
-    def updateLabelConflicts(self, cantConflicts:int): #labelXConflics
+    def updateLabelConflicts(self, cantConflicts: int): #labelXConflics
         self.ui.labelXConflics.setText(f"{cantConflicts} files founded with conflicts")
 
 
@@ -218,36 +218,14 @@ class UiBridge(QMainWindow):
         return None
 
 
-    def addPathIntoScrollPath(self, path, size):
-        row = QWidget()
-        row.setFixedHeight(30)
-        row.setStyleSheet("border: none;")
-
-        row_layout = QHBoxLayout(row)
-        row_layout.setContentsMargins(0, 0, 0, 0)
-        row_layout.setSpacing(10)
-
-        label_ruta = QLabel(path)
-        label_ruta.setFixedWidth(1000)
-        label_ruta.setStyleSheet("border: none;")
-        label_ruta.setAlignment(
-                QtCore.Qt.AlignmentFlag.AlignLeft
-                | QtCore.Qt.AlignmentFlag.AlignVCenter)
-
-        label_size = QLabel(size)
-        label_size.setFixedWidth(200)
-        label_size.setStyleSheet("border: none;")
-
-        row_layout.addWidget(label_ruta)
-        row_layout.addWidget(label_size)
-        self.containerLayout.addWidget(label_ruta)
-
-
     def updateLabelInfo(self):
-        fullSize = Utils.getFinalListSize(self.listAllFilesToBackUp)
         cantFiles = len(self.listAllFilesToBackUp)
-        formatedSize = Utils.format_size(fullSize)
-        self.ui.label_all_files_to_copy.setText (f"Cant files:{cantFiles}, Size :{formatedSize} " )
+        if cantFiles > 0:
+            fullSize = Utils.getFinalListSize(self.listAllFilesToBackUp)
+            formatedSize = Utils.format_size(fullSize)
+            self.ui.label_all_files_to_copy.setText (f"Cant files:{cantFiles}, Size :{formatedSize} " )
+        else:
+            self.ui.label_all_files_to_copy.setText (" ")
 
 
     def showAlertByDialogCode(self, code:int, forcedSubtitle:str = None) -> None:
@@ -351,9 +329,7 @@ class UiBridge(QMainWindow):
             self.progress_dialog.hide()
             self.startingBackup2()
         else:
-            self.progress_dialog.hide()
-            self.isBackupStarted = False
-            self.showAlertByDialogCode(6)
+            self.restarFirstScreen()
 
     def onBackupFailed(self, error_message):     #TODO utilizar el sistema de dialogos predefinido en lugar de un critical
         print("backup completed w/error.. and got the result on ui bridge")
@@ -366,6 +342,17 @@ class UiBridge(QMainWindow):
             error_message
         )
         self.btnClearAllClicked()
+
+
+    def restarFirstScreen(self):
+        self.progress_dialog.hide()
+        self.isBackupStarted = False
+        self.listAllFilesToBackUp.clear()
+        self.restarTable()
+        self.updateLabelInfo()
+        self.finalPath = ""
+        self.ui.etToFolder.setText("/...")
+        self.showAlertByDialogCode(6)
 
 
     def onBackupError(self, error_msg):
@@ -388,6 +375,11 @@ class UiBridge(QMainWindow):
     def addRowToTable(self, str1, str2):
         script = f"addRowToTable('{str1}', '{str2}')"
         self.webView.page().runJavaScript(script)
+
+
+    def restarTable(self):
+        script2 = f"clearTable()"
+        self.webView.page().runJavaScript(script2)
 
 
     def requestConfirmationForConflicsts(self):

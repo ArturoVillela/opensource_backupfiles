@@ -94,8 +94,6 @@ class UtilsFiles:
         return listFilesFromFolder
 
 
-
-
 #
     @staticmethod
     def findConflictsInFinalPath(finalPath: str, listAllFilesToBackUp: list[BackUpFile]) -> list[BackedConflictedFile]:

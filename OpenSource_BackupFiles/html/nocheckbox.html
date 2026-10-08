@@ -78,6 +78,11 @@
 	  fila.innerHTML = `<td>${str1}</td><td>${str2}</td>`;
 	  tbody.appendChild(fila);
 	}
+
+    function clearTable() {
+        const tbody = document.querySelector('#charlitosTable tbody');
+        tbody.replaceChildren();
+    }
     </script>
 </head>
 <body>
