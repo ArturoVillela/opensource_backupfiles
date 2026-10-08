@@ -12,7 +12,7 @@ class BackUpFile:
     fileNameWithPath: str
     fileSize: int
     lastDateModified: datetime
-    FileNameWithSubPath: str | None = None #nombre del archivo cuando viene de un folder
+    fileNameWithSubPath: str | None = None #nombre del archivo cuando viene de un folder
     conflicted: bool = False  # solo para folder end path donde se pondra el respaldo
     conflictedFiles: list[BackUpFile] | None = None
 

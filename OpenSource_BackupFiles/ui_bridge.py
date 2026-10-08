@@ -101,24 +101,16 @@ class UiBridge(QMainWindow):
         if not self.finalPath:
             self.showAlertByDialogCode(1)
             return
-#        if not UtilsFiles.isDirectoryNotEmpty(self.finalPath):
-#            # self.showAlertByDialogCode(3)
-#            reply = QMessageBox.question(
-#                    self,
-#                    "Confirm",
-#                    "Folder Selected is not empyt, proceed? ",
-#                    QMessageBox.Ok | QMessageBox.Cancel,
-#                    QMessageBox.Cancel  # botón por defecto (focus)
-#                )
-#            if reply != QMessageBox.Ok:
-#                return
-        self.listConflicted = UtilsFiles.findConflictsInFinalPath(self.finalPath, self.listAllFilesToBackUp)
-        print("encontramos conflictos : ")
-        if self.listConflicted:
-            self.initSecondScreen()
-            return
-        return  #ignoremos el proceso de backup for now...
-        #self.startingBackup2()
+
+#todo.. estamos ignorando conflictos para testing unicamente...
+#        self.listConflicted = UtilsFiles.findConflictsInFinalPath(self.finalPath, self.listAllFilesToBackUp)
+#        print("encontramos conflictos : ")
+#        if self.listConflicted:
+#            self.initSecondScreen()
+#            return
+#        return  #ignoremos el proceso de backup for now...
+#todo.. estamos ignorando conflictos para testing unicamente...
+        self.startingBackup2()
 
 
     def btnClearAllClicked(self): #por el momento lo usamos para cambiar pantalla solamente
@@ -278,16 +270,19 @@ class UiBridge(QMainWindow):
         total = len(self.listAllFilesToBackUp)
         #print("\n" * 60)  # empuja el contenido anterior fuera de la pantalla    # limpia la pantalla visible
         print("starting backup files main function......cant files: ",total)
-        if not UtilsFiles.isDirectoryNotEmpty(self.finalPath):
-            """ no esta vacio el end directory... """
-            # Utils.printList(self.listAllFilesToCopy)   listAllFilesToCopy
-            conflictsFound, listIndexWithConflicts = UtilsFiles.findConflictsInBackup(self.listAllFilesToCopy, self.finalPath)
-            if conflictsFound:
-                print(f"encontramos {len(listIndexWithConflicts)} conflictos")
-                print("lo que sigue es lanzar la otra screen....")
-                self.listIndexsWithConflicts = listIndexWithConflicts
-                self.requestConfirmationForConflicsts()
-                return
+
+#        ###### por el momento ignoramos este check para la segunda pantalla....
+#        if not UtilsFiles.isDirectoryNotEmpty(self.finalPath):
+#            """ no esta vacio el end directory... """
+#            # Utils.printList(self.listAllFilesToCopy)   listAllFilesToCopy
+#            conflictsFound, listIndexWithConflicts = UtilsFiles.findConflictsInBackup(self.listAllFilesToCopy, self.finalPath)
+#            if conflictsFound:
+#                print(f"encontramos {len(listIndexWithConflicts)} conflictos")
+#                print("lo que sigue es lanzar la otra screen....")
+#                self.listIndexsWithConflicts = listIndexWithConflicts
+#                self.requestConfirmationForConflicsts()
+#                return
+        ###### por el momento ignoramos este check para la segunda pantalla....
 #            else:
 #                print("no encontro conflictos...")
 #            return
@@ -319,15 +314,23 @@ class UiBridge(QMainWindow):
             if self.progress_dialog.wasCanceled():
                 return
 
-            fileNameToCopy = objToCopy.source_file_pathWithName
-            croppedFileName = Utils.formatear_ruta(fileNameToCopy)
-            newFile = str(self.finalPath) +"/"+ str(objToCopy.source_file_name)
+#            print(f"primer archivo seleccionado : {objToCopy.fileNameWithPath}")
+#            print(f"objToCopy is type of :{objToCopy}")
+            fileDestino = objToCopy.fileNameWithSubPath if objToCopy.fileNameWithSubPath is not None else objToCopy.fileName
+            print(f"archivo a copiar: {fileDestino}")
+
+            #fileNameToCopy = objToCopy.source_file_pathWithName
+            croppedFileName = Utils.formatear_ruta(fileDestino)
+#            newFile = str(self.finalPath) +"/"+ str(objToCopy.source_file_name) respaldo lda
+            newFile = str(self.finalPath) +"/"+ fileDestino
+            print(f"new file rute: {newFile}")
             filesLeftToCopy = len(self.listAllFilesToCopy)
             self.progress_dialog.setLabelText(
                 f"Please wait: copying {croppedFileName}\nFiles left to copy: {filesLeftToCopy}"
             )
-            print(f"archivo : {fileNameToCopy}, y file2 : {newFile}")
-            self.copyFiles.startBackup(fileNameToCopy, newFile)
+            print(f"trataremos de copiar:::>  {objToCopy.fileNameWithPath}, y nuevo archivo en : {newFile}")
+            Path(newFile).parent.mkdir(parents=True, exist_ok=True)
+            self.copyFiles.startBackup(objToCopy.fileNameWithPath, newFile)  #origen y destino
         else:
             self.progress_dialog.close()
             self.isBackupStarted = False

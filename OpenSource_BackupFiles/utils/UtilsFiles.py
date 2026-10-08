@@ -19,7 +19,7 @@ class UtilsFiles:
         file_path = Path(path)
         file_info = file_path.stat()
 
-        FileNameWithSubPath = str(file_path.parent)
+#        fileNameWithSubPath = str(file_path.parent)
 
         return BackUpFile(
             fileName = file_path.name,
@@ -65,7 +65,9 @@ class UtilsFiles:
     def getBackUpFileFromFileWithinFolder(filePath:str, folderPath:str)-> BackUpFile:
         baseFolder = Path(folderPath)
         fileFullPath = Path(filePath)
-        fileNameWithSubPath = str(fileFullPath.relative_to(baseFolder))
+#        fileNameWithSubPath = "/" + str(fileFullPath.relative_to(baseFolder.parent))
+        fileNameWithSubPath = str(fileFullPath.relative_to(baseFolder.parent))
+
 
         file_path = Path(filePath)
         file_info = file_path.stat()
