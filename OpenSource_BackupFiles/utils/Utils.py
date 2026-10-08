@@ -37,7 +37,7 @@ class Utils:
 
     @staticmethod
     def getFinalListSize(files: list[BackUpFile]) -> int:
-        return sum(f.source_file_size for f in files)
+        return sum(f.fileSize for f in files)
 
 
     @staticmethod

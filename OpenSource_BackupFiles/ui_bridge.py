@@ -21,6 +21,7 @@ from utils.UtilsFiles import UtilsFiles
 from PySide6.QtWidgets import QWidget, QLabel, QHBoxLayout
 from CopyFiles import CopyFiles
 from data.BackUpFile import BackUpFile
+from data.BackedConflictedFile import BackedConflictedFile
 from utils.FilesErrors import FilesErrors
 #import os
 
@@ -144,43 +145,33 @@ class UiBridge(QMainWindow):
             else:
                 print("no conflicts found")
         self.listAllFilesToBackUp.append(backupFile)
-        ruta2 = Utils.formatear_ruta(backupFile.source_file_pathWithName)
-        formated_size = Utils.format_size(backupFile.source_file_size)
-        self.addRowToTable(ruta2,formated_size)
+        ruta2 = Utils.formatear_ruta(backupFile.fileNameWithPath)
+        formated_size = Utils.format_size(backupFile.fileSize)
+        self.addRowToTable(ruta2, formated_size)
         self.updateLabelInfo()
 
+#
     def btnAddFoldersToBackupClicked(self):
         ruta = self.seleccionarFolder()
         print (f"ruta = {ruta}")
         if ruta is None:
             return
 
-        #def getAllFilePathsFromFolder(ruta, mainList:list[BackUpFile])-> list[str] | [FilesErrors,str]: # lista o errores
-        result = UtilsFiles.getAllFilePathsFromFolder(ruta, self.listAllFilesToBackUp)
-        if isinstance(result, tuple):
-            print(f"encontro el error....")
-            fileError, fileName = result
-            print(f"encontro el error con el archivo : {fileName} ")
-            self.showAlertByDialogCode(11,f"Can't add folder!\nIt contains a file already detected for backup\n<<{fileName}>>")
-            return
-        listFullPathFilesToAddFromFolder = result
-
-        if not listFullPathFilesToAddFromFolder:
+#        result = UtilsFiles.getAllFilePathsFromFolder(ruta, self.listAllFilesToBackUp)
+        listObjectsInFolder = UtilsFiles.getListObjects2BackupFromFolder(ruta)
+        if not listObjectsInFolder:
             self.showAlertByDialogCode(7)
             print("folder seleccionado esta vacio")
             return
 
+        self.listAllFilesToBackUp.extend(listObjectsInFolder)
         print("las pruebas llegan hasta aki.. a probar esta madre...")
-        #lo que sigue es crear la lista de objetos
-        #usar UtilsFiles.getBackUpFileFromPath(ruta)
-        #self.listAllFilesToBackUp: list[BackUpFile] = []
-        folderSize : float = 0
-        for path in listFullPathFilesToAddFromFolder:
-            backUpObject = UtilsFiles.getBackUpFileFromPath(path, ruta)
-            self.listAllFilesToBackUp.append(backUpObject)
-            folderSize += backUpObject.source_file_size
-
-        #sigue sacar el full size of list of objects
+#        lo que sigue es crear la lista de objetos
+#        usar UtilsFiles.getBackUpFileFromPath(ruta)
+#        self.listAllFilesToBackUp: list[BackUpFile] = []
+        folderSize: float = 0
+        for obj in listObjectsInFolder:
+            folderSize += obj.fileSize
         sizeFormated = Utils.format_size(folderSize)
         ruta2 = Utils.formatear_ruta(ruta)
         print(f"El folder seleccionada es: {ruta2}, \nSe muestra:{ruta}")

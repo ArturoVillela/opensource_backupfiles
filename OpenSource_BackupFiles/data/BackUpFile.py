@@ -1,18 +1,20 @@
 # This Python file uses the following encoding: utf-8
 
+from __future__ import annotations  #esta mmda para k me deje usar un parametro del mismo tipo...
+
 from dataclasses import dataclass
 from datetime import datetime
 
 
 @dataclass
 class BackUpFile:
-    source_file_name: str
-    source_file_pathWithName: str
-    source_file_pathWithoutName: str
-    source_file_size: int
-    source_last_date_modified: datetime
-    root_folder: str | None
-    conflicted: bool = False
+    fileName: str
+    fileNameWithPath: str
+    fileSize: int
+    lastDateModified: datetime
+    FileNameWithSubPath: str | None = None #nombre del archivo cuando viene de un folder
+    conflicted: bool = False  # solo para folder end path donde se pondra el respaldo
+    conflictedFiles: list[BackUpFile] | None = None
 
 
 

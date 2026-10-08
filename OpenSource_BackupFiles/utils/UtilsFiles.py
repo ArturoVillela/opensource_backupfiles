@@ -14,61 +14,87 @@ class UtilsFiles:
         pass
 
 
-    @staticmethod
-    def getBackUpFileFromPath(path: str, folder:str | None = None) -> BackUpFile:
+    @staticmethod #subfolder, solo cuando se selecciona un folder con archivos para agregar.
+    def getBackUpFileFromPath(path: str) -> BackUpFile:
         file_path = Path(path)
         file_info = file_path.stat()
 
-        source_file_size = file_info.st_size
-        source_file_name = file_path.name
-        source_file_pathWithName = str(file_path)
-        source_file_pathWithoutName = str(file_path.parent)
-        source_last_date_modified = datetime.fromtimestamp(
-            file_info.st_mtime
-        )
+        FileNameWithSubPath = str(file_path.parent)
 
         return BackUpFile(
-            source_file_name=source_file_name,
-            source_file_pathWithName=source_file_pathWithName,
-            source_file_pathWithoutName=source_file_pathWithoutName,
-            source_file_size=source_file_size,
-            source_last_date_modified=source_last_date_modified,
-            root_folder=folder
+            fileName = file_path.name,
+            fileNameWithPath = path,
+            fileSize = file_info.st_size,
+            lastDateModified = datetime.fromtimestamp(file_info.st_mtime)
         )
-
+#
 
     @staticmethod
     def getBackedConflictedFileFromPath(path: str) -> BackedConflictedFile:
         file_path = Path(path)
         file_info = file_path.stat()
 
-        source_file_size = file_info.st_size
-        source_file_name = file_path.name
-        source_file_pathWithName = str(file_path)
-        source_last_date_modified = datetime.fromtimestamp(
+        fileSize = file_info.st_size
+        fileName = file_path.name
+        fileNameWithPath = str(file_path)
+        lastDateModified = datetime.fromtimestamp(
             file_info.st_mtime
         )
 
         return BackedConflictedFile(
-            source_file_name=source_file_name,
-            source_file_pathWithName=source_file_pathWithName,
-            source_file_size=source_file_size,
-            source_last_date_modified=source_last_date_modified,
+            fileName=fileName,
+            fileNameWithPath=fileNameWithPath,
+            fileSize=fileSize,
+            lastDateModified=lastDateModified,
         )
-
+#
 
     @staticmethod
     def checkForConflicts(listAllFilesToBackUp: list[BackUpFile], backupFile: BackUpFile)->str|None: #regresa el path con duplicado
         if not listAllFilesToBackUp:  #no se necesita.. pero me vale.. aki va.
             return None
-        backupFileName = backupFile.source_file_name.lower().strip()
+        backupFileName = backupFile.fileName.lower().strip()
         for file in listAllFilesToBackUp:
-            name= file.source_file_name.lower().strip()
+            name= file.fileName.lower().strip()
             if name == backupFileName:
-                return file.source_file_pathWithName
+                return file.fileNameWithPath
         return None
+#
+
+    @staticmethod    #como usaremos un script concideraremos el name como /myfolder/b2/myfile.txt
+    def getBackUpFileFromFileWithinFolder(filePath:str, folderPath:str)-> BackUpFile:
+        baseFolder = Path(folderPath)
+        fileFullPath = Path(filePath)
+        fileNameWithSubPath = str(fileFullPath.relative_to(baseFolder))
+
+        file_path = Path(filePath)
+        file_info = file_path.stat()
+        fileNameWithPath = str(file_path)
+
+        return BackUpFile(
+            file_path.name,
+            filePath,
+            file_info.st_size,
+            datetime.fromtimestamp(file_info.st_mtime),
+            fileNameWithSubPath,
+            False,
+            None
+        )
 
 
+
+    @staticmethod
+    def getListObjects2BackupFromFolder(pathFolder:str)->list[BackUpFile]:
+        listFilesInPathFolder = UtilsFiles.listar_archivos_recursivos(pathFolder)
+        listFilesFromFolder: list[BackUpFile] = []
+        for fullPathFile in listFilesInPathFolder:
+            listFilesFromFolder.append(UtilsFiles.getBackUpFileFromFileWithinFolder(fullPathFile, pathFolder))
+        return listFilesFromFolder
+
+
+
+
+#
     @staticmethod
     def findConflictsInFinalPath(finalPath: str, listAllFilesToBackUp: list[BackUpFile]) -> list[BackedConflictedFile]:
 
@@ -76,7 +102,7 @@ class UtilsFiles:
 
         namesToBackUp: set[str] = set()
         for backupFile in listAllFilesToBackUp:
-            namesToBackUp.add(backupFile.source_file_name)
+            namesToBackUp.add(backupFile.fileName)
 
         listConflicted: list[BackedConflictedFile] = []
 
@@ -91,14 +117,13 @@ class UtilsFiles:
         return listConflicted
 
 
-
     @staticmethod
     def isDirectoryNotEmpty(path: str)-> bool:
         """ return es directorio && tiene 0 archivos """
         return os.path.isdir(path) and len(os.listdir(path)) == 0
 
 
-    @staticmethod
+    @staticmethod   #Modificar, para obtener la lista de nombres desde el folder agregado
     def getAllFilePathsFromFolder(ruta, mainList:list[BackUpFile])-> list[str] | tuple[FilesErrors, str]: # lista o errores
         """ todos los archivos con full path y el size de todos. """
         listAllFiles = UtilsFiles.listar_archivos_recursivos(str(ruta))
@@ -117,9 +142,9 @@ class UtilsFiles:
             setFileNames.add(name)
 
         for backUpFile in mainList:
-            if backUpFile.source_file_name in setFileNames:
+            if backUpFile.fileName in setFileNames:
                 print("found duplicate from folder with file already added to back up")
-                return FilesErrors.DUPLICATE_FILE_FOUND, backUpFile.source_file_name
+                return FilesErrors.DUPLICATE_FILE_FOUND, backUpFile.fileName
 
         return listAllFiles
 
@@ -223,6 +248,28 @@ class UtilsFiles:
         if archivo.is_file():
             size = archivo.stat().st_size
         return size
+
+
+#obtendremos la lista de archivos, pero incluyendo la ruta relativa del folder
+    @staticmethod
+    def getListOfAllFilesInAFolder2Backup(folderPath:str)-> list[BackUpFile]:
+        file_path = Path(path)
+        fileName = file_path.name
+
+        listFullPath = [str(p) for p in Path(folderPath).rglob("*") if p.is_file()]
+        #sacar los nombres
+        for path in listFullPath:
+            filePath = Path(path)
+            fileName = filePath.name
+            fileNameWithSubFolder = path.relative_to(folderPath)
+            print(f"folder: {folderPath}, name:{fileName}, nameWithFolder:{fileNameWithSubFolder}")
+
+        return
+        listRelativePath: list[str] = []
+        for fullPath in listFullPath:
+            listRelativePath.append(fullPath.relative_to(folderPath))
+
+
 
 
     @staticmethod

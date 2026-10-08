@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 6.0.2, 2026-10-06T11:20:45. -->
+<!-- Written by QtCreator 6.0.2, 2026-10-07T14:22:25. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -209,6 +209,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/data/BackedConflictedFile.py</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration./home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/data/BackedConflictedFile.py</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/data/BackedConflictedFile.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{8d9c7575-a231-4a2f-baba-8a37d53092dd}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/data/BackedConflictedFile.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
