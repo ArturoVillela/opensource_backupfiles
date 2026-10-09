@@ -60,6 +60,7 @@ class UiBridge(QMainWindow):
         self.webView2 = self.ui.widgetWebView2
         self.htmlPage = ""
         self.initWebView()
+        self.initWebViewSecondPageTest()
 
 
     def conectar_eventos(self):
@@ -71,9 +72,9 @@ class UiBridge(QMainWindow):
 
 
     def initSecondScreen(self):
-        cantConflicts = len(self.listConflicted)
+#        cantConflicts = len(self.listConflicted)
         self.cambiarPantalla(2)
-        self.updateLabelConflicts(cantConflicts)
+#        self.updateLabelConflicts(cantConflicts)
 
 
     def updateLabelConflicts(self, cantConflicts: int): #labelXConflics
@@ -85,6 +86,13 @@ class UiBridge(QMainWindow):
         with open(htmlPath, "r", encoding="utf-8") as file:
             htmlPage = file.read()
         self.webView.setHtml(htmlPage)
+
+
+    def initWebViewSecondPageTest(self):
+        htmlPath = Path("html/nocheckbox.html")
+        with open(htmlPath, "r", encoding="utf-8") as file:
+            htmlPage = file.read()
+        self.webView2.setHtml(htmlPage)
 
 
     def initWebViewSecondPage(self):
@@ -102,15 +110,15 @@ class UiBridge(QMainWindow):
             self.showAlertByDialogCode(1)
             return
 
+#todo.. estamos
+        conflictedFound = UtilsFiles.findConflictsInFinalPath(self.finalPath, self.listAllFilesToBackUp)
+        print(f"encontramos conflictos :{conflictedFound}")
+        if conflictedFound:
+            self.initSecondScreen()
+            return
+        return  #ignoremos el proceso de backup for now...
 #todo.. estamos ignorando conflictos para testing unicamente...
-#        self.listConflicted = UtilsFiles.findConflictsInFinalPath(self.finalPath, self.listAllFilesToBackUp)
-#        print("encontramos conflictos : ")
-#        if self.listConflicted:
-#            self.initSecondScreen()
-#            return
-#        return  #ignoremos el proceso de backup for now...
-#todo.. estamos ignorando conflictos para testing unicamente...
-        self.startingBackup2()
+#        self.startingBackup2()
 
 
     def btnClearAllClicked(self): #por el momento lo usamos para cambiar pantalla solamente

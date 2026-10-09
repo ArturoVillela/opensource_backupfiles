@@ -6,5 +6,5 @@ from datetime import datetime
 class BackedConflictedFile:
     source_file_name: str
     source_file_pathWithName: str
-    source_file_size: int
-    source_last_date_modified: datetime
+    source_file_size: int = 0
+    source_last_date_modified: datetime | None = None

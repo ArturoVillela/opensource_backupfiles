@@ -96,25 +96,39 @@ class UtilsFiles:
 
 #
     @staticmethod
-    def findConflictsInFinalPath(finalPath: str, listAllFilesToBackUp: list[BackUpFile]) -> list[BackedConflictedFile]:
+    def findConflictsInFinalPath(finalPath: str, listAllFilesToBackUp: list[BackUpFile]) -> bool:
 
         listFilesInPathFolder = UtilsFiles.listar_archivos_recursivos(finalPath)
+        dictFilenameObjc : dict[str, list[BackedConflictedFile]] = {}
 
-        namesToBackUp: set[str] = set()
-        for backupFile in listAllFilesToBackUp:
-            namesToBackUp.add(backupFile.fileName)
+        setFilesInBKFolder: set[BackedConflictedFile] = set()
+        for backupFile in listFilesInPathFolder:
+            fileAsPath = Path(backupFile)
+            fileStats = fileAsPath.stat()
+            fileObjIbBackedFile = BackedConflictedFile(
+                fileAsPath.name,
+                backupFile,
+                fileStats.st_size,
+                datetime.fromtimestamp(fileStats.st_mtime))
+            if fileAsPath.name not in dictFilenameObjc:
+                dictFilenameObjc.setdefault(fileAsPath.name, []) #agrega una lista vacia para el key 'fileAsPath.name'
 
-        listConflicted: list[BackedConflictedFile] = []
+            #le agrega el obj a la lista de objetos con ese nombre, para el key'fileAsPath.name'
+            dictFilenameObjc[fileAsPath.name].append(fileObjIbBackedFile) #primer parte obtiene la lista, 2da le agrega el elemento
 
-        for path in listFilesInPathFolder:
-            fileName = UtilsFiles.getFileNameByFullPathName(path)
+        conflictedFound = False
 
-            if fileName in namesToBackUp:
-                listConflicted.append(
-                    UtilsFiles.getBackedConflictedFileFromPath(path)
-                )
+        for objToBackup in listAllFilesToBackUp:
+            listConflictedFiles = dictFilenameObjc.get(objToBackup.fileName)
 
-        return listConflicted
+            if listConflictedFiles is not None:
+                objToBackup.conflictedFiles = listConflictedFiles.copy()
+                conflictedFound = True
+            else:
+                objToBackup.conflictedFiles = None
+
+        return conflictedFound
+
 
 
     @staticmethod
@@ -204,32 +218,6 @@ class UtilsFiles:
         return True, listConflicts
 
 
-    @staticmethod
-    def indices_en_comun(listAllNamesOfFilesToCopy,listNamesInEndFolder) -> list[int] | None:
-        def normalize(name: str) -> str:
-            return name.replace(" ", "").lower()
-        end_set = {
-            normalize(name)
-            for name in listNamesInEndFolder
-        }
-        indices = []
-        for i, fullPath in enumerate(listAllNamesOfFilesToCopy):
-            fileName = UtilsFiles.getFileNameByFullPathName(fullPath)
-
-            if normalize(fileName) in end_set:
-                indices.append(i)
-
-        return indices if indices else None
-
-
-    @staticmethod
-    def indices_en_comun(listAllNamesOfFilesToCopy, listNamesInEndFolder) -> list[int]:
-        listOnlyNamesInBackupList = []
-        for fullPath in listAllNamesOfFilesToCopy:
-            listOnlyNamesInBackupList.append(UtilsFiles.getFileNameByFullPathName(fullPath))
-        end_set = set(listNamesInEndFolder)
-        return [i for i, name in enumerate(listOnlyNamesInBackupList) if name in end_set]
-
 
     @staticmethod
     def getFullSizeOfList (listPaths: list[str]) -> float:
@@ -242,7 +230,6 @@ class UtilsFiles:
 
 
     @staticmethod
-
     def getSigleFileSize (path: str) -> float:
         archivo = Path(path)
         if archivo.is_file():
@@ -253,7 +240,7 @@ class UtilsFiles:
 #obtendremos la lista de archivos, pero incluyendo la ruta relativa del folder
     @staticmethod
     def getListOfAllFilesInAFolder2Backup(folderPath:str)-> list[BackUpFile]:
-        file_path = Path(path)
+        file_path = Path(folderPath)
         fileName = file_path.name
 
         listFullPath = [str(p) for p in Path(folderPath).rglob("*") if p.is_file()]
@@ -268,8 +255,6 @@ class UtilsFiles:
         listRelativePath: list[str] = []
         for fullPath in listFullPath:
             listRelativePath.append(fullPath.relative_to(folderPath))
-
-
 
 
     @staticmethod

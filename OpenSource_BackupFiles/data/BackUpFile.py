@@ -4,6 +4,7 @@ from __future__ import annotations  #esta mmda para k me deje usar un parametro 
 
 from dataclasses import dataclass
 from datetime import datetime
+from data.BackedConflictedFile import BackedConflictedFile
 
 
 @dataclass
@@ -14,7 +15,7 @@ class BackUpFile:
     lastDateModified: datetime
     fileNameWithSubPath: str | None = None #nombre del archivo cuando viene de un folder
     conflicted: bool = False  # solo para folder end path donde se pondra el respaldo
-    conflictedFiles: list[BackUpFile] | None = None
+    conflictedFiles: list[BackedConflictedFile] | None = None
 
 
 
