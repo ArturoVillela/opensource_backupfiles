@@ -18,5 +18,6 @@ class BackUpFile:
     conflictedFiles: list[BackedConflictedFile] | None = None
 
 
-
+    def getDateAsStr(self) -> str:
+        return self.lastDateModified.strftime('%Y-%m-%d %H:%M')
 

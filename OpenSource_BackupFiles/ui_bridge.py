@@ -5,6 +5,7 @@ from PySide6 import QtCore
 from Resources import Resources
 from PySide6.QtCore import QObject, QThread, Signal, Qt
 from PySide6.QtWidgets import QProgressDialog
+import json
 
 from PySide6.QtWidgets import (
 QApplication,
@@ -35,7 +36,7 @@ class UiBridge(QMainWindow):
         self.listAllFilesToCopy: list[tuple[str, float]] = []
         self.listAllNamesOfFilesToCopy: list[str]
         self.listAllFilesToBackUp: list[BackUpFile] = []    #esta es la lista de archivos a copiar
-        self.listConflicted:list[BackedConflictedFile]
+        self.listAddedFoldersPath: list[str] = []
 
         self.listIndexsWithConflicts: list[int] = []
         self.finalPath: str = ""
@@ -60,7 +61,6 @@ class UiBridge(QMainWindow):
         self.webView2 = self.ui.widgetWebView2
         self.htmlPage = ""
         self.initWebView()
-        self.initWebViewSecondPageTest()
 
 
     def conectar_eventos(self):
@@ -70,38 +70,28 @@ class UiBridge(QMainWindow):
         self.ui.btn_clear_all.clicked.connect(self.btnClearAllClicked)
         self.ui.btn_start.clicked.connect(self.btnStartClicked)
 
-
-    def initSecondScreen(self):
-#        cantConflicts = len(self.listConflicted)
+#
+    def initSecondScreen(self):       ###########################################################3 sigue mostrar el webview
+        cantConflicts = UtilsFiles.getCantConflicts(self.listAllFilesToBackUp)
         self.cambiarPantalla(2)
-#        self.updateLabelConflicts(cantConflicts)
+        self.updateLabelConflicts(cantConflicts)
+        for obj in self.listAllFilesToBackUp:
+            if not obj.conflicted: continue
+            name = obj.fileName
+            ruta = obj.fileNameWithPath if obj.fileNameWithSubPath is None else obj.fileNameWithSubPath
+            name = f"{name} ↪{Utils.formatearRutaForConflicts(ruta)}"
+            print("nombre :{name}, conflicted: {obj.conflicted} ")
+            if obj.fileNameWithSubPath != None:
+                name = obj.fileNameWithSubPath
+            size = obj.fileSize
+            dateModifiedAsStr = obj.getDateAsStr()
+            self.addRowToSecondTableTable(name,size,dateModifiedAsStr,obj.conflictedFiles)
 
+#
+    def updateLabelConflicts(self, cantConflicts: int):
+        self.ui.labelXConflics.setText(f"files with conflicts : {cantConflicts}")
 
-    def updateLabelConflicts(self, cantConflicts: int): #labelXConflics
-        self.ui.labelXConflics.setText(f"{cantConflicts} files founded with conflicts")
-
-
-    def initWebView(self):
-        htmlPath = Path("html/nocheckbox.html")
-        with open(htmlPath, "r", encoding="utf-8") as file:
-            htmlPage = file.read()
-        self.webView.setHtml(htmlPage)
-
-
-    def initWebViewSecondPageTest(self):
-        htmlPath = Path("html/nocheckbox.html")
-        with open(htmlPath, "r", encoding="utf-8") as file:
-            htmlPage = file.read()
-        self.webView2.setHtml(htmlPage)
-
-
-    def initWebViewSecondPage(self):
-        htmlPath = Path("html/selector.html")
-        with open(htmlPath, "r", encoding="utf-8") as file:
-            htmlPage = file.read()
-        self.webView2.setHtml(htmlPage)
-
-
+#
     def btnStartClicked(self):
         if not self.listAllFilesToBackUp:
             self.showAlertByDialogCode(2)
@@ -109,27 +99,20 @@ class UiBridge(QMainWindow):
         if not self.finalPath:
             self.showAlertByDialogCode(1)
             return
-
-#todo.. estamos
         conflictedFound = UtilsFiles.findConflictsInFinalPath(self.finalPath, self.listAllFilesToBackUp)
         print(f"encontramos conflictos :{conflictedFound}")
         if conflictedFound:
             self.initSecondScreen()
             return
-        return  #ignoremos el proceso de backup for now...
-#todo.. estamos ignorando conflictos para testing unicamente...
-#        self.startingBackup2()
+        self.startingBackup2()
 
-
+#
     def btnClearAllClicked(self): #por el momento lo usamos para cambiar pantalla solamente
-        self.cambiarPantalla(2)
-        self.initWebView2()
-
-#        self.listAllFilesToBackUp.clear()
-#        self.updateLabelInfo()
-#        self.ui.label_all_files_to_copy.setText (" ")
-#        self.initWebView()
-#        print("aki limpiamos el layout de archivos, nuevo size : " +str(len(self.listAllFilesToCopy)))
+        self.listAllFilesToBackUp.clear()
+        self.updateLabelInfo()
+        self.ui.label_all_files_to_copy.setText (" ")
+        self.initWebView()
+        print("aki limpiamos el layout de archivos, nuevo size : " +str(len(self.listAllFilesToCopy)))
 
 
     def btnAddFilesToBackupClicked(self):
@@ -139,7 +122,7 @@ class UiBridge(QMainWindow):
             pathFileConflicted = UtilsFiles.checkForConflicts(self.listAllFilesToBackUp, backupFile)
             print("pathFileConflicte : ",pathFileConflicted)
             if pathFileConflicted is not None:  # si no es None, tiene la ruta del error
-                cad = str(f"File already selected to backup\n<<{backupFile.source_file_name}>>\n Unable to add the file")
+                cad = str(f"File already selected to backup\n<<{backupFile.fileName}>>\n Unable to add the file")
                 self.showAlertByDialogCode(9,cad)
                 return
             else:
@@ -156,19 +139,24 @@ class UiBridge(QMainWindow):
         print (f"ruta = {ruta}")
         if ruta is None:
             return
-
-#        result = UtilsFiles.getAllFilePathsFromFolder(ruta, self.listAllFilesToBackUp)
+        for folderAdded in self.listAddedFoldersPath:
+            if folderAdded == ruta:
+                self.showAlertByDialogCode(13)
+                return
+            if Path(ruta).resolve().is_relative_to(Path(folderAdded).resolve()):
+                self.showAlertByDialogCode(14,f"This folder is already selected for backup in \n\n{folderAdded}")
+                return
+            if Path(folderAdded).resolve().is_relative_to(Path(ruta).resolve()):
+                self.showAlertByDialogCode(14,f"This folder generate a conflics with previously added folder:\n\n{ruta}")
+                return
+        self.listAddedFoldersPath.append(ruta)
         listObjectsInFolder = UtilsFiles.getListObjects2BackupFromFolder(ruta)
         if not listObjectsInFolder:
             self.showAlertByDialogCode(7)
             print("folder seleccionado esta vacio")
             return
-
         self.listAllFilesToBackUp.extend(listObjectsInFolder)
         print("las pruebas llegan hasta aki.. a probar esta madre...")
-#        lo que sigue es crear la lista de objetos
-#        usar UtilsFiles.getBackUpFileFromPath(ruta)
-#        self.listAllFilesToBackUp: list[BackUpFile] = []
         folderSize: float = 0
         for obj in listObjectsInFolder:
             folderSize += obj.fileSize
@@ -178,7 +166,7 @@ class UiBridge(QMainWindow):
         self.addRowToTable(ruta2, sizeFormated)
         self.updateLabelInfo()
 
-
+#
     def btnSelectEndFolderClicked(self):
         ruta = self.seleccionarFolder()
         self.isBackupFolderEmpty = True
@@ -198,7 +186,7 @@ class UiBridge(QMainWindow):
         rutaFormatted = Utils.formatear_ruta(ruta)
         self.ui.etToFolder.setText(rutaFormatted)
 
-
+#
     def seleccionar_ruta(self):
         opciones = QFileDialog.Option.DontUseNativeDialog
         dialogo = QFileDialog(self)
@@ -211,7 +199,7 @@ class UiBridge(QMainWindow):
                 return rutas[0]
             return None
 
-
+#
     def seleccionarFolder(self):
         opciones = QFileDialog.Option.DontUseNativeDialog
         dialog = QFileDialog(self)
@@ -225,7 +213,7 @@ class UiBridge(QMainWindow):
                 return rutas[0]
         return None
 
-
+#
     def updateLabelInfo(self):
         cantFiles = len(self.listAllFilesToBackUp)
         if cantFiles > 0:
@@ -235,7 +223,7 @@ class UiBridge(QMainWindow):
         else:
             self.ui.label_all_files_to_copy.setText (" ")
 
-
+#
     def showAlertByDialogCode(self, code:int, forcedSubtitle:str = None) -> None:
         dialogo = QMessageBox(self)
         title, subtitle = Resources().getDialogInfoByCode(code)
@@ -337,7 +325,7 @@ class UiBridge(QMainWindow):
             self.progress_dialog.hide()
             self.startingBackup2()
         else:
-            self.restarFirstScreen()
+            self.restarFirstScreen(True)
 
     def onBackupFailed(self, error_message):     #TODO utilizar el sistema de dialogos predefinido en lugar de un critical
         print("backup completed w/error.. and got the result on ui bridge")
@@ -352,7 +340,7 @@ class UiBridge(QMainWindow):
         self.btnClearAllClicked()
 
 
-    def restarFirstScreen(self):
+    def restarFirstScreen(self, completed:bool = False):
         self.progress_dialog.hide()
         self.isBackupStarted = False
         self.listAllFilesToBackUp.clear()
@@ -360,9 +348,12 @@ class UiBridge(QMainWindow):
         self.updateLabelInfo()
         self.finalPath = ""
         self.ui.etToFolder.setText("/...")
-        self.showAlertByDialogCode(6)
+        self.listAddedFoldersPath.clear()
+        if (completed):
+            self.showAlertByDialogCode(6)
 
 
+#
     def onBackupError(self, error_msg):
         print("backup error... on bridge class")
         self.btnClearAllClicked()
@@ -370,26 +361,81 @@ class UiBridge(QMainWindow):
             self.progress_dialog.hide()
         self.showAlertByDialogCode(12)
 
-
+#
     def cambiarPantalla(self, index:int) ->None:
         if index == 1:
             self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
-            currentScreenSelected = 1
+            self.currentScreenSelected = 1
+            self.ui.btn_start.setText (" Solve Conflicts ")
         else:
             self.ui.stackedWidget.setCurrentWidget(self.ui.page_2)
-            currentScreenSelected = 2
+            self.currentScreenSelected = 2
 
+#
+    def initWebView(self):
+        htmlPath = Path("html/nocheckbox.html")
+        with open(htmlPath, "r", encoding="utf-8") as file:
+            htmlPage = file.read()
+        self.webView.setHtml(htmlPage)
+        self.initWebViewSecondPage()
 
+#
+    def initWebViewSecondPage(self):
+        print("111111")
+        htmlPath = Path("html/selector2.html")
+        with open(htmlPath, "r", encoding="utf-8") as file:
+            htmlPage = file.read()
+    #        self.webView2.loadFinished.connect(self.onSecondTableLoaded)
+        self.webView2.setHtml(htmlPage)
+    #        for obj in self.listAllFilesToBackUp:
+    #            if not obj.conflicted: continue
+    #            name = obj.fileName
+    #            print(f"nombre :{name}, conflicted: {obj.conflicted} ")
+    #            if obj.fileNameWithSubPath != None:
+    #                name = obj.fileNameWithSubPath
+    #            size = str(obj.fileSize)
+    #            dateModified = str(obj.lastDateModified)
+    #            self.addRowToSecondTableTable(name,size,dateModified,obj.conflictedFiles)
+
+#
     def addRowToTable(self, str1, str2):
         script = f"addRowToTable('{str1}', '{str2}')"
         self.webView.page().runJavaScript(script)
 
+#
+    def addRowToSecondTableTable(
+        self,
+        nameFile,
+        size,
+        dateModifiedAsStr,
+        conflicted: list[BackedConflictedFile] | None
+    ):
+        listConflicted: list[list[str]] = []
 
+        for obj in conflicted or []:
+            listConflicted.append([
+                Utils.formatearRutaForConflicts(obj.source_file_pathWithName),
+                Utils.format_size(obj.source_file_size),
+                obj.getDateAsStr()  #modified.. double test plz...
+                if obj.source_last_date_modified is not None else ""
+            ])
+
+        script = (
+            f"addRowToTable2("
+            f"{json.dumps(nameFile)}, "
+            f"{json.dumps(Utils.format_size(size))}, "
+            f"{json.dumps(dateModifiedAsStr)}, "
+            f"{json.dumps(listConflicted)}"
+            f");"
+        )
+        self.webView2.page().runJavaScript(script)
+
+#
     def restarTable(self):
         script2 = f"clearTable()"
         self.webView.page().runJavaScript(script2)
 
-
+#
     def requestConfirmationForConflicsts(self):
         dialogo = QMessageBox(self)
         title, subtitle = Resources().getDialogInfoByCode(8)

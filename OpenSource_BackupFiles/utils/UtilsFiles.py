@@ -97,7 +97,6 @@ class UtilsFiles:
 #
     @staticmethod
     def findConflictsInFinalPath(finalPath: str, listAllFilesToBackUp: list[BackUpFile]) -> bool:
-
         listFilesInPathFolder = UtilsFiles.listar_archivos_recursivos(finalPath)
         dictFilenameObjc : dict[str, list[BackedConflictedFile]] = {}
 
@@ -123,12 +122,22 @@ class UtilsFiles:
 
             if listConflictedFiles is not None:
                 objToBackup.conflictedFiles = listConflictedFiles.copy()
+                objToBackup.conflicted = True
                 conflictedFound = True
             else:
                 objToBackup.conflictedFiles = None
 
         return conflictedFound
 
+
+#
+    @staticmethod
+    def getCantConflicts(listAllFilesToBackUp: list[BackUpFile])->int:
+        cantConflicts:int = 0
+        for obj in listAllFilesToBackUp:
+            if obj.conflicted:
+                cantConflicts+=1
+        return cantConflicts
 
 
     @staticmethod

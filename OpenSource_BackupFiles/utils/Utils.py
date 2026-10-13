@@ -22,6 +22,16 @@ class Utils:
 
 
     @staticmethod
+    def formatearRutaForConflicts(ruta):
+        lonj = 60
+        mid = 26
+        longitud = lonj
+        if len (ruta)<= longitud:
+            return ruta
+        return ruta[:mid] + "...." + ruta[-mid:]
+
+
+    @staticmethod
     def formatStringWithSize(ruta, size):
         return ruta.ljust(140) + size
 
