@@ -139,6 +139,19 @@
 	}
     </script>
     <script>
+      function getSelector() {
+        const mySelector = `
+            <td>
+            <select aria-label="myAction" onchange="updateColor(this)">
+                <option value="overwrite">Overwrite</option>
+                <option value="skip">Ignore</option>
+            </select>
+            </td>
+        `;
+        return mySelector;
+        } 
+
+
       function addRowToTable2(
           fileName,
           sizeAsStr,
@@ -159,6 +172,13 @@
   
               return row;
           }
+          function getSelector() {
+                return `<select aria-label="Action" onchange="updateColor(this)">
+                        <option value="overwrite">Overwrite</option>
+                        <option value="skip">Ignore</option>
+                    </select>
+                `;
+            }
   
           // 1. Archivo que vamos a respaldar.
           const backupRow = createRow(
@@ -167,6 +187,8 @@
               dateModifiedAsStr,
               ""
           );
+
+          backupRow.cells[3].innerHTML = getSelector();
   
           backupRow.classList.add("backup-row");
           tbody.appendChild(backupRow);
@@ -224,6 +246,12 @@
     }
 
     document.querySelectorAll('select').forEach(updateColor);
+    </script>
+    <script>
+        function restarWebViewSecondScreen() {
+            const tbody = document.querySelector(`tbody`);
+            tbody.innerHTML = "";
+            }
     </script>
 </head>
 <body>

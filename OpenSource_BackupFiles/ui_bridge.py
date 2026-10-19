@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QMainWindow
-from base17_ui import Ui_MainWindow
+from base19_ui import Ui_MainWindow
 from pathlib import Path
 from PySide6 import QtCore
 from Resources import Resources
@@ -69,9 +69,11 @@ class UiBridge(QMainWindow):
         self.ui.btnSelectToFolder.clicked.connect(self.btnSelectEndFolderClicked)
         self.ui.btn_clear_all.clicked.connect(self.btnClearAllClicked)
         self.ui.btn_start.clicked.connect(self.btnStartClicked)
+        self.ui.btnCancelScrn2.clicked.connect(self.btnCancelScrn2Clicked)
+#        en segunda pantalla el btn start se llama btnSolveConflicts
 
 #
-    def initSecondScreen(self):       ###########################################################3 sigue mostrar el webview
+    def initSecondScreen(self):
         cantConflicts = UtilsFiles.getCantConflicts(self.listAllFilesToBackUp)
         self.cambiarPantalla(2)
         self.updateLabelConflicts(cantConflicts)
@@ -86,10 +88,16 @@ class UiBridge(QMainWindow):
             size = obj.fileSize
             dateModifiedAsStr = obj.getDateAsStr()
             self.addRowToSecondTableTable(name,size,dateModifiedAsStr,obj.conflictedFiles)
-
+#TODO aki vamos.. en la parte de agregarle el renglon de conflicto al webview...ArithmeticError
 #
     def updateLabelConflicts(self, cantConflicts: int):
         self.ui.labelXConflics.setText(f"files with conflicts : {cantConflicts}")
+
+#
+    def btnCancelScrn2Clicked(self):
+        self.restarWebViewSecondScreen()
+        self.cambiarPantalla(1)
+
 
 #
     def btnStartClicked(self):
@@ -114,7 +122,7 @@ class UiBridge(QMainWindow):
         self.initWebView()
         print("aki limpiamos el layout de archivos, nuevo size : " +str(len(self.listAllFilesToCopy)))
 
-
+#
     def btnAddFilesToBackupClicked(self):
         ruta = self.seleccionar_ruta()
         if ruta:
@@ -167,7 +175,7 @@ class UiBridge(QMainWindow):
         self.updateLabelInfo()
 
 #
-    def btnSelectEndFolderClicked(self):
+    def btnSelectEndFolderClicked(self): #pone la ruta final donde se hara el respaldo
         ruta = self.seleccionarFolder()
         self.isBackupFolderEmpty = True
         if ruta is None:
@@ -235,14 +243,9 @@ class UiBridge(QMainWindow):
         #dialogo.setStandardButtons(QMessageBox.StandardButton.Ok)
         dialogo.exec()
 
-
-#        self.listAllFilesToCopy: list[tuple[str, float]] = []
-#        self.listAllNamesOfFilesToCopy: list[str]
-#        self.listAllFilesInEndDirectory : list[tuple[str, str]]
-
+#
     def startingBackup2(self):
         total = len(self.listAllFilesToBackUp)
-        #print("\n" * 60)  # empuja el contenido anterior fuera de la pantalla    # limpia la pantalla visible
         print("starting backup files main function......cant files: ",total)
 
 #        ###### por el momento ignoramos este check para la segunda pantalla....
@@ -283,7 +286,6 @@ class UiBridge(QMainWindow):
         if self.listAllFilesToBackUp:
             print("entra al check for self.listAllFilesToBackUp, aki devemos chekar por conflictos..")
             self.progress_dialog.show()
-#            duplaPathSize = self.listAllFilesToCopy.pop(0)
             objToCopy = self.listAllFilesToBackUp.pop(0)
             if self.progress_dialog.wasCanceled():
                 return
@@ -316,7 +318,7 @@ class UiBridge(QMainWindow):
         self.copyFiles.cancelBackup()
         self.showAlertByDialogCode(4)
 
-
+#
     def onBackupCompleted(self):
         print("......backup completed of a single file.. and got the result on ui_bridge")
         cantFilesLeft = len(self.listAllFilesToBackUp)
@@ -327,6 +329,7 @@ class UiBridge(QMainWindow):
         else:
             self.restarFirstScreen(True)
 
+#
     def onBackupFailed(self, error_message):     #TODO utilizar el sistema de dialogos predefinido en lugar de un critical
         print("backup completed w/error.. and got the result on ui bridge")
         if self.progress_dialog:
@@ -339,7 +342,7 @@ class UiBridge(QMainWindow):
         )
         self.btnClearAllClicked()
 
-
+#
     def restarFirstScreen(self, completed:bool = False):
         self.progress_dialog.hide()
         self.isBackupStarted = False
@@ -385,22 +388,21 @@ class UiBridge(QMainWindow):
         htmlPath = Path("html/selector2.html")
         with open(htmlPath, "r", encoding="utf-8") as file:
             htmlPage = file.read()
-    #        self.webView2.loadFinished.connect(self.onSecondTableLoaded)
         self.webView2.setHtml(htmlPage)
-    #        for obj in self.listAllFilesToBackUp:
-    #            if not obj.conflicted: continue
-    #            name = obj.fileName
-    #            print(f"nombre :{name}, conflicted: {obj.conflicted} ")
-    #            if obj.fileNameWithSubPath != None:
-    #                name = obj.fileNameWithSubPath
-    #            size = str(obj.fileSize)
-    #            dateModified = str(obj.lastDateModified)
-    #            self.addRowToSecondTableTable(name,size,dateModified,obj.conflictedFiles)
+
 
 #
     def addRowToTable(self, str1, str2):
         script = f"addRowToTable('{str1}', '{str2}')"
         self.webView.page().runJavaScript(script)
+
+#
+    def restarWebViewSecondScreen(self):
+        script = (
+            f"restarWebViewSecondScreen();"
+        )
+        self.webView2.page().runJavaScript(script)
+
 
 #
     def addRowToSecondTableTable(

@@ -15,8 +15,8 @@ class BackUpFile:
     lastDateModified: datetime
     fileNameWithSubPath: str | None = None #nombre del archivo cuando viene de un folder
     conflicted: bool = False  # solo para folder end path donde se pondra el respaldo
-    conflictedFiles: list[BackedConflictedFile] | None = None
-
+#    conflictedFiles: list[BackedConflictedFile] | None = None
+    conflictedFile: BackedConflictedFile | None = None
 
     def getDateAsStr(self) -> str:
         return self.lastDateModified.strftime('%Y-%m-%d %H:%M')

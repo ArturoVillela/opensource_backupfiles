@@ -8,6 +8,8 @@ from data.BackedConflictedFile import BackedConflictedFile
 from datetime import datetime
 from utils.FilesErrors import FilesErrors
 import os
+import time
+import sys
 
 class UtilsFiles:
     def __init__(self):
@@ -72,6 +74,9 @@ class UtilsFiles:
         file_path = Path(filePath)
         file_info = file_path.stat()
         fileNameWithPath = str(file_path)
+        print(f"filename with subpat es : {fileNameWithSubPath}")
+        time.sleep(5)
+        sys.exit(1)
 
         return BackUpFile(
             file_path.name,
@@ -95,8 +100,9 @@ class UtilsFiles:
 
 
 #
-    @staticmethod
+    @staticmethod   #path donde se pondra el respaldo y la lista de archivos a respaldar
     def findConflictsInFinalPath(finalPath: str, listAllFilesToBackUp: list[BackUpFile]) -> bool:
+        print(f"path : {finalPath}")
         listFilesInPathFolder = UtilsFiles.listar_archivos_recursivos(finalPath)
         dictFilenameObjc : dict[str, list[BackedConflictedFile]] = {}
 
@@ -119,7 +125,7 @@ class UtilsFiles:
 
         for objToBackup in listAllFilesToBackUp:
             listConflictedFiles = dictFilenameObjc.get(objToBackup.fileName)
-
+            print(f"filename : {objToBackup.fileName}")
             if listConflictedFiles is not None:
                 objToBackup.conflictedFiles = listConflictedFiles.copy()
                 objToBackup.conflicted = True
@@ -127,6 +133,28 @@ class UtilsFiles:
             else:
                 objToBackup.conflictedFiles = None
 
+        return conflictedFound
+
+
+    @staticmethod  #ni siquiera necesito los archivos del final path, solo voy a comprobar si existen el posible archivo conflictivo
+    def findConflictsInFinalPath2(finalPath: str, listAllFilesToBackUp: list[BackUpFile]) -> bool:
+        conflictedFound = False
+        for obj in listAllFilesToBackUp:
+            fileEndPath = ""
+            if obj.fileNameWithSubPath == None:#si no viene de un folder.
+                fileEndPath =finalPath + "/" + obj.fileName
+            else:
+                fileEndPath =finalPath + "/" + obj.fileNameWithSubPath
+            fileAsPathObj = Path(fileEndPath)
+            if fileAsPathObj.is_file():
+                conflictedFound = True
+                obj.conflicted = True
+                conflictedObj = BackedConflictedFile(
+                    obj.fileName,
+                    fileEndPath,
+                    fileAsPathObj.st_size,
+                    datetime.fromtimestamp(fileAsPathObj.st_mtime))
+                obj.conflictedFile = conflictedObj
         return conflictedFound
 
 
