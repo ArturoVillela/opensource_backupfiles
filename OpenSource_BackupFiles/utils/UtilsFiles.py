@@ -70,13 +70,12 @@ class UtilsFiles:
 #        fileNameWithSubPath = "/" + str(fileFullPath.relative_to(baseFolder.parent))
         fileNameWithSubPath = str(fileFullPath.relative_to(baseFolder.parent))
 
-
         file_path = Path(filePath)
         file_info = file_path.stat()
         fileNameWithPath = str(file_path)
         print(f"filename with subpat es : {fileNameWithSubPath}")
-        time.sleep(5)
-        sys.exit(1)
+#        time.sleep(5)  #### por k chingados tengo esto??
+#        sys.exit(1)
 
         return BackUpFile(
             file_path.name,
@@ -89,72 +88,47 @@ class UtilsFiles:
         )
 
 
-
     @staticmethod
     def getListObjects2BackupFromFolder(pathFolder:str)->list[BackUpFile]:
+        print("1")
         listFilesInPathFolder = UtilsFiles.listar_archivos_recursivos(pathFolder)
+        print("2, : ")
+        print(listFilesInPathFolder)
         listFilesFromFolder: list[BackUpFile] = []
         for fullPathFile in listFilesInPathFolder:
             listFilesFromFolder.append(UtilsFiles.getBackUpFileFromFileWithinFolder(fullPathFile, pathFolder))
+        print("3")
         return listFilesFromFolder
 
-
 #
-    @staticmethod   #path donde se pondra el respaldo y la lista de archivos a respaldar
-    def findConflictsInFinalPath(finalPath: str, listAllFilesToBackUp: list[BackUpFile]) -> bool:
-        print(f"path : {finalPath}")
-        listFilesInPathFolder = UtilsFiles.listar_archivos_recursivos(finalPath)
-        dictFilenameObjc : dict[str, list[BackedConflictedFile]] = {}
-
-        setFilesInBKFolder: set[BackedConflictedFile] = set()
-        for backupFile in listFilesInPathFolder:
-            fileAsPath = Path(backupFile)
-            fileStats = fileAsPath.stat()
-            fileObjIbBackedFile = BackedConflictedFile(
-                fileAsPath.name,
-                backupFile,
-                fileStats.st_size,
-                datetime.fromtimestamp(fileStats.st_mtime))
-            if fileAsPath.name not in dictFilenameObjc:
-                dictFilenameObjc.setdefault(fileAsPath.name, []) #agrega una lista vacia para el key 'fileAsPath.name'
-
-            #le agrega el obj a la lista de objetos con ese nombre, para el key'fileAsPath.name'
-            dictFilenameObjc[fileAsPath.name].append(fileObjIbBackedFile) #primer parte obtiene la lista, 2da le agrega el elemento
-
-        conflictedFound = False
-
-        for objToBackup in listAllFilesToBackUp:
-            listConflictedFiles = dictFilenameObjc.get(objToBackup.fileName)
-            print(f"filename : {objToBackup.fileName}")
-            if listConflictedFiles is not None:
-                objToBackup.conflictedFiles = listConflictedFiles.copy()
-                objToBackup.conflicted = True
-                conflictedFound = True
-            else:
-                objToBackup.conflictedFiles = None
-
-        return conflictedFound
-
-
     @staticmethod  #ni siquiera necesito los archivos del final path, solo voy a comprobar si existen el posible archivo conflictivo
     def findConflictsInFinalPath2(finalPath: str, listAllFilesToBackUp: list[BackUpFile]) -> bool:
         conflictedFound = False
         for obj in listAllFilesToBackUp:
+#            print("nuestro obj antes de buscar conflictos___________")
+#            print(obj)
+#            print("nuestro obj antes de buscar conflictos___________")
             fileEndPath = ""
             if obj.fileNameWithSubPath == None:#si no viene de un folder.
                 fileEndPath =finalPath + "/" + obj.fileName
             else:
                 fileEndPath =finalPath + "/" + obj.fileNameWithSubPath
+            print(f"file path: fileEndPAth :  {fileEndPath}")
             fileAsPathObj = Path(fileEndPath)
             if fileAsPathObj.is_file():
+                fileStats = fileAsPathObj.stat()
                 conflictedFound = True
                 obj.conflicted = True
+#                print(f"con name:{obj.fileName}, con pathwn:{fileEndPath}, csize:{fileStats.st_size}, cdateM:{datetime.fromtimestamp(fileStats.st_mtime)}")
                 conflictedObj = BackedConflictedFile(
                     obj.fileName,
                     fileEndPath,
-                    fileAsPathObj.st_size,
-                    datetime.fromtimestamp(fileAsPathObj.st_mtime))
+                    fileStats.st_size,
+                    datetime.fromtimestamp(fileStats.st_mtime))
                 obj.conflictedFile = conflictedObj
+#        print("nuestro obj despues de encontrar conflictos___________")
+#        print(obj)
+#        print("nuestro obj despues de encontrar conlfictos___________")
         return conflictedFound
 
 

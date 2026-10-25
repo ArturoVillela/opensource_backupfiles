@@ -32,9 +32,18 @@ class Utils:
 
 
     @staticmethod
+    def formatearNombreConSaltoDeLineaHtml(nombre, ruta)->str:
+        return nombre+"<Br>"+Utils.formatearRutaForConflicts(ruta)
+
+
+    @staticmethod
     def formatStringWithSize(ruta, size):
         return ruta.ljust(140) + size
 
+
+    @staticmethod
+    def formatDatedsssssssssssssssssssssss(ruta, size):
+        return ruta.ljust(140) + size
 
     @staticmethod
     def getTuplaListFromPathList(pathList)->list[tuple[str, float]]:

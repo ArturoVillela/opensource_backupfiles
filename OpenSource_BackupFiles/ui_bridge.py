@@ -54,7 +54,6 @@ class UiBridge(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.containerLayout = self.ui.scrollAreaWidgetContents.layout()
-        print(type(self.containerLayout))
         self.conectar_eventos()
 
         self.webView = self.ui.widgetWebView
@@ -70,25 +69,26 @@ class UiBridge(QMainWindow):
         self.ui.btn_clear_all.clicked.connect(self.btnClearAllClicked)
         self.ui.btn_start.clicked.connect(self.btnStartClicked)
         self.ui.btnCancelScrn2.clicked.connect(self.btnCancelScrn2Clicked)
+#       falta agregar las funciones de estos botones
+        self.ui.btnSkipAll.clicked.connect(self.btnSkipAllClicked)
+        self.ui.btnOverwritteAll.clicked.connect(self.btnOverwritteAllClicked)
+#        self.ui.btnSolveConflicts.clicked.connect(self.btnSolveConflictsClicked)
 #        en segunda pantalla el btn start se llama btnSolveConflicts
+
+    def btnSkipAllClicked(self):
+        self.webView2.page().runJavaScript("setAllActions('skip');")
+
+#
+    def btnOverwritteAllClicked(self):
+        self.webView2.page().runJavaScript("setAllActions('overwrite');")
 
 #
     def initSecondScreen(self):
         cantConflicts = UtilsFiles.getCantConflicts(self.listAllFilesToBackUp)
         self.cambiarPantalla(2)
         self.updateLabelConflicts(cantConflicts)
-        for obj in self.listAllFilesToBackUp:
-            if not obj.conflicted: continue
-            name = obj.fileName
-            ruta = obj.fileNameWithPath if obj.fileNameWithSubPath is None else obj.fileNameWithSubPath
-            name = f"{name} ↪{Utils.formatearRutaForConflicts(ruta)}"
-            print("nombre :{name}, conflicted: {obj.conflicted} ")
-            if obj.fileNameWithSubPath != None:
-                name = obj.fileNameWithSubPath
-            size = obj.fileSize
-            dateModifiedAsStr = obj.getDateAsStr()
-            self.addRowToSecondTableTable(name,size,dateModifiedAsStr,obj.conflictedFiles)
-#TODO aki vamos.. en la parte de agregarle el renglon de conflicto al webview...ArithmeticError
+        self.addRowToSecondTable()
+
 #
     def updateLabelConflicts(self, cantConflicts: int):
         self.ui.labelXConflics.setText(f"files with conflicts : {cantConflicts}")
@@ -107,20 +107,18 @@ class UiBridge(QMainWindow):
         if not self.finalPath:
             self.showAlertByDialogCode(1)
             return
-        conflictedFound = UtilsFiles.findConflictsInFinalPath(self.finalPath, self.listAllFilesToBackUp)
-        print(f"encontramos conflictos :{conflictedFound}")
+        conflictedFound = UtilsFiles.findConflictsInFinalPath2(self.finalPath, self.listAllFilesToBackUp)
         if conflictedFound:
             self.initSecondScreen()
             return
         self.startingBackup2()
 
 #
-    def btnClearAllClicked(self): #por el momento lo usamos para cambiar pantalla solamente
+    def btnClearAllClicked(self):
         self.listAllFilesToBackUp.clear()
         self.updateLabelInfo()
         self.ui.label_all_files_to_copy.setText (" ")
         self.initWebView()
-        print("aki limpiamos el layout de archivos, nuevo size : " +str(len(self.listAllFilesToCopy)))
 
 #
     def btnAddFilesToBackupClicked(self):
@@ -144,7 +142,6 @@ class UiBridge(QMainWindow):
 #
     def btnAddFoldersToBackupClicked(self):
         ruta = self.seleccionarFolder()
-        print (f"ruta = {ruta}")
         if ruta is None:
             return
         for folderAdded in self.listAddedFoldersPath:
@@ -164,7 +161,6 @@ class UiBridge(QMainWindow):
             print("folder seleccionado esta vacio")
             return
         self.listAllFilesToBackUp.extend(listObjectsInFolder)
-        print("las pruebas llegan hasta aki.. a probar esta madre...")
         folderSize: float = 0
         for obj in listObjectsInFolder:
             folderSize += obj.fileSize
@@ -384,7 +380,6 @@ class UiBridge(QMainWindow):
 
 #
     def initWebViewSecondPage(self):
-        print("111111")
         htmlPath = Path("html/selector2.html")
         with open(htmlPath, "r", encoding="utf-8") as file:
             htmlPage = file.read()
@@ -405,32 +400,27 @@ class UiBridge(QMainWindow):
 
 
 #
-    def addRowToSecondTableTable(
-        self,
-        nameFile,
-        size,
-        dateModifiedAsStr,
-        conflicted: list[BackedConflictedFile] | None
-    ):
-        listConflicted: list[list[str]] = []
-
-        for obj in conflicted or []:
-            listConflicted.append([
-                Utils.formatearRutaForConflicts(obj.source_file_pathWithName),
-                Utils.format_size(obj.source_file_size),
-                obj.getDateAsStr()  #modified.. double test plz...
-                if obj.source_last_date_modified is not None else ""
-            ])
-
-        script = (
-            f"addRowToTable2("
-            f"{json.dumps(nameFile)}, "
-            f"{json.dumps(Utils.format_size(size))}, "
-            f"{json.dumps(dateModifiedAsStr)}, "
-            f"{json.dumps(listConflicted)}"
-            f");"
-        )
-        self.webView2.page().runJavaScript(script)
+    def addRowToSecondTable(self):
+        print("psss si llega al add row to sendo table....")
+        for index, obj in enumerate(self.listAllFilesToBackUp):
+#        for obj in self.listAllFilesToBackUp:
+            print(f"obj nombre:{obj.fileName}, conflicted: {obj.conflictedFile}")
+            if obj.conflictedFile is None : continue
+            nameOnly = obj.fileName
+            formattedPath = Utils.formatearRutaForConflicts(obj.fileNameWithPath)
+            fileSize = Utils.format_size(obj.fileSize)
+            dateModified = obj.getDateAsStr()
+            nameOnly = nameOnly+ f" index->{index} "
+            script = (
+                f"addRowToTable3("
+                f"{json.dumps(nameOnly)}, "
+                f"{json.dumps(formattedPath)}, "
+                f"{json.dumps(fileSize)}, "
+                f"{json.dumps(dateModified)}, "
+                f"{json.dumps(index)}, "
+                f");"
+            )
+            self.webView2.page().runJavaScript(script)
 
 #
     def restarTable(self):
