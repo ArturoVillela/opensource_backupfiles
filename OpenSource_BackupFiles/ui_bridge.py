@@ -72,7 +72,7 @@ class UiBridge(QMainWindow):
 #       falta agregar las funciones de estos botones
         self.ui.btnSkipAll.clicked.connect(self.btnSkipAllClicked)
         self.ui.btnOverwritteAll.clicked.connect(self.btnOverwritteAllClicked)
-#        self.ui.btnSolveConflicts.clicked.connect(self.btnSolveConflictsClicked)
+        self.ui.btnSolveConflicts.clicked.connect(self.btnSolveConflictsClicked)
 #        en segunda pantalla el btn start se llama btnSolveConflicts
 
     def btnSkipAllClicked(self):
@@ -81,6 +81,29 @@ class UiBridge(QMainWindow):
 #
     def btnOverwritteAllClicked(self):
         self.webView2.page().runJavaScript("setAllActions('overwrite');")
+
+#
+#    def btnSolveConflictsClicked(self):  #puesto en hold por que no corre bien
+#        self.webView2.page().runJavaScript(
+#                "getSelectedActions();",
+#                self.onConflictSelectionsReceived)
+
+    def btnSolveConflictsClicked(self):
+        self.webView2.page().runJavaScript(
+                "JSON.stringify(getSelectedActions())",
+                self.onConflictSelectionsReceived
+            )
+
+
+#
+    def onConflictSelectionsReceived(self, result):
+        print("Resultado recibido:", repr(result))
+        selections = json.loads(result)
+        for selection in selections:
+            index = selection["index"]
+            action = selection["action"]
+            print(f"Para index: {index}, selección: {action}")
+
 
 #
     def initSecondScreen(self):

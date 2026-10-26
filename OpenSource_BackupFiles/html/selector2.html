@@ -193,19 +193,33 @@
     </script>
     <script>
         function setAllActions(action) {
-        const selects = document.querySelectorAll("#charlitosTable tbody select");
+            const selects = document.querySelectorAll("#charlitosTable tbody select");
 
-        selects.forEach(select => {
-            select.value = action;
-            updateColor(select);
-        });
-    }
+            selects.forEach(select => {
+                select.value = action;
+                updateColor(select);
+            });
+            }
+
     </script>
     <script>
         function restarWebViewSecondScreen() {
             const tbody = document.querySelector(`tbody`);
             tbody.innerHTML = "";
             }
+    </script>
+    <script>
+        function getSelectedActions() {
+            alert('testing 12...12...12');
+            const selects = document.querySelectorAll(
+                "#charlitosTable tbody select[data-backup-id]"
+            );
+
+            return Array.from(selects, select => ({
+                index: Number(select.dataset.backupId),
+                action: select.value
+            }));
+        }
     </script>
 </head>
 <body>
