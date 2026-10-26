@@ -18,6 +18,7 @@ class Resources:
             (12, "Error", "Unexpected Error on bash script.\nOs unable to copy."),
             (13, "Error", "Folder is Already marked to backup."),
             (14, "Error", "Folder is contained in another folder."),
+            (15, "Alert", "Conflicted Resolved.\nAny modification will start a new check for conflicts."),
         ]
 
 

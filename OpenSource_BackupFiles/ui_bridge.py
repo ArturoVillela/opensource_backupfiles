@@ -83,27 +83,23 @@ class UiBridge(QMainWindow):
         self.webView2.page().runJavaScript("setAllActions('overwrite');")
 
 #
-#    def btnSolveConflictsClicked(self):  #puesto en hold por que no corre bien
-#        self.webView2.page().runJavaScript(
-#                "getSelectedActions();",
-#                self.onConflictSelectionsReceived)
-
     def btnSolveConflictsClicked(self):
         self.webView2.page().runJavaScript(
                 "JSON.stringify(getSelectedActions())",
-                self.onConflictSelectionsReceived
-            )
-
+                self.onConflictSelectionsReceived)
 
 #
     def onConflictSelectionsReceived(self, result):
         print("Resultado recibido:", repr(result))
         selections = json.loads(result)
+        listIndexesToSkip: list[int] = []
         for selection in selections:
             index = selection["index"]
             action = selection["action"]
-            print(f"Para index: {index}, selección: {action}")
-
+            if action == "skip":
+                listIndexesToSkip.append(index)
+        self.showAlertByDialogCode(15)
+        self.cambiarPantalla(2,listIndexesToSkip)
 
 #
     def initSecondScreen(self):
@@ -384,11 +380,15 @@ class UiBridge(QMainWindow):
         self.showAlertByDialogCode(12)
 
 #
-    def cambiarPantalla(self, index:int) ->None:
+    def cambiarPantalla(self, index:int, listIndexesToRemove:[int]|None) ->None: #TODO
         if index == 1:
             self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
             self.currentScreenSelected = 1
-            self.ui.btn_start.setText (" Solve Conflicts ")
+            if listIndexesToRemove != None:
+                listIndexesToRemove.sort(reverse=True)
+                for index in listIndexesToRemove:
+                    del self.listAllFilesToBackUp[index] #removemos los indeces.
+
         else:
             self.ui.stackedWidget.setCurrentWidget(self.ui.page_2)
             self.currentScreenSelected = 2
@@ -421,6 +421,12 @@ class UiBridge(QMainWindow):
         )
         self.webView2.page().runJavaScript(script)
 
+
+    def restarWebViewFirstScreen(self): #TODO... estamos en esta madre...
+        script = (
+            f"restarWebViewSecondScreen();"
+        )
+        self.webView2.page().runJavaScript(script)
 
 #
     def addRowToSecondTable(self):
