@@ -47,6 +47,7 @@ class UiBridge(QMainWindow):
 
         self.isBackupStarted: bool = False
         self.isBackupFailed: bool = False
+        self.solvedConflictedOccured = False
 
         self.copyFiles.backupCompleted.connect(self.onBackupCompleted) #listeners reactive programming for script
         self.copyFiles.backupFailed.connect(self.onBackupFailed)
@@ -99,7 +100,20 @@ class UiBridge(QMainWindow):
             if action == "skip":
                 listIndexesToSkip.append(index)
         self.showAlertByDialogCode(15)
-        self.cambiarPantalla(2,listIndexesToSkip)
+        self.solvedConflictedOccured = True
+        self.cambiarPantalla(1, listIndexesToSkip) #tambien remueve los objets no deseados a backear.
+        self.updateWebViewAfterConflicts()
+        self.updateLabelInfo()
+
+
+    def updateWebViewAfterConflicts(self):
+        for obj in self.listAllFilesToBackUp:
+            ruta = obj.fileNameWithPath
+            if obj.fileNameWithSubPath is not None:
+                ruta = obj.fileNameWithSubPath
+            ruta2 = Utils.formatear_ruta(ruta)
+            formated_size = Utils.format_size(obj.fileSize)
+            self.addRowToTable(ruta2, formated_size)
 
 #
     def initSecondScreen(self):
@@ -126,10 +140,11 @@ class UiBridge(QMainWindow):
         if not self.finalPath:
             self.showAlertByDialogCode(1)
             return
-        conflictedFound = UtilsFiles.findConflictsInFinalPath2(self.finalPath, self.listAllFilesToBackUp)
-        if conflictedFound:
-            self.initSecondScreen()
-            return
+        if not self.solvedConflictedOccured:
+            conflictedFound = UtilsFiles.findConflictsInFinalPath2(self.finalPath, self.listAllFilesToBackUp)
+            if conflictedFound:
+                self.initSecondScreen()
+                return
         self.startingBackup2()
 
 #
@@ -141,6 +156,7 @@ class UiBridge(QMainWindow):
 
 #
     def btnAddFilesToBackupClicked(self):
+        self.solvedConflictedOccured = False
         ruta = self.seleccionar_ruta()
         if ruta:
             backupFile = UtilsFiles.getBackUpFileFromPath(ruta)
@@ -160,6 +176,7 @@ class UiBridge(QMainWindow):
 
 #
     def btnAddFoldersToBackupClicked(self):
+        self.solvedConflictedOccured = False
         ruta = self.seleccionarFolder()
         if ruta is None:
             return
@@ -191,6 +208,7 @@ class UiBridge(QMainWindow):
 
 #
     def btnSelectEndFolderClicked(self): #pone la ruta final donde se hara el respaldo
+        self.solvedConflictedOccured = False
         ruta = self.seleccionarFolder()
         self.isBackupFolderEmpty = True
         if ruta is None:
@@ -380,7 +398,7 @@ class UiBridge(QMainWindow):
         self.showAlertByDialogCode(12)
 
 #
-    def cambiarPantalla(self, index:int, listIndexesToRemove:[int]|None) ->None: #TODO
+    def cambiarPantalla(self, index:int, listIndexesToRemove:list[int]|None = None) ->None:
         if index == 1:
             self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
             self.currentScreenSelected = 1
@@ -388,7 +406,7 @@ class UiBridge(QMainWindow):
                 listIndexesToRemove.sort(reverse=True)
                 for index in listIndexesToRemove:
                     del self.listAllFilesToBackUp[index] #removemos los indeces.
-
+            self.restarWebViewFirstScreen()
         else:
             self.ui.stackedWidget.setCurrentWidget(self.ui.page_2)
             self.currentScreenSelected = 2
@@ -422,11 +440,11 @@ class UiBridge(QMainWindow):
         self.webView2.page().runJavaScript(script)
 
 
-    def restarWebViewFirstScreen(self): #TODO... estamos en esta madre...
+    def restarWebViewFirstScreen(self):
         script = (
-            f"restarWebViewSecondScreen();"
+            f"clearTable();"
         )
-        self.webView2.page().runJavaScript(script)
+        self.webView.page().runJavaScript(script)
 
 #
     def addRowToSecondTable(self):
