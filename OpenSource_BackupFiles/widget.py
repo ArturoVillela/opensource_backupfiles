@@ -2,6 +2,7 @@
 # comando para exportar el ui a python pyside6-uic base1.ui -o base3_ui.py
 # Shift + Tab: mueve todo el bloque 4 espacios hacia la izquierda.
 # Tab: mueve todo el bloque 4 espacios hacia la derecha.
+# pyside6-uic baseui_whtml2.ui -o base20_ui.py   //lastcommand used in /home/charlito/Documents/dev/python/ui_layouts
 
 import sys
 from PySide6.QtWidgets import (

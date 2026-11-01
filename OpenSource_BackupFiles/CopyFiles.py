@@ -31,18 +31,15 @@ class CopyFiles(QObject):
         if exit_code == 0:
             self.backupCompleted.emit()
         else:
-            print("error en backupfinished en CopyFiles.py class")
             error = self.backup_process.readAllStandardError().data().decode()
             self.backupFailed.emit(error or f"El script terminó con código {exit_code}")
 
 
     def backupError(self, error):
-        print("Error en clase CopyFiles, ejecutando el respaldo:", error)
         self.backupFailed.emit(
             f"No se pudo ejecutar el respaldo: {error}"
         )
 
     def cancelBackup(self):
-        print("canceled backup por el usuario desde el boton cancelbackup en ui_bridge..")
         if self.backup_process.state() != QProcess.NotRunning:
             self.backup_process.terminate()

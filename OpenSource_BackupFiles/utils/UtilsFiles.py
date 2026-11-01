@@ -73,7 +73,6 @@ class UtilsFiles:
         file_path = Path(filePath)
         file_info = file_path.stat()
         fileNameWithPath = str(file_path)
-        print(f"filename with subpat es : {fileNameWithSubPath}")
 #        time.sleep(5)  #### por k chingados tengo esto??
 #        sys.exit(1)
 
@@ -90,14 +89,11 @@ class UtilsFiles:
 
     @staticmethod
     def getListObjects2BackupFromFolder(pathFolder:str)->list[BackUpFile]:
-        print("1")
         listFilesInPathFolder = UtilsFiles.listar_archivos_recursivos(pathFolder)
-        print("2, : ")
         print(listFilesInPathFolder)
         listFilesFromFolder: list[BackUpFile] = []
         for fullPathFile in listFilesInPathFolder:
             listFilesFromFolder.append(UtilsFiles.getBackUpFileFromFileWithinFolder(fullPathFile, pathFolder))
-        print("3")
         return listFilesFromFolder
 
 #
@@ -113,22 +109,17 @@ class UtilsFiles:
                 fileEndPath =finalPath + "/" + obj.fileName
             else:
                 fileEndPath =finalPath + "/" + obj.fileNameWithSubPath
-            print(f"file path: fileEndPAth :  {fileEndPath}")
             fileAsPathObj = Path(fileEndPath)
             if fileAsPathObj.is_file():
                 fileStats = fileAsPathObj.stat()
                 conflictedFound = True
                 obj.conflicted = True
-#                print(f"con name:{obj.fileName}, con pathwn:{fileEndPath}, csize:{fileStats.st_size}, cdateM:{datetime.fromtimestamp(fileStats.st_mtime)}")
                 conflictedObj = BackedConflictedFile(
                     obj.fileName,
                     fileEndPath,
                     fileStats.st_size,
                     datetime.fromtimestamp(fileStats.st_mtime))
                 obj.conflictedFile = conflictedObj
-#        print("nuestro obj despues de encontrar conflictos___________")
-#        print(obj)
-#        print("nuestro obj despues de encontrar conlfictos___________")
         return conflictedFound
 
 
@@ -205,7 +196,6 @@ class UtilsFiles:
     @staticmethod
     def findConflictsInBackup(listAllNamesOfFilesToCopy, finalPath) -> tuple[bool, list[int] | None]:
         """ funcion principal..listallnames contiene path y regresa indices de conflictos por nombre """
-        print("....................................starting findConflicst method..")
         listPathsInEndFolder = UtilsFiles.listar_archivos_recursivos(finalPath)
         listNamesInEndFolder = []
         listNamesInListToCopy = []
@@ -217,13 +207,10 @@ class UtilsFiles:
 
         #print("list only names of files in backup folder:")
         #Utils.printList(listNamesInListToCopy)
-        print("....................................  hasta aki todo bien..")
         listConflicts = UtilsFiles.indices_en_comun(listNamesInListToCopy, listNamesInEndFolder)
         if not listConflicts:
-            print("lista vacia , no encontro conflicst")
             return False, None
         else:
-            print("lista no vacia.. si encontro conflics")
             for index in listConflicts:
                 print(" confliected file :",listNamesInListToCopy[index])
         return True, listConflicts
@@ -248,26 +235,6 @@ class UtilsFiles:
         return size
 
 
-#obtendremos la lista de archivos, pero incluyendo la ruta relativa del folder
-    @staticmethod
-    def getListOfAllFilesInAFolder2Backup(folderPath:str)-> list[BackUpFile]:
-        file_path = Path(folderPath)
-        fileName = file_path.name
-
-        listFullPath = [str(p) for p in Path(folderPath).rglob("*") if p.is_file()]
-        #sacar los nombres
-        for path in listFullPath:
-            filePath = Path(path)
-            fileName = filePath.name
-            fileNameWithSubFolder = path.relative_to(folderPath)
-            print(f"folder: {folderPath}, name:{fileName}, nameWithFolder:{fileNameWithSubFolder}")
-
-        return
-        listRelativePath: list[str] = []
-        for fullPath in listFullPath:
-            listRelativePath.append(fullPath.relative_to(folderPath))
-
-
     @staticmethod
     def listar_archivos_recursivos(ruta)->list[str]:
         return [str(p) for p in Path(ruta).rglob("*") if p.is_file()]
@@ -290,22 +257,3 @@ class UtilsFiles:
                 widget.deleteLater()
 
 
-
-                #                pasos a seguir para tener un scroll en un widget...
-#                # 1. Crear el widget contenedor y el layout vertical
-#                container_widget = QWidget()
-#                v_layout = QVBoxLayout(container_widget)
-
-#                # 2. Agregar los elementos al layout
-#                v_layout.addWidget(widget_1)
-#                v_layout.addWidget(widget_2)
-#                # ... agregar más widgets
-
-#                # 3. Configurar el QScrollArea
-#                scroll_area = QScrollArea()
-#                scroll_area.setWidgetResizable(True)  # Importante para el auto-scroll
-#                scroll_area.setWidget(container_widget)
-
-#                # 4. Establecer el scroll area como widget central o añadirlo a otro layout
-#                central_widget = QWidget()
-#                setCentralWidget(scroll_area)

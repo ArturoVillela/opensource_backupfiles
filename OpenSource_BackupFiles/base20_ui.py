@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'baseui_whtml.ui'
+## Form generated from reading UI file 'baseui_whtml2.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.11.1
 ##
@@ -26,9 +26,9 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1088, 700)
+        MainWindow.resize(1080, 700)
         MainWindow.setMinimumSize(QSize(1080, 700))
-        MainWindow.setMaximumSize(QSize(1999, 700))
+        MainWindow.setMaximumSize(QSize(1080, 700))
         MainWindow.setMouseTracking(True)
         MainWindow.setStyleSheet(u"")
         self.centralwidget = QWidget(MainWindow)
@@ -212,7 +212,7 @@ class Ui_MainWindow(object):
         font1.setBold(True)
         self.btn_start.setFont(font1)
         self.btn_start.setStyleSheet(u"QPushButton {\n"
-"    background-color: rgb(47, 85, 151);\n"
+"    background-color: #2f5597;\n"
 "    color: white;\n"
 "    border: none;\n"
 "    border-radius: 5px;\n"
@@ -267,10 +267,10 @@ class Ui_MainWindow(object):
 "    border: none;\n"
 "}\n"
 "")
-        self.btnCancelBackup = QPushButton(self.containerLwidget_s2)
-        self.btnCancelBackup.setObjectName(u"btnCancelBackup")
-        self.btnCancelBackup.setGeometry(QRect(870, 500, 171, 41))
-        self.btnCancelBackup.setStyleSheet(u"QPushButton {\n"
+        self.btnCancelScrn2 = QPushButton(self.containerLwidget_s2)
+        self.btnCancelScrn2.setObjectName(u"btnCancelScrn2")
+        self.btnCancelScrn2.setGeometry(QRect(870, 500, 171, 41))
+        self.btnCancelScrn2.setStyleSheet(u"QPushButton {\n"
 "    background-color: #8a0000;\n"
 "    color: white;\n"
 "    border: none;\n"
@@ -280,7 +280,7 @@ class Ui_MainWindow(object):
 "")
         icon4 = QIcon()
         icon4.addFile(u"../figma/ic_cancel.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnCancelBackup.setIcon(icon4)
+        self.btnCancelScrn2.setIcon(icon4)
         self.btnSkipAll = QPushButton(self.containerLwidget_s2)
         self.btnSkipAll.setObjectName(u"btnSkipAll")
         self.btnSkipAll.setGeometry(QRect(740, 50, 121, 41))
@@ -318,7 +318,7 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 1041, 391))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 1039, 389))
         self.verticalLayout_4 = QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.widgetWebView2 = QWebEngineView(self.scrollAreaWidgetContents_3)
@@ -327,13 +327,13 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.addWidget(self.widgetWebView2)
 
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_3)
-        self.btnStartBackup2 = QPushButton(self.page_2)
-        self.btnStartBackup2.setObjectName(u"btnStartBackup2")
-        self.btnStartBackup2.setEnabled(True)
-        self.btnStartBackup2.setGeometry(QRect(10, 590, 1061, 41))
-        self.btnStartBackup2.setFont(font1)
-        self.btnStartBackup2.setStyleSheet(u"QPushButton {\n"
-"    background-color: rgb(62, 68, 154);\n"
+        self.btnSolveConflicts = QPushButton(self.page_2)
+        self.btnSolveConflicts.setObjectName(u"btnSolveConflicts")
+        self.btnSolveConflicts.setEnabled(True)
+        self.btnSolveConflicts.setGeometry(QRect(10, 590, 1061, 41))
+        self.btnSolveConflicts.setFont(font1)
+        self.btnSolveConflicts.setStyleSheet(u"QPushButton {\n"
+"    background-color: #51607b;\n"
 "    color: white;\n"
 "    border: none;\n"
 "    border-radius: 5px;\n"
@@ -343,32 +343,30 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {\n"
 "    background-color: rgb(42, 47, 115);\n"
 "}")
-        self.btnStartBackup2.setIcon(icon3)
+        self.btnSolveConflicts.setIcon(icon3)
         self.stackedWidget.addWidget(self.page_2)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QMenuBar(MainWindow)
-        self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1088, 30))
-        self.menubar.setStyleSheet(u"background-color: rgb(243, 243, 243);s")
-        self.menuAbout = QMenu(self.menubar)
+        self.menu = QMenuBar(MainWindow)
+        self.menu.setObjectName(u"menu")
+        self.menu.setGeometry(QRect(0, 0, 1080, 30))
+        self.menu.setStyleSheet(u"background-color: rgb(243, 243, 243);s")
+        self.menuAbout = QMenu(self.menu)
         self.menuAbout.setObjectName(u"menuAbout")
-        self.menuAbout.setLayoutDirection(Qt.RightToLeft)
-        self.menuhelp = QMenu(self.menubar)
-        self.menuhelp.setObjectName(u"menuhelp")
-        self.menuSettings = QMenu(self.menubar)
-        self.menuSettings.setObjectName(u"menuSettings")
-        MainWindow.setMenuBar(self.menubar)
+        self.menuAbout.setMinimumSize(QSize(500, 500))
+        self.menuAbout.setMaximumSize(QSize(500, 900))
+        self.menuHelp = QMenu(self.menu)
+        self.menuHelp.setObjectName(u"menuHelp")
+        MainWindow.setMenuBar(self.menu)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.menubar.addAction(self.menuAbout.menuAction())
-        self.menubar.addAction(self.menuhelp.menuAction())
-        self.menubar.addAction(self.menuSettings.menuAction())
+        self.menu.addAction(self.menuAbout.menuAction())
+        self.menu.addAction(self.menuHelp.menuAction())
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -393,12 +391,11 @@ class Ui_MainWindow(object):
         self.label_8.setText("")
         self.label_conflic_2.setText(QCoreApplication.translate("MainWindow", u"Conflicts Detected", None))
         self.labelXConflics.setText(QCoreApplication.translate("MainWindow", u"XX files conflicts detected, click file for details.", None))
-        self.btnCancelBackup.setText(QCoreApplication.translate("MainWindow", u" Cancel Backup", None))
+        self.btnCancelScrn2.setText(QCoreApplication.translate("MainWindow", u" Cancel", None))
         self.btnSkipAll.setText(QCoreApplication.translate("MainWindow", u"Skip All", None))
         self.btnOverwritteAll.setText(QCoreApplication.translate("MainWindow", u" Overwritte All", None))
-        self.btnStartBackup2.setText(QCoreApplication.translate("MainWindow", u" Start Backup", None))
-        self.menuAbout.setTitle(QCoreApplication.translate("MainWindow", u"Setting", None))
-        self.menuhelp.setTitle(QCoreApplication.translate("MainWindow", u"About", None))
-        self.menuSettings.setTitle(QCoreApplication.translate("MainWindow", u"Help", None))
+        self.btnSolveConflicts.setText(QCoreApplication.translate("MainWindow", u"Solve Conflicts", None))
+        self.menuAbout.setTitle(QCoreApplication.translate("MainWindow", u"About", None))
+        self.menuHelp.setTitle(QCoreApplication.translate("MainWindow", u"Help", None))
     # retranslateUi
 

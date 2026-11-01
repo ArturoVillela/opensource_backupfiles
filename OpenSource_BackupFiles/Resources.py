@@ -19,6 +19,15 @@ class Resources:
             (13, "Error", "Folder is Already marked to backup."),
             (14, "Error", "Folder is contained in another folder."),
             (15, "Alert", "Conflicted Resolved.\nAny modification will start a new check for conflicts."),
+            (16, "About",
+            "A lightweight backup tool that collects files from multiple source folders \ninto a single destination,"+
+            "with conflict detection and resolution.\n"+
+            "Built with Python and PyQt, it uses background batch copying so the UI stays responsive even during large\n"+
+            "transfers.\n\n\nLicense: MIT"),
+            (17,"Help","Suggestions, bugs & help: open an issue at : \nhttps://github.com/ArturoVillela/opensource_backupfiles" )
+
+
+
         ]
 
 

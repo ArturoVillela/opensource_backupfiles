@@ -1,10 +1,11 @@
 from PySide6.QtWidgets import QMainWindow
-from base19_ui import Ui_MainWindow
+from base20_ui import Ui_MainWindow
 from pathlib import Path
 from PySide6 import QtCore
 from Resources import Resources
 from PySide6.QtCore import QObject, QThread, Signal, Qt
 from PySide6.QtWidgets import QProgressDialog
+from PySide6.QtGui import QAction
 import json
 
 from PySide6.QtWidgets import (
@@ -54,6 +55,7 @@ class UiBridge(QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.setWindowTitle("Open Source Backup V0.1.20_stable")
         self.containerLayout = self.ui.scrollAreaWidgetContents.layout()
         self.conectar_eventos()
 
@@ -74,7 +76,24 @@ class UiBridge(QMainWindow):
         self.ui.btnSkipAll.clicked.connect(self.btnSkipAllClicked)
         self.ui.btnOverwritteAll.clicked.connect(self.btnOverwritteAllClicked)
         self.ui.btnSolveConflicts.clicked.connect(self.btnSolveConflictsClicked)
+#        self.ui.menuHelp.triggered.connect(self.menuHelpClicked)
+        self.ui.menu.removeAction(self.ui.menuAbout.menuAction())
+        self.actionAbout = QAction("About", self)
+        self.ui.menu.addAction(self.actionAbout)
+        self.actionAbout.triggered.connect(self.menuAboutClicked)
 #        en segunda pantalla el btn start se llama btnSolveConflicts
+        self.ui.menu.removeAction(self.ui.menuHelp.menuAction())
+        self.actionHelp = QAction("Help", self)
+        self.ui.menu.addAction(self.actionHelp)
+        self.actionHelp.triggered.connect(self.menuHelpClicked)
+
+    def menuAboutClicked(self):
+        self.showAlertByDialogCode(16)
+
+
+    def menuHelpClicked(self):
+        self.showAlertByDialogCode(17)
+
 
     def btnSkipAllClicked(self):
         self.webView2.page().runJavaScript("setAllActions('skip');")
@@ -145,6 +164,7 @@ class UiBridge(QMainWindow):
             if conflictedFound:
                 self.initSecondScreen()
                 return
+        self.solvedConflictedOccured = False
         self.startingBackup2()
 
 #
@@ -194,7 +214,6 @@ class UiBridge(QMainWindow):
         listObjectsInFolder = UtilsFiles.getListObjects2BackupFromFolder(ruta)
         if not listObjectsInFolder:
             self.showAlertByDialogCode(7)
-            print("folder seleccionado esta vacio")
             return
         self.listAllFilesToBackUp.extend(listObjectsInFolder)
         folderSize: float = 0
@@ -202,7 +221,6 @@ class UiBridge(QMainWindow):
             folderSize += obj.fileSize
         sizeFormated = Utils.format_size(folderSize)
         ruta2 = Utils.formatear_ruta(ruta)
-        print(f"El folder seleccionada es: {ruta2}, \nSe muestra:{ruta}")
         self.addRowToTable(ruta2, sizeFormated)
         self.updateLabelInfo()
 
@@ -301,7 +319,6 @@ class UiBridge(QMainWindow):
 #            return
         #por el momento no se llega a las lineas siguientes...
         if not self.isBackupStarted:  # solo inicializa el progress dialog
-            print("entra al check for self.isBackupStarted")
             self.progress_dialog = QProgressDialog(
                 "Please wait:",
                 "Cancelar",
@@ -317,7 +334,6 @@ class UiBridge(QMainWindow):
             self.isBackupStarted = True
 
         if self.listAllFilesToBackUp:
-            print("entra al check for self.listAllFilesToBackUp, aki devemos chekar por conflictos..")
             self.progress_dialog.show()
             objToCopy = self.listAllFilesToBackUp.pop(0)
             if self.progress_dialog.wasCanceled():
@@ -326,18 +342,15 @@ class UiBridge(QMainWindow):
 #            print(f"primer archivo seleccionado : {objToCopy.fileNameWithPath}")
 #            print(f"objToCopy is type of :{objToCopy}")
             fileDestino = objToCopy.fileNameWithSubPath if objToCopy.fileNameWithSubPath is not None else objToCopy.fileName
-            print(f"archivo a copiar: {fileDestino}")
 
             #fileNameToCopy = objToCopy.source_file_pathWithName
             croppedFileName = Utils.formatear_ruta(fileDestino)
 #            newFile = str(self.finalPath) +"/"+ str(objToCopy.source_file_name) respaldo lda
             newFile = str(self.finalPath) +"/"+ fileDestino
-            print(f"new file rute: {newFile}")
             filesLeftToCopy = len(self.listAllFilesToCopy)
             self.progress_dialog.setLabelText(
                 f"Please wait: copying {croppedFileName}\nFiles left to copy: {filesLeftToCopy}"
             )
-            print(f"trataremos de copiar:::>  {objToCopy.fileNameWithPath}, y nuevo archivo en : {newFile}")
             Path(newFile).parent.mkdir(parents=True, exist_ok=True)
             self.copyFiles.startBackup(objToCopy.fileNameWithPath, newFile)  #origen y destino
         else:
@@ -353,7 +366,6 @@ class UiBridge(QMainWindow):
 
 #
     def onBackupCompleted(self):
-        print("......backup completed of a single file.. and got the result on ui_bridge")
         cantFilesLeft = len(self.listAllFilesToBackUp)
         print("cant de archivos a copiar: "+str(cantFilesLeft))
         if self.listAllFilesToBackUp:
@@ -364,7 +376,6 @@ class UiBridge(QMainWindow):
 
 #
     def onBackupFailed(self, error_message):     #TODO utilizar el sistema de dialogos predefinido en lugar de un critical
-        print("backup completed w/error.. and got the result on ui bridge")
         if self.progress_dialog:
             self.progress_dialog.hide()
 
@@ -391,7 +402,6 @@ class UiBridge(QMainWindow):
 
 #
     def onBackupError(self, error_msg):
-        print("backup error... on bridge class")
         self.btnClearAllClicked()
         if self.progress_dialog:
             self.progress_dialog.hide()
@@ -406,7 +416,7 @@ class UiBridge(QMainWindow):
                 listIndexesToRemove.sort(reverse=True)
                 for index in listIndexesToRemove:
                     del self.listAllFilesToBackUp[index] #removemos los indeces.
-            self.restarWebViewFirstScreen()
+                self.restarWebViewFirstScreen()
         else:
             self.ui.stackedWidget.setCurrentWidget(self.ui.page_2)
             self.currentScreenSelected = 2
@@ -448,10 +458,7 @@ class UiBridge(QMainWindow):
 
 #
     def addRowToSecondTable(self):
-        print("psss si llega al add row to sendo table....")
         for index, obj in enumerate(self.listAllFilesToBackUp):
-#        for obj in self.listAllFilesToBackUp:
-            print(f"obj nombre:{obj.fileName}, conflicted: {obj.conflictedFile}")
             if obj.conflictedFile is None : continue
             nameOnly = obj.fileName
             formattedPath = Utils.formatearRutaForConflicts(obj.fileNameWithPath)
