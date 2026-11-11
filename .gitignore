@@ -1,0 +1,15 @@
+# Archivos generados al construir Flatpak
+/OpenSource_backupFiles/flatpak/build-dir/
+/OpenSource_backupFiles/flatpak/.flatpak-builder/
+/OpenSource_backupFiles/flatpak/repo/
+
+# Ejecutables e instaladores
+*.bin
+*.flatpak
+
+# Archivos generados por Flatpak
+flatpak/flatpak--builder/
+flatpak/.flatpak-builder/
+flatpak/builder-dir/
+flatpak/build-dir/
+flatpak/repo/

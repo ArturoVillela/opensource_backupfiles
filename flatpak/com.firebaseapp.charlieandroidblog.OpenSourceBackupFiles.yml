@@ -1,0 +1,35 @@
+app-id: com.firebaseapp.charlieandroidblog.OpenSourceBackupFiles
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+command: opensource_backup_files.bin
+
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --device=dri
+  - --filesystem=host
+
+modules:
+  - name: krb5
+    buildsystem: autotools
+    subdir: src
+    config-opts:
+      - --disable-static
+      - --disable-rpath
+    sources:
+      - type: archive
+        url: https://kerberos.org/dist/krb5/1.21/krb5-1.21.3.tar.gz
+        sha256: b7a4cd5ead67fb08b980b21abd150ff7217e85ea320c9ed0c6dadd304840ad35
+
+  - name: opensource-backup-files
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 opensource_backup_files.bin /app/bin/opensource_backup_files.bin
+      - install -Dm644 OpenSource_BackupFiles.desktop /app/share/applications/com.firebaseapp.charlieandroidblog.OpenSourceBackupFiles.desktop
+    sources:
+      - type: file
+        path: opensource_backup_files.bin
+      - type: file
+        path: OpenSource_BackupFiles.desktop
