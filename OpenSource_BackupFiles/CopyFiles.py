@@ -1,6 +1,7 @@
 # This Python file uses the following encoding: utf-8
 
 from PySide6.QtCore import QProcess, QObject, Signal
+from pathlib import Path
 
 
 class CopyFiles(QObject):
@@ -21,10 +22,18 @@ class CopyFiles(QObject):
         self.backup_process.finished.connect(self.backupFinished)
         self.backup_process.errorOccurred.connect(self.backupError)
 
+        basePath = Path(__file__).resolve().parent
+        scriptPath = basePath / "script" / "copyScript.sh"
+
         self.backup_process.start(
-            "/home/charlito/Documents/dev/python/script/copyScript.sh",
-            [origen, destino]
+            "/bin/bash",
+            [str(scriptPath), origen, destino]
         )
+
+#        self.backup_process.start(
+#            "/home/charlito/Documents/dev/python/script/copyScript.sh",
+#            [origen, destino]
+#        )
 
 
     def backupFinished(self, exit_code, exit_status):

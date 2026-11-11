@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QLineEdit, QMainWindow, QMenu, QMenuBar,
     QPushButton, QScrollArea, QSizePolicy, QStackedWidget,
     QStatusBar, QVBoxLayout, QWidget)
+import resources_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -66,18 +67,18 @@ class Ui_MainWindow(object):
         self.label_6.setStyleSheet(u"QLabel {\n"
 "    border: none;\n"
 "}")
-        self.label_6.setPixmap(QPixmap(u"../figma/ic_folder.png"))
+        self.label_6.setPixmap(QPixmap(u":/figma/ic_folder.png"))
         self.btnAddFilesToSave = QPushButton(self.frame_2)
         self.btnAddFilesToSave.setObjectName(u"btnAddFilesToSave")
         self.btnAddFilesToSave.setGeometry(QRect(780, 17, 131, 31))
         icon = QIcon()
-        icon.addFile(u"../figma/ic_add_file.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/figma/ic_add_file.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnAddFilesToSave.setIcon(icon)
         self.btnAddFolders = QPushButton(self.frame_2)
         self.btnAddFolders.setObjectName(u"btnAddFolders")
         self.btnAddFolders.setGeometry(QRect(920, 17, 131, 31))
         icon1 = QIcon()
-        icon1.addFile(u"../figma/ic_add_folder.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u":/figma/ic_add_folder.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnAddFolders.setIcon(icon1)
         self.label_5 = QLabel(self.frame_2)
         self.label_5.setObjectName(u"label_5")
@@ -95,7 +96,7 @@ class Ui_MainWindow(object):
 "}\n"
 "")
         icon2 = QIcon()
-        icon2.addFile(u"../figma/ic_clear_all.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(u":/figma/ic_clear_all.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btn_clear_all.setIcon(icon2)
         self.label_all_files_to_copy = QLabel(self.frame_2)
         self.label_all_files_to_copy.setObjectName(u"label_all_files_to_copy")
@@ -146,7 +147,7 @@ class Ui_MainWindow(object):
         self.label_17.setStyleSheet(u"QLabel {\n"
 "    border: none;\n"
 "}")
-        self.label_17.setPixmap(QPixmap(u"../figma/ic_backup.png"))
+        self.label_17.setPixmap(QPixmap(u":/figma/ic_backup.png"))
         self.label_18 = QLabel(self.frame_3)
         self.label_18.setObjectName(u"label_18")
         self.label_18.setGeometry(QRect(10, 30, 401, 20))
@@ -243,7 +244,7 @@ class Ui_MainWindow(object):
 "    border: none;\n"
 "}\n"
 "")
-        self.label_8.setPixmap(QPixmap(u"../figma/ic_alert.png"))
+        self.label_8.setPixmap(QPixmap(u":/figma/ic_alert.png"))
         self.label_8.setScaledContents(True)
         self.label_conflic_2 = QLabel(self.containerLwidget_s2)
         self.label_conflic_2.setObjectName(u"label_conflic_2")
@@ -279,7 +280,7 @@ class Ui_MainWindow(object):
 "}\n"
 "")
         icon4 = QIcon()
-        icon4.addFile(u"../figma/ic_cancel.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon4.addFile(u":/figma/ic_cancel.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.btnCancelScrn2.setIcon(icon4)
         self.btnSkipAll = QPushButton(self.containerLwidget_s2)
         self.btnSkipAll.setObjectName(u"btnSkipAll")
@@ -294,7 +295,9 @@ class Ui_MainWindow(object):
 "    padding: 6px 12px;\n"
 "}\n"
 "")
-        self.btnSkipAll.setIcon(icon4)
+        icon5 = QIcon()
+        icon5.addFile(u"../figma/ic_cancel.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnSkipAll.setIcon(icon5)
         self.btnOverwritteAll = QPushButton(self.containerLwidget_s2)
         self.btnOverwritteAll.setObjectName(u"btnOverwritteAll")
         self.btnOverwritteAll.setGeometry(QRect(870, 50, 171, 41))
@@ -305,9 +308,9 @@ class Ui_MainWindow(object):
 "    padding: 6px 12px;\n"
 "}\n"
 "")
-        icon5 = QIcon()
-        icon5.addFile(u"../figma/ic_ok2.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.btnOverwritteAll.setIcon(icon5)
+        icon6 = QIcon()
+        icon6.addFile(u":/figma/ic_ok2.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnOverwritteAll.setIcon(icon6)
         self.scrollArea_2 = QScrollArea(self.containerLwidget_s2)
         self.scrollArea_2.setObjectName(u"scrollArea_2")
         self.scrollArea_2.setGeometry(QRect(10, 100, 1041, 391))
@@ -318,7 +321,7 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 1039, 389))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 1041, 391))
         self.verticalLayout_4 = QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.widgetWebView2 = QWebEngineView(self.scrollAreaWidgetContents_3)
@@ -343,7 +346,9 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {\n"
 "    background-color: rgb(42, 47, 115);\n"
 "}")
-        self.btnSolveConflicts.setIcon(icon3)
+        icon7 = QIcon()
+        icon7.addFile(u":/figma/ic_btn_start.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.btnSolveConflicts.setIcon(icon7)
         self.stackedWidget.addWidget(self.page_2)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menu = QMenuBar(MainWindow)
@@ -373,7 +378,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"OpenSource Backup V0.1.20", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Source Files & Folders", None))
         self.label_6.setText("")
         self.btnAddFilesToSave.setText(QCoreApplication.translate("MainWindow", u" Add File", None))
