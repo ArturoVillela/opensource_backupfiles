@@ -48,15 +48,16 @@ The project is being developed with Python and Qt. Its goal is to provide a clea
 
 ### Project Status
 
-**~90% complete.** The core file-copying engine is finished and tested.
+**~95% complete.** The core file-copying engine is finished and almost fully tested.
 
 | Component | Status |
 |-----------|--------|
 | Native copy script (subprocess) | ✅ Done |
 | File list UI (HTML/CSS/JS) | ✅ Done |
 | Happy path (no conflicts) | ✅ Done |
-| Conflict table UI (overwrite / skip) | 🔧 In progress |
-| Conflict resolution logic | 🔧 In progress |
+| Conflict table UI (overwrite / skip) | ✅ Done |
+| Conflict resolution logic | ✅ Done |
+| End to End Testing | 🔧 In progress |
 
 ## Screenshot setup
 
@@ -72,4 +73,24 @@ Then copy your screenshot to `docs/images/app-ui.png`. GitHub will display it au
 
 ## License
 
-License information will be added later.
+MIT License
+
+Copyright (c) 2026 [Arturo Villela]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
