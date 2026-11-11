@@ -4,6 +4,10 @@
 # Tab: mueve todo el bloque 4 espacios hacia la derecha.
 # pyside6-uic baseui_whtml2.ui -o base20_ui.py   //lastcommand used in /home/charlito/Documents/dev/python/ui_layouts
 
+#pyside6-deploy widget.py
+#[DEPLOY] Executed file created in /home/..../python/lin_backup_project/OpenSource_BackupFiles/pyside_app_demo.bin
+
+
 import sys
 from PySide6.QtWidgets import (
     QApplication,

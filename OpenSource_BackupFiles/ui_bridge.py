@@ -423,7 +423,8 @@ class UiBridge(QMainWindow):
 
 #
     def initWebView(self):
-        htmlPath = Path("html/nocheckbox.html")
+        basePath = Path(__file__).resolve().parent
+        htmlPath = basePath / "html" / "nocheckbox.html"
         with open(htmlPath, "r", encoding="utf-8") as file:
             htmlPage = file.read()
         self.webView.setHtml(htmlPage)
@@ -431,7 +432,8 @@ class UiBridge(QMainWindow):
 
 #
     def initWebViewSecondPage(self):
-        htmlPath = Path("html/selector2.html")
+        basePath = Path(__file__).resolve().parent
+        htmlPath = basePath / "html" / "selector2.html"
         with open(htmlPath, "r", encoding="utf-8") as file:
             htmlPage = file.read()
         self.webView2.setHtml(htmlPage)

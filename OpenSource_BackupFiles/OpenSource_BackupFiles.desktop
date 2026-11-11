@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=OpenSource Backup Files
+Comment=Back up files and resolve file conflicts
+Exec="/home/charlito/Documents/dev/python/lin_backup_project/OpenSource_BackupFiles/pyside_app_demo.bin"
+Icon=application-x-executable
+Terminal=false
+Categories=Utility;Archiving;

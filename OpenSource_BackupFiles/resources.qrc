@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>figma/toogleBtnOff.png</file>
+        <file>figma/toggleBtnOn.png</file>
+        <file>figma/ic_trash.png</file>
+        <file>figma/ic_save.png</file>
+        <file>figma/ic_ok2.png</file>
+        <file>figma/ic_logo.png</file>
+        <file>figma/ic_help.png</file>
+        <file>figma/ic_folder.png</file>
+        <file>figma/ic_clear_all.png</file>
+        <file>figma/ic_cancel.png</file>
+        <file>figma/ic_btn_start.png</file>
+        <file>figma/ic_backup.png</file>
+        <file>figma/ic_alert.png</file>
+        <file>figma/ic_add_folder.png</file>
+        <file>figma/ic_add_file.png</file>
+    </qresource>
+</RCC>
